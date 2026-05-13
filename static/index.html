@@ -24,9 +24,16 @@
     justify-content: space-between;
     gap: 14px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    flex-wrap: wrap;
   }
   header .title { font-weight: 600; font-size: 15px; }
   header small { font-weight: 400; opacity: 0.85; margin-left: 8px; }
+  header .toggles {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-end;
+  }
 
   /* ---- provider toggle ---- */
   .toggle-wrap {
@@ -67,6 +74,10 @@
   .toggle-opt.active[data-provider="groq"]    { background: #a855f7; color: #fff; }
   .toggle-opt.active[data-provider="gpt120b"] { background: #f59e0b; color: #fff; }
   .toggle-opt.active[data-provider="gpt20b"]  { background: #10b981; color: #fff; }
+  .toggle-opt[data-mode="fast"]      .dot { background: #06b6d4; }
+  .toggle-opt[data-mode="reasoning"] .dot { background: #6366f1; }
+  .toggle-opt.active[data-mode="fast"]      { background: #06b6d4; color: #fff; }
+  .toggle-opt.active[data-mode="reasoning"] { background: #6366f1; color: #fff; }
   .toggle-opt.active .dot { background: #fff; }
 
   /* ---- chat ---- */
@@ -101,6 +112,16 @@
     border-bottom-left-radius: 4px;
   }
   .bot.error { background: #fde8e8; color: #8b1a1a; }
+
+  .answer { white-space: pre-wrap; }
+  .answer .section-head {
+    font-weight: 700;
+    color: #1f6f43;
+    margin-top: 8px;
+    letter-spacing: 0.3px;
+    font-size: 13px;
+  }
+  .answer .section-head:first-child { margin-top: 0; }
 
   .badge {
     display: inline-flex;
@@ -229,15 +250,25 @@
   <div class="title">EPMS Text-to-SQL Chatbot
     <small>palm oil plantation management — POC</small>
   </div>
-  <div class="toggle-wrap" id="toggle">
-    <div class="toggle-opt" data-provider="groq" id="opt-groq">
-      <span class="dot"></span><span class="label">Llama 3.3 70B</span>
+  <div class="toggles">
+    <div class="toggle-wrap" id="toggle">
+      <div class="toggle-opt" data-provider="groq" id="opt-groq">
+        <span class="dot"></span><span class="label">Llama 3.3 70B</span>
+      </div>
+      <div class="toggle-opt" data-provider="gpt120b" id="opt-gpt120b">
+        <span class="dot"></span><span class="label">GPT OSS 120B</span>
+      </div>
+      <div class="toggle-opt" data-provider="gpt20b" id="opt-gpt20b">
+        <span class="dot"></span><span class="label">GPT OSS 20B</span>
+      </div>
     </div>
-    <div class="toggle-opt" data-provider="gpt120b" id="opt-gpt120b">
-      <span class="dot"></span><span class="label">GPT OSS 120B</span>
-    </div>
-    <div class="toggle-opt" data-provider="gpt20b" id="opt-gpt20b">
-      <span class="dot"></span><span class="label">GPT OSS 20B</span>
+    <div class="toggle-wrap" id="mode-toggle">
+      <div class="toggle-opt active" data-mode="fast" id="opt-fast">
+        <span class="dot"></span><span class="label">Fast Answer</span>
+      </div>
+      <div class="toggle-opt" data-mode="reasoning" id="opt-reasoning">
+        <span class="dot"></span><span class="label">Deep Report</span>
+      </div>
     </div>
   </div>
 </header>
@@ -260,10 +291,15 @@ const toast = document.getElementById("toast");
 const optGroq    = document.getElementById("opt-groq");
 const optGpt120b = document.getElementById("opt-gpt120b");
 const optGpt20b  = document.getElementById("opt-gpt20b");
+const optFast      = document.getElementById("opt-fast");
+const optReasoning = document.getElementById("opt-reasoning");
 
 const PROVIDER_NAMES = { groq: "Llama 3.3 70B", gpt120b: "GPT OSS 120B", gpt20b: "GPT OSS 20B" };
 const ALL_OPTS = { groq: optGroq, gpt120b: optGpt120b, gpt20b: optGpt20b };
+const MODE_OPTS = { fast: optFast, reasoning: optReasoning };
+const MODE_NAMES = { fast: "Fast Answer", reasoning: "Deep Report" };
 let activeProvider = "groq";
+let activeMode     = "fast";
 
 function escapeHtml(s) {
   return String(s ?? "").replace(/[&<>"']/g, c => ({
@@ -283,6 +319,19 @@ function paintToggle() {
   for (const [key, el] of Object.entries(ALL_OPTS)) {
     el.classList.toggle("active", key === activeProvider);
   }
+}
+
+function paintModeToggle() {
+  for (const [key, el] of Object.entries(MODE_OPTS)) {
+    el.classList.toggle("active", key === activeMode);
+  }
+}
+
+function switchMode(name) {
+  if (name === activeMode || !MODE_OPTS[name]) return;
+  activeMode = name;
+  paintModeToggle();
+  showToast(`Switched to ${MODE_NAMES[activeMode]}`);
 }
 
 function setOptionLabel(provider, label) {
@@ -323,10 +372,23 @@ function renderResultsTable(columns, rows) {
   return `<table class="results">${head}${body}</table>${more}`;
 }
 
+function formatAnswer(text) {
+  if (!text) return "";
+  // Bold the OVERVIEW / KEY FINDINGS / INSIGHTS / RECOMMENDATIONS section headers (reasoning mode).
+  const escaped = escapeHtml(text);
+  return escaped.replace(
+    /^(OVERVIEW|KEY FINDINGS|INSIGHTS|RECOMMENDATIONS)(:?)/gm,
+    '<span class="section-head">$1$2</span>'
+  );
+}
+
 function renderBotMessage(data) {
   let html = "";
   html += badgeFor(data.provider, data.provider_label);
-  html += "<div>" + (data.answer ? escapeHtml(data.answer) : "") + "</div>";
+  if (data.mode === "reasoning") {
+    html += '<span class="badge" style="background:#6366f1"><span class="dot"></span>Deep Report</span> ';
+  }
+  html += '<div class="answer">' + formatAnswer(data.answer) + "</div>";
 
   if (data.sql) {
     const tag = data.provider_label || PROVIDER_NAMES[data.provider] || "model";
@@ -387,6 +449,8 @@ async function switchProvider(name) {
 optGroq.addEventListener("click",    () => switchProvider("groq"));
 optGpt120b.addEventListener("click", () => switchProvider("gpt120b"));
 optGpt20b.addEventListener("click",  () => switchProvider("gpt20b"));
+optFast.addEventListener("click",      () => switchMode("fast"));
+optReasoning.addEventListener("click", () => switchMode("reasoning"));
 
 async function ask(question) {
   addMsg("user", escapeHtml(question));
@@ -402,7 +466,7 @@ async function ask(question) {
     const resp = await fetch("/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question }),
+      body: JSON.stringify({ question, mode: activeMode }),
     });
     const data = await resp.json();
     typing.remove();
@@ -438,8 +502,9 @@ form.addEventListener("submit", (e) => {
 addMsg("bot",
   '<div>Hi! Ask me anything about the EPMS database — workforce, harvesting, materials, costs, or equipment. ' +
   "I'll generate the SQL, run it read-only, and summarize the results. " +
-  "Use the toggle in the header to switch between models on the fly.</div>"
+  "Use the model toggle to switch LLMs, and the mode toggle to switch between Fast Answer and Deep Report.</div>"
 );
+paintModeToggle();
 loadProvider().then(() => q.focus());
 </script>
 </body>

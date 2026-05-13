@@ -10,18 +10,27 @@ log = logging.getLogger(__name__)
 _RULES_PATH = Path("./business_rules.txt")
 
 _SQL_SYSTEM_PREAMBLE = (
-    "You are a PostgreSQL expert for the EPMS palm-oil plantation system. "
-    "Your job: convert the user's question into ONE PostgreSQL SELECT statement. "
-    "Output ONLY the SQL — no commentary, no explanation, no markdown fences. "
-    "Use ONLY the tables and columns present in the provided DDL. "
-    "If a needed column does not exist in the DDL, choose the closest one or return "
-    "a SELECT that the user can refine."
+    "PostgreSQL expert for EPMS palm-oil plantation. "
+    "Convert the question to ONE SELECT statement. "
+    "Output ONLY SQL — no commentary, no markdown fences. "
+    "Use ONLY tables/columns in the DDL below. "
+    "If a needed column is missing, pick the closest one."
 )
 
 INTERPRET_SYSTEM_PROMPT = (
-    "You summarize SQL query results in plain English for a non-technical plantation manager. "
-    "Maximum 3 sentences. Be specific with numbers and units. "
-    "If the result set is empty, say so plainly. Do not restate the SQL."
+    "Summarize SQL results in plain English for a non-technical plantation manager. "
+    "≤3 sentences. Specific numbers and units. "
+    "If empty, say so plainly. Do not restate the SQL."
+)
+
+REASONING_SYSTEM_PROMPT = (
+    "You are a senior data analyst for an EPMS palm-oil plantation. "
+    "Given the user's question, the SQL run, and the data returned, produce a structured analytical report:\n\n"
+    "OVERVIEW: 1 sentence stating what was queried.\n"
+    "KEY FINDINGS: 3–5 bullets with specific numbers, units, and notable patterns.\n"
+    "INSIGHTS: 2–3 bullets interpreting what the data means for plantation operations.\n"
+    "RECOMMENDATIONS: 1–3 actionable next steps. Omit this section if the data does not clearly support them.\n\n"
+    "Be specific. Cite numbers and units. Avoid hedging. If data is insufficient, say so plainly."
 )
 
 # Loaded once at import; stable across requests for prefix-cache hits.
@@ -81,23 +90,23 @@ def build_sql_messages(
     tokens_schema = _estimate_tokens(schema_block)
     tokens_q      = _estimate_tokens(question)
 
-    parts: list[str] = [f"DATABASE DDL (only these tables/columns exist):\n{schema_block}"]
+    parts: list[str] = [f"Schema:\n{schema_block}"]
 
     if examples:
         ex_lines = []
         for past_q, past_sql in examples:
             ex_lines.append(f"Q: {past_q}\nSQL: {past_sql}")
         ex_block = "\n\n".join(ex_lines)
-        parts.append(f"EXAMPLES (past successful queries):\n{ex_block}")
+        parts.append(f"Examples:\n{ex_block}")
         tokens_ex = _estimate_tokens(ex_block)
     else:
         tokens_ex = 0
 
     if prior_error and prior_sql:
         parts.append(
-            f"The previous attempt failed with: {prior_error}\n"
-            f"Previous SQL: {prior_sql}\n"
-            "Fix the SQL and respond with the corrected SQL only."
+            f"Prior SQL failed: {prior_error}\n"
+            f"SQL: {prior_sql}\n"
+            "Return fixed SQL only."
         )
 
     parts.append(f"Q: {question}\nSQL:")
@@ -118,7 +127,6 @@ def build_sql_messages(
 
 def build_interpretation_messages(
     question: str,
-    sql: str,
     rows: list[dict],
     columns: list[str],
 ) -> list[dict]:
@@ -129,12 +137,37 @@ def build_interpretation_messages(
         {
             "role": "user",
             "content": (
-                f"Question: {question}\n\n"
-                f"SQL executed: {sql}\n\n"
+                f"Q: {question}\n"
                 f"Columns: {columns}\n"
                 f"Rows (first 20): {preview_json}\n"
-                f"Total rows returned: {len(rows)}\n\n"
-                "Answer in <= 3 sentences."
+                f"Total rows: {len(rows)}"
+            ),
+        },
+    ]
+
+
+def build_reasoning_messages(
+    question: str,
+    sql: str,
+    rows: list[dict],
+    columns: list[str],
+    stats: dict,
+) -> list[dict]:
+    preview = rows[:50]
+    preview_json = json.dumps(preview, default=str, ensure_ascii=False)
+    stats_json   = json.dumps(stats,   default=str, ensure_ascii=False)
+    return [
+        {"role": "system", "content": REASONING_SYSTEM_PROMPT},
+        {
+            "role": "user",
+            "content": (
+                f"Question: {question}\n\n"
+                f"SQL executed:\n{sql}\n\n"
+                f"Columns: {columns}\n"
+                f"Total rows returned: {len(rows)}\n"
+                f"Summary stats (computed deterministically): {stats_json}\n\n"
+                f"Rows (first 50): {preview_json}\n\n"
+                "Produce the structured report as instructed."
             ),
         },
     ]

@@ -15,6 +15,7 @@ import json
 import logging
 import sys
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -26,6 +27,8 @@ import google.generativeai as genai
 from sqlalchemy import text
 
 from config import GEMINI_API_KEY, DATABASE_URL, DB_SCHEMA, engine
+
+SCHEMA_VERSION = 2
 
 logging.basicConfig(
     level=logging.INFO,
@@ -76,12 +79,18 @@ def _call_gemini(model: Any, table_name: str, columns: list[dict]) -> dict:
     prompt = (
         f"Table: {table_name}\n"
         f"Columns:\n{col_lines}\n\n"
-        'Return STRICT JSON (no extra text, no markdown fences) with exactly these keys:\n'
-        '{\n'
-        '  "description": "one-sentence business purpose of this table",\n'
-        '  "synonyms": ["business term", "abbreviation"],\n'
-        '  "example_questions": ["natural language question 1", "natural language question 2"]\n'
-        '}'
+        "Return STRICT JSON (no extra text, no markdown fences) with these keys:\n"
+        "{\n"
+        '  "description":       "one-sentence business purpose",\n'
+        '  "domain_tags":       ["short-tag-1", "short-tag-2"],   // e.g. "harvesting", "fact", "master"\n'
+        '  "synonyms":          ["business term", "abbreviation"],\n'
+        '  "example_questions": ["natural language Q 1", "natural language Q 2"],\n'
+        '  "key_columns":       {"col_name": "short business meaning", ...},   // 3-8 most important cols only\n'
+        '  "common_joins":      [{"to": "other_table", "on": "this.col = other_table.col"}],\n'
+        '  "value_hints":       {"status_col": ["A=Active", "I=Inactive"]},   // omit if no enum-like cols\n'
+        '  "row_estimate":      "low|medium|high"\n'
+        "}\n"
+        "Only include keys you can fill meaningfully; empty arrays/objects are fine."
     )
 
     backoff = 4
@@ -110,7 +119,16 @@ def _call_gemini(model: Any, table_name: str, columns: list[dict]) -> dict:
             break
 
     log.warning("Returning empty metadata for %s after all retries", table_name)
-    return {"description": f"Table {table_name}", "synonyms": [], "example_questions": []}
+    return {
+        "description":       f"Table {table_name}",
+        "domain_tags":       [],
+        "synonyms":          [],
+        "example_questions": [],
+        "key_columns":       {},
+        "common_joins":      [],
+        "value_hints":       {},
+        "row_estimate":      "",
+    }
 
 
 def main() -> None:
@@ -128,19 +146,39 @@ def main() -> None:
     total  = len(tables)
     log.info("Found %d tables in schema '%s'", total, DB_SCHEMA)
 
-    # Load existing metadata (if any) so we can resume
+    # Load existing metadata (if any) so we can resume. Supports v1 (flat) and v2 (nested under 'tables').
     existing: dict = {}
     if METADATA_PATH.exists():
         try:
             with open(METADATA_PATH, "r", encoding="utf-8") as f:
-                existing = json.load(f)
-            log.info("Loaded %d existing entries from schema_metadata.json", len(existing))
+                raw = json.load(f)
+            if isinstance(raw, dict) and "tables" in raw and "_meta" in raw:
+                existing = raw.get("tables") or {}
+                log.info("Loaded %d existing entries from schema_metadata.json (v%s)",
+                         len(existing), raw["_meta"].get("schema_version", "?"))
+            else:
+                existing = raw
+                log.info("Loaded %d existing entries from schema_metadata.json (v1, will upgrade to v2)",
+                         len(existing))
         except Exception as e:
             log.warning("Could not read existing schema_metadata.json: %s — starting fresh", e)
 
     result         = dict(existing)
     generated_count = 0
     skipped_count   = 0
+
+    def _persist(tables_dict: dict) -> None:
+        envelope = {
+            "_meta": {
+                "schema_version": SCHEMA_VERSION,
+                "generated_at":   datetime.now(timezone.utc).isoformat(),
+                "table_count":    len(tables_dict),
+                "generator":      "bootstrap_metadata.py (gemini-2.5-flash)",
+            },
+            "tables": tables_dict,
+        }
+        with open(METADATA_PATH, "w", encoding="utf-8") as f:
+            json.dump(envelope, f, indent=2, ensure_ascii=False)
 
     for idx, table_name in enumerate(tables, 1):
         entry = existing.get(table_name)
@@ -161,11 +199,13 @@ def main() -> None:
         generated_count += 1
 
         # Persist after every table so Ctrl-C or quota exhaustion doesn't lose progress
-        with open(METADATA_PATH, "w", encoding="utf-8") as f:
-            json.dump(result, f, indent=2, ensure_ascii=False)
+        _persist(result)
 
         if idx < total:
             time.sleep(_MIN_DELAY_SEC)
+
+    # Final write to refresh the _meta block (timestamp, table_count)
+    _persist(result)
 
     log.info(
         "Done. Generated: %d, Skipped: %d, Total entries: %d",

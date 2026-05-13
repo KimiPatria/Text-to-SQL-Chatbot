@@ -15,8 +15,9 @@ log = logging.getLogger(__name__)
 
 METADATA_PATH = Path("./schema_metadata.json")
 
+# Matches audit columns whether bare (created_at) or table-prefixed (block_created_by, oph_updated_date).
 _AUDIT_RE = re.compile(
-    r"^(created|updated|modified|deleted)_(by|at|date|time)$",
+    r"(?:^|_)(created|updated|modified|deleted)_(by|at|date|time|timestamp)$",
     re.IGNORECASE,
 )
 
@@ -56,19 +57,32 @@ class TableCard:
     synonyms: list[str]
     example_questions: list[str]
     columns: list[ColumnSpec] = field(default_factory=list)
+    # v2 fields — all optional, default to empty
+    domain_tags: list[str]                = field(default_factory=list)
+    key_columns: dict[str, str]           = field(default_factory=dict)
+    common_joins: list[dict]              = field(default_factory=list)
+    value_hints: dict[str, list[str]]     = field(default_factory=dict)
+    row_estimate: str                     = ""
 
 
 def embedding_text(card: TableCard) -> str:
     col_names = ", ".join(c.name for c in card.columns[:15])
-    syns = ", ".join(card.synonyms) if card.synonyms else ""
-    examples = " | ".join(card.example_questions) if card.example_questions else ""
+    syns      = ", ".join(card.synonyms) if card.synonyms else ""
+    examples  = " | ".join(card.example_questions) if card.example_questions else ""
+    tags      = ", ".join(card.domain_tags) if card.domain_tags else ""
+    joins     = ", ".join(j.get("to", "") for j in card.common_joins) if card.common_joins else ""
+
     parts = [f"{card.name} — {card.description}"]
+    if tags:
+        parts.append(f"Tags: {tags}")
     if col_names:
         parts.append(f"Columns: {col_names}")
     if syns:
         parts.append(f"Synonyms: {syns}")
     if examples:
         parts.append(f"Examples: {examples}")
+    if joins:
+        parts.append(f"Joins: {joins}")
     return "\n".join(parts)
 
 
@@ -82,8 +96,13 @@ def _is_varchar_date(col_name: str, data_type: str) -> bool:
     return False
 
 
-def compact_ddl_for(table_names: list[str]) -> str:
-    """Return compact one-line-per-table DDL, tables sorted alphabetically."""
+def compact_ddl_for(table_names: list[str], *, include_descriptions: bool = False) -> str:
+    """Return compact one-line-per-table DDL, tables sorted alphabetically.
+
+    If include_descriptions is True, key-column descriptions from schema_metadata.json
+    are appended inline as "# desc". Off by default to preserve token cost on fast-mode
+    SQL generation. Useful for reasoning mode or hard questions.
+    """
     lines = []
     for name in sorted(table_names):
         card = _CARDS_CACHE.get(name)
@@ -91,18 +110,25 @@ def compact_ddl_for(table_names: list[str]) -> str:
             continue
         col_parts = []
         for col in card.columns:
-            is_audit = bool(_AUDIT_RE.match(col.name))
+            is_audit = bool(_AUDIT_RE.search(col.name))
             if is_audit and not col.is_pk and col.fk_ref is None:
                 continue
             if col.is_pk:
-                col_parts.append(f"{col.name} PK")
+                base = f"{col.name} PK"
             elif col.fk_ref:
                 ref_table, ref_col = col.fk_ref
-                col_parts.append(f"{col.name}→{ref_table}.{ref_col}")
+                base = f"{col.name}→{ref_table}.{ref_col}"
             else:
                 alias = _type_alias(col.data_type)
                 date_hint = "[date]" if _is_varchar_date(col.name, col.data_type) else ""
-                col_parts.append(f"{col.name} {alias}{date_hint}")
+                base = f"{col.name} {alias}{date_hint}"
+
+            if include_descriptions:
+                desc = card.key_columns.get(col.name)
+                if desc:
+                    base = f"{base} # {desc}"
+
+            col_parts.append(base)
         lines.append(f"{name}({', '.join(col_parts)})")
     return "\n".join(lines)
 
@@ -113,6 +139,10 @@ _CACHE_LOCK = Lock()
 
 
 def _load_metadata_json() -> dict[str, Any]:
+    """Load schema_metadata.json. Supports both v1 (flat) and v2 (nested under 'tables') layouts.
+
+    Returns a flat dict[table_name -> table_meta] regardless of input version.
+    """
     if not METADATA_PATH.exists():
         print(
             "ERROR: schema_metadata.json not found. "
@@ -121,7 +151,18 @@ def _load_metadata_json() -> dict[str, Any]:
         )
         sys.exit(1)
     with open(METADATA_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)
+        data = json.load(f)
+
+    meta_block = data.get("_meta") if isinstance(data, dict) else None
+    if isinstance(meta_block, dict) and "tables" in data:
+        version = meta_block.get("schema_version", 1)
+        log.info("schema_metadata.json schema_version=%s, generator=%s",
+                 version, meta_block.get("generator", "unknown"))
+        return data["tables"]
+
+    # v1 fallback — flat top-level dict of table_name -> entry
+    log.info("schema_metadata.json appears to be v1 (flat). Reading as-is.")
+    return data
 
 
 def _fetch_db_schema(schema: str) -> tuple[
@@ -237,13 +278,50 @@ def load_all_cards(schema: str = DB_SCHEMA) -> dict[str, TableCard]:
             synonyms=meta.get("synonyms", []),
             example_questions=meta.get("example_questions", []),
             columns=columns,
+            domain_tags=meta.get("domain_tags", []),
+            key_columns=meta.get("key_columns", {}),
+            common_joins=meta.get("common_joins", []),
+            value_hints=meta.get("value_hints", {}),
+            row_estimate=meta.get("row_estimate", ""),
         )
 
     with _CACHE_LOCK:
         _CARDS_CACHE = cards
 
+    _validate_metadata(cards, cols_by_table)
+
     log.info("Loaded %d table cards (schema_metadata.json + information_schema)", len(cards))
     return cards
+
+
+def _validate_metadata(cards: dict[str, TableCard], db_cols: dict[str, list[dict]]) -> None:
+    """Fail-soft validation of v2 metadata fields. Logs warnings only."""
+    empty_descs:    list[str] = []
+    bad_keycols:    list[str] = []
+    bad_joins:      list[str] = []
+    valid_tables = set(db_cols.keys())
+
+    for name, card in cards.items():
+        if not card.description or card.description == f"Table {name}":
+            empty_descs.append(name)
+
+        col_set = {c.name for c in card.columns}
+        for kc in card.key_columns.keys():
+            if kc not in col_set:
+                bad_keycols.append(f"{name}.{kc}")
+
+        for j in card.common_joins:
+            tgt = j.get("to")
+            if tgt and tgt not in valid_tables:
+                bad_joins.append(f"{name}->{tgt}")
+
+    if empty_descs:
+        log.warning("Tables with empty/default descriptions: %d (e.g. %s)",
+                    len(empty_descs), empty_descs[:5])
+    if bad_keycols:
+        log.warning("key_columns referencing missing DB columns: %s", bad_keycols[:10])
+    if bad_joins:
+        log.warning("common_joins to non-existent tables: %s", bad_joins[:10])
 
 
 def get_card(name: str) -> TableCard | None:

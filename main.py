@@ -16,7 +16,13 @@ from metadata_loader import load_all_cards, reload_cards
 from retrieval import initialize as init_retrieval, retrieve_tables, retrieve_examples, refresh_query_history_index
 from query_history import init_db, record_query
 from sql_validator import validate, ensure_limit
-from prompt_builder import build_sql_messages, build_interpretation_messages, extract_sql, reload_business_rules
+from prompt_builder import (
+    build_sql_messages,
+    build_interpretation_messages,
+    build_reasoning_messages,
+    extract_sql,
+    reload_business_rules,
+)
 from llm import call_llm, get_provider, set_provider, list_providers, PROVIDER_LABELS
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
@@ -49,6 +55,7 @@ def startup() -> None:
 
 class ChatRequest(BaseModel):
     question: str
+    mode: str = "fast"   # "fast" | "reasoning"
 
 
 class ChatResponse(BaseModel):
@@ -60,6 +67,7 @@ class ChatResponse(BaseModel):
     tables_used: list[str] | None = None
     provider: str | None = None
     provider_label: str | None = None
+    mode: str | None = None
     error: str | None = None
 
 
@@ -100,6 +108,54 @@ def _format_deterministic(rows: list[dict], columns: list[str]) -> str:
         for row in rows
     ]
     return "\n".join([header, separator] + data_rows)
+
+
+def _is_number(v) -> bool:
+    return isinstance(v, (int, float)) and not isinstance(v, bool)
+
+
+def _compute_summary_stats(rows: list[dict], columns: list[str]) -> dict:
+    """Pure-Python summary stats so the LLM gets ground-truth aggregates without spending tokens on math.
+
+    For numeric columns: {min, max, mean, n_distinct}
+    For text/other columns: {n_distinct, top_5}
+    """
+    out: dict[str, dict] = {}
+    if not rows:
+        return out
+
+    for col in columns:
+        values     = [r.get(col) for r in rows]
+        non_null   = [v for v in values if v is not None]
+        if not non_null:
+            out[col] = {"n_null": len(values), "n_distinct": 0}
+            continue
+
+        if all(_is_number(v) for v in non_null):
+            mn = min(non_null)
+            mx = max(non_null)
+            mean = sum(non_null) / len(non_null)
+            out[col] = {
+                "type":       "numeric",
+                "min":        mn,
+                "max":        mx,
+                "mean":       round(mean, 4) if isinstance(mean, float) else mean,
+                "n_distinct": len(set(non_null)),
+                "n_null":     len(values) - len(non_null),
+            }
+        else:
+            counts: dict = {}
+            for v in non_null:
+                key = str(v)
+                counts[key] = counts.get(key, 0) + 1
+            top5 = sorted(counts.items(), key=lambda kv: kv[1], reverse=True)[:5]
+            out[col] = {
+                "type":       "categorical",
+                "n_distinct": len(counts),
+                "top_5":      [{"value": k, "count": c} for k, c in top5],
+                "n_null":     len(values) - len(non_null),
+            }
+    return out
 
 
 # ── routes ─────────────────────────────────────────────────────────────────
@@ -166,14 +222,17 @@ def admin_reload_glossary():
 @app.post("/chat", response_model=ChatResponse)
 def chat(req: ChatRequest) -> ChatResponse:
     question = (req.question or "").strip()
+    mode     = (req.mode or "fast").lower()
+    if mode not in ("fast", "reasoning"):
+        mode = "fast"
     active   = get_provider()
     label    = PROVIDER_LABELS.get(active, active)
 
     if not question:
-        return ChatResponse(error="Please enter a question.", provider=active, provider_label=label)
+        return ChatResponse(error="Please enter a question.", provider=active, provider_label=label, mode=mode)
 
     t_start = time.monotonic()
-    log.info('[chat] Q: "%s"', question)
+    log.info('[chat] mode=%s Q: "%s"', mode, question)
 
     # ── Step 1: Retrieval (no LLM) ────────────────────────────────────────
     tables   = retrieve_tables(question, k=5)
@@ -287,12 +346,25 @@ def chat(req: ChatRequest) -> ChatResponse:
 
     log.info("[exec] rows=%d trivial=%s", len(rows), _is_trivial_result(rows, columns))
 
-    # ── Step 4: Interpretation (skipped for trivial results) ──────────────
-    if _is_trivial_result(rows, columns):
+    # ── Step 4: Interpretation ────────────────────────────────────────────
+    # Reasoning mode bypasses the trivial-result short-circuit (user asked for analysis).
+    if mode == "reasoning":
+        try:
+            stats = _compute_summary_stats(rows, columns)
+            reason_msgs = build_reasoning_messages(question, sql, rows, columns, stats)
+            answer, used, reason_usage = call_llm(reason_msgs, temperature=0.3, max_tokens=1500)
+            log.info(
+                "[llm] reasoning provider=%s input=%d output=%d",
+                used, reason_usage["input_tokens"], reason_usage["output_tokens"],
+            )
+        except Exception as e:
+            log.exception("Reasoning LLM call failed")
+            answer = f"Returned {len(rows)} row(s). (Reasoning failed: {e.__class__.__name__}.)"
+    elif _is_trivial_result(rows, columns):
         answer = _format_deterministic(rows, columns)
     else:
         try:
-            interp_msgs = build_interpretation_messages(question, sql, rows, columns)
+            interp_msgs = build_interpretation_messages(question, rows, columns)
             answer, used, interp_usage = call_llm(interp_msgs, temperature=0.2, max_tokens=300)
             log.info(
                 "[llm] interpret provider=%s input=%d output=%d",
@@ -318,4 +390,5 @@ def chat(req: ChatRequest) -> ChatResponse:
         tables_used=table_names,
         provider=used,
         provider_label=PROVIDER_LABELS.get(used, used),
+        mode=mode,
     )

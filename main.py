@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
-from config import MAX_RESULT_ROWS, engine
+from config import MAX_RESULT_ROWS, LARGE_RESULT_THRESHOLD, engine
 import metadata_loader
 from metadata_loader import load_all_cards, reload_cards
 from retrieval import initialize as init_retrieval, retrieve_tables, retrieve_examples, refresh_query_history_index
@@ -75,10 +75,17 @@ class SetProviderRequest(BaseModel):
     provider: str
 
 
+class SetRowLimitRequest(BaseModel):
+    limit: int
+
+
+_current_row_limit: int = MAX_RESULT_ROWS
+
+
 # ── helpers ────────────────────────────────────────────────────────────────
 
 def _execute(sql: str) -> tuple[list[str], list[dict]]:
-    limited = ensure_limit(sql, MAX_RESULT_ROWS)
+    limited = ensure_limit(sql, _current_row_limit)
     with engine.connect() as conn:
         result  = conn.execute(text(limited))
         columns = list(result.keys())
@@ -189,6 +196,20 @@ def set_provider_endpoint(req: SetProviderRequest):
         "provider": get_provider(),
         "label": PROVIDER_LABELS[get_provider()],
     }
+
+
+@app.get("/get-row-limit")
+def get_row_limit_endpoint():
+    return {"limit": _current_row_limit}
+
+
+@app.post("/set-row-limit")
+def set_row_limit_endpoint(req: SetRowLimitRequest):
+    global _current_row_limit
+    if req.limit not in (100, 5000):
+        return JSONResponse(status_code=400, content={"ok": False, "error": "limit must be 100 or 5000"})
+    _current_row_limit = req.limit
+    return {"ok": True, "limit": _current_row_limit}
 
 
 @app.get("/admin/catalog")
@@ -364,7 +385,8 @@ def chat(req: ChatRequest) -> ChatResponse:
         answer = _format_deterministic(rows, columns)
     else:
         try:
-            interp_msgs = build_interpretation_messages(question, rows, columns)
+            stats = _compute_summary_stats(rows, columns) if len(rows) > LARGE_RESULT_THRESHOLD else None
+            interp_msgs = build_interpretation_messages(question, rows, columns, stats)
             answer, used, interp_usage = call_llm(interp_msgs, temperature=0.2, max_tokens=300)
             log.info(
                 "[llm] interpret provider=%s input=%d output=%d",

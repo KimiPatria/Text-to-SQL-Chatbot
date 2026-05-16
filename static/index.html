@@ -23,27 +23,93 @@
     align-items: center;
     justify-content: space-between;
     gap: 14px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    flex-wrap: wrap;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.18);
   }
   header .title { font-weight: 600; font-size: 15px; }
-  header small { font-weight: 400; opacity: 0.85; margin-left: 8px; }
-  header .toggles {
+  header small  { font-weight: 400; opacity: 0.72; margin-left: 8px; font-size: 12px; }
+
+  /* ---- settings button + dropdown ---- */
+  .settings-wrap { position: relative; }
+
+  .settings-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    background: rgba(255,255,255,0.13);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+    white-space: nowrap;
+  }
+  .settings-btn:hover {
+    background: rgba(255,255,255,0.22);
+    border-color: rgba(255,255,255,0.35);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .settings-btn svg { flex-shrink: 0; opacity: 0.9; }
+  .settings-caret {
+    font-size: 11px;
+    opacity: 0.7;
+    transition: transform 0.2s ease;
+  }
+  .settings-btn.open .settings-caret { transform: rotate(180deg); }
+
+  .settings-panel {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: #174e30;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 14px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.4);
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    align-items: flex-end;
+    gap: 14px;
+    min-width: 310px;
+    z-index: 200;
+    transform-origin: top right;
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+    pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+  .settings-panel.open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
   }
 
-  /* ---- provider toggle ---- */
+  .settings-section { display: flex; flex-direction: column; gap: 7px; }
+  .settings-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.42);
+    text-transform: uppercase;
+    padding-left: 4px;
+  }
+  .settings-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 0 -2px;
+  }
+
+  /* ---- toggles ---- */
   .toggle-wrap {
     display: flex;
     align-items: center;
-    background: rgba(255,255,255,0.12);
+    background: rgba(0,0,0,0.22);
     border-radius: 999px;
     padding: 4px;
     gap: 4px;
     user-select: none;
+    flex-wrap: wrap;
   }
   .toggle-opt {
     display: flex;
@@ -54,33 +120,44 @@
     cursor: pointer;
     font-size: 12.5px;
     font-weight: 600;
-    color: rgba(255,255,255,0.85);
+    color: rgba(255,255,255,0.7);
     transition: background 0.15s, color 0.15s;
   }
-  .toggle-opt:hover { color: #fff; }
-  .toggle-opt[disabled],
-  .toggle-opt.disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
-  }
+  .toggle-opt:hover { color: #fff; background: rgba(255,255,255,0.09); }
+  .toggle-opt.disabled { opacity: 0.38; cursor: not-allowed; pointer-events: none; }
   .toggle-opt .dot {
-    width: 9px; height: 9px;
+    width: 8px; height: 8px;
     border-radius: 50%;
     display: inline-block;
+    flex-shrink: 0;
+    transition: background 0.15s;
   }
+  /* provider */
   .toggle-opt[data-provider="groq"]    .dot { background: #a855f7; }
   .toggle-opt[data-provider="gpt120b"] .dot { background: #f59e0b; }
   .toggle-opt[data-provider="gpt20b"]  .dot { background: #10b981; }
   .toggle-opt.active[data-provider="groq"]    { background: #a855f7; color: #fff; }
   .toggle-opt.active[data-provider="gpt120b"] { background: #f59e0b; color: #fff; }
   .toggle-opt.active[data-provider="gpt20b"]  { background: #10b981; color: #fff; }
+  /* mode */
   .toggle-opt[data-mode="fast"]      .dot { background: #06b6d4; }
   .toggle-opt[data-mode="reasoning"] .dot { background: #6366f1; }
   .toggle-opt.active[data-mode="fast"]      { background: #06b6d4; color: #fff; }
   .toggle-opt.active[data-mode="reasoning"] { background: #6366f1; color: #fff; }
-  .toggle-opt.active .dot { background: #fff; }
+  /* view */
+  .toggle-opt[data-view="dev"]  .dot { background: #f59e0b; }
+  .toggle-opt[data-view="prod"] .dot { background: #94a3b8; }
+  .toggle-opt.active[data-view="dev"]  { background: #f59e0b; color: #fff; }
+  .toggle-opt.active[data-view="prod"] { background: #64748b; color: #fff; }
+  /* rows */
+  .toggle-opt[data-rows="100"]  .dot { background: #f97316; }
+  .toggle-opt[data-rows="5000"] .dot { background: #22c55e; }
+  .toggle-opt.active[data-rows="100"]  { background: #f97316; color: #fff; }
+  .toggle-opt.active[data-rows="5000"] { background: #22c55e; color: #fff; }
+  /* active dot always white */
+  .toggle-opt.active .dot { background: rgba(255,255,255,0.88); }
 
-  /* ---- chat ---- */
+  /* ---- chat area ---- */
   #chat {
     flex: 1;
     overflow-y: auto;
@@ -88,16 +165,22 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    scroll-behavior: smooth;
   }
   .msg {
     max-width: 78%;
     padding: 10px 14px;
     border-radius: 14px;
-    line-height: 1.45;
+    line-height: 1.5;
     white-space: pre-wrap;
     word-wrap: break-word;
     font-size: 14px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    animation: msgIn 0.24s ease;
+  }
+  @keyframes msgIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
   .user {
     align-self: flex-end;
@@ -151,7 +234,13 @@
     padding-top: 8px;
     font-size: 13px;
   }
-  details summary { cursor: pointer; color: #555; user-select: none; }
+  details summary {
+    cursor: pointer;
+    color: #555;
+    user-select: none;
+    transition: color 0.15s;
+  }
+  details summary:hover { color: #222; }
   pre.sql {
     background: #0f1115;
     color: #d6e9ff;
@@ -178,6 +267,7 @@
   table.results th { background: #f0f2f5; }
   .meta { font-size: 11.5px; color: #888; margin-top: 6px; }
 
+  /* ---- composer ---- */
   form#composer {
     display: flex;
     gap: 8px;
@@ -188,23 +278,35 @@
   #q {
     flex: 1;
     padding: 10px 12px;
-    border: 1px solid #cfd4da;
+    border: 1.5px solid #cfd4da;
     border-radius: 8px;
     font-size: 14px;
     outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
-  #q:focus { border-color: #2b7cff; }
-  button {
-    padding: 10px 18px;
+  #q:focus {
+    border-color: #2b7cff;
+    box-shadow: 0 0 0 3px rgba(43,124,255,0.13);
+  }
+  #send {
+    padding: 10px 20px;
     background: #1f6f43;
     color: #fff;
     border: none;
     border-radius: 8px;
     font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
+    transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
   }
-  button:disabled { background: #999; cursor: not-allowed; }
+  #send:hover:not(:disabled) {
+    background: #236b4a;
+    box-shadow: 0 3px 10px rgba(31,111,67,0.35);
+  }
+  #send:active:not(:disabled) { transform: scale(0.97); }
+  #send:disabled { background: #aaa; cursor: not-allowed; }
 
+  /* ---- typing indicator ---- */
   .typing { display: inline-block; }
   .typing span {
     display: inline-block;
@@ -218,7 +320,7 @@
   .typing span:nth-child(3) { animation-delay: 0.4s; }
   @keyframes blink {
     0%, 80%, 100% { opacity: 0.2; }
-    40% { opacity: 1; }
+    40%           { opacity: 1;   }
   }
 
   /* ---- toast ---- */
@@ -238,10 +340,7 @@
     z-index: 1000;
     box-shadow: 0 4px 16px rgba(0,0,0,0.2);
   }
-  #toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
+  #toast.show  { opacity: 1; transform: translateX(-50%) translateY(0); }
   #toast.error { background: #8b1a1a; }
 </style>
 </head>
@@ -250,24 +349,73 @@
   <div class="title">EPMS Text-to-SQL Chatbot
     <small>palm oil plantation management — POC</small>
   </div>
-  <div class="toggles">
-    <div class="toggle-wrap" id="toggle">
-      <div class="toggle-opt" data-provider="groq" id="opt-groq">
-        <span class="dot"></span><span class="label">Llama 3.3 70B</span>
+
+  <div class="settings-wrap" id="settings-wrap">
+    <button class="settings-btn" id="settings-btn" type="button">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+      Settings
+      <span class="settings-caret">▾</span>
+    </button>
+
+    <div class="settings-panel" id="settings-panel">
+      <div class="settings-section">
+        <div class="settings-label">Model</div>
+        <div class="toggle-wrap" id="toggle">
+          <div class="toggle-opt" data-provider="groq" id="opt-groq">
+            <span class="dot"></span><span class="label">Llama 3.3 70B</span>
+          </div>
+          <div class="toggle-opt" data-provider="gpt120b" id="opt-gpt120b">
+            <span class="dot"></span><span class="label">GPT OSS 120B</span>
+          </div>
+          <div class="toggle-opt" data-provider="gpt20b" id="opt-gpt20b">
+            <span class="dot"></span><span class="label">GPT OSS 20B</span>
+          </div>
+        </div>
       </div>
-      <div class="toggle-opt" data-provider="gpt120b" id="opt-gpt120b">
-        <span class="dot"></span><span class="label">GPT OSS 120B</span>
+
+      <div class="settings-divider"></div>
+
+      <div class="settings-section">
+        <div class="settings-label">Mode</div>
+        <div class="toggle-wrap" id="mode-toggle">
+          <div class="toggle-opt active" data-mode="fast" id="opt-fast">
+            <span class="dot"></span><span class="label">Fast Answer</span>
+          </div>
+          <div class="toggle-opt" data-mode="reasoning" id="opt-reasoning">
+            <span class="dot"></span><span class="label">Deep Report</span>
+          </div>
+        </div>
       </div>
-      <div class="toggle-opt" data-provider="gpt20b" id="opt-gpt20b">
-        <span class="dot"></span><span class="label">GPT OSS 20B</span>
+
+      <div class="settings-divider"></div>
+
+      <div class="settings-section">
+        <div class="settings-label">View</div>
+        <div class="toggle-wrap" id="view-toggle">
+          <div class="toggle-opt active" data-view="dev" id="opt-dev">
+            <span class="dot"></span><span class="label">Dev</span>
+          </div>
+          <div class="toggle-opt" data-view="prod" id="opt-prod">
+            <span class="dot"></span><span class="label">Prod</span>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="toggle-wrap" id="mode-toggle">
-      <div class="toggle-opt active" data-mode="fast" id="opt-fast">
-        <span class="dot"></span><span class="label">Fast Answer</span>
-      </div>
-      <div class="toggle-opt" data-mode="reasoning" id="opt-reasoning">
-        <span class="dot"></span><span class="label">Deep Report</span>
+
+      <div class="settings-divider"></div>
+
+      <div class="settings-section">
+        <div class="settings-label">Row Limit</div>
+        <div class="toggle-wrap" id="rows-toggle">
+          <div class="toggle-opt" data-rows="100" id="opt-rows100">
+            <span class="dot"></span><span class="label">100 rows</span>
+          </div>
+          <div class="toggle-opt" data-rows="5000" id="opt-rows5000">
+            <span class="dot"></span><span class="label">5,000 rows</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -283,24 +431,56 @@
 <div id="toast"></div>
 
 <script>
-const chat = document.getElementById("chat");
-const form = document.getElementById("composer");
-const q = document.getElementById("q");
-const send = document.getElementById("send");
-const toast = document.getElementById("toast");
+const chat        = document.getElementById("chat");
+const form        = document.getElementById("composer");
+const q           = document.getElementById("q");
+const send        = document.getElementById("send");
+const toast       = document.getElementById("toast");
+const settingsBtn   = document.getElementById("settings-btn");
+const settingsPanel = document.getElementById("settings-panel");
+const settingsWrap  = document.getElementById("settings-wrap");
 const optGroq    = document.getElementById("opt-groq");
 const optGpt120b = document.getElementById("opt-gpt120b");
 const optGpt20b  = document.getElementById("opt-gpt20b");
 const optFast      = document.getElementById("opt-fast");
 const optReasoning = document.getElementById("opt-reasoning");
+const optDev      = document.getElementById("opt-dev");
+const optProd     = document.getElementById("opt-prod");
+const optRows100  = document.getElementById("opt-rows100");
+const optRows5000 = document.getElementById("opt-rows5000");
 
 const PROVIDER_NAMES = { groq: "Llama 3.3 70B", gpt120b: "GPT OSS 120B", gpt20b: "GPT OSS 20B" };
-const ALL_OPTS = { groq: optGroq, gpt120b: optGpt120b, gpt20b: optGpt20b };
+const ALL_OPTS  = { groq: optGroq, gpt120b: optGpt120b, gpt20b: optGpt20b };
 const MODE_OPTS = { fast: optFast, reasoning: optReasoning };
+const VIEW_OPTS = { dev: optDev, prod: optProd };
+const ROWS_OPTS = { 100: optRows100, 5000: optRows5000 };
 const MODE_NAMES = { fast: "Fast Answer", reasoning: "Deep Report" };
 let activeProvider = "groq";
 let activeMode     = "fast";
+let activeView     = "dev";
+let activeRowLimit = 5000;
 
+// ---- settings panel ----
+function openSettings() {
+  settingsPanel.classList.add("open");
+  settingsBtn.classList.add("open");
+}
+function closeSettings() {
+  settingsPanel.classList.remove("open");
+  settingsBtn.classList.remove("open");
+}
+settingsBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  settingsPanel.classList.contains("open") ? closeSettings() : openSettings();
+});
+document.addEventListener("click", (e) => {
+  if (!settingsWrap.contains(e.target)) closeSettings();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeSettings();
+});
+
+// ---- utilities ----
 function escapeHtml(s) {
   return String(s ?? "").replace(/[&<>"']/g, c => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
@@ -315,23 +495,36 @@ function showToast(msg, opts = {}) {
   showToast._t = setTimeout(() => toast.classList.remove("show"), 2200);
 }
 
+// ---- paint helpers ----
 function paintToggle() {
-  for (const [key, el] of Object.entries(ALL_OPTS)) {
+  for (const [key, el] of Object.entries(ALL_OPTS))
     el.classList.toggle("active", key === activeProvider);
-  }
 }
-
 function paintModeToggle() {
-  for (const [key, el] of Object.entries(MODE_OPTS)) {
+  for (const [key, el] of Object.entries(MODE_OPTS))
     el.classList.toggle("active", key === activeMode);
-  }
+}
+function paintViewToggle() {
+  for (const [key, el] of Object.entries(VIEW_OPTS))
+    el.classList.toggle("active", key === activeView);
+}
+function paintRowsToggle() {
+  for (const [key, el] of Object.entries(ROWS_OPTS))
+    el.classList.toggle("active", Number(key) === activeRowLimit);
 }
 
+// ---- switch helpers ----
 function switchMode(name) {
   if (name === activeMode || !MODE_OPTS[name]) return;
   activeMode = name;
   paintModeToggle();
   showToast(`Switched to ${MODE_NAMES[activeMode]}`);
+}
+function switchView(name) {
+  if (name === activeView || !VIEW_OPTS[name]) return;
+  activeView = name;
+  paintViewToggle();
+  showToast(`Switched to ${name === "prod" ? "Prod" : "Dev"} view`);
 }
 
 function setOptionLabel(provider, label) {
@@ -340,69 +533,13 @@ function setOptionLabel(provider, label) {
   el.querySelector(".label").textContent = label;
   PROVIDER_NAMES[provider] = label;
 }
-
 function setOptionAvailability(provider, available) {
   const el = ALL_OPTS[provider];
   if (!el) return;
   el.classList.toggle("disabled", !available);
 }
 
-function badgeFor(provider, label) {
-  const cls = provider in ALL_OPTS ? provider : "unknown";
-  const txt = label || PROVIDER_NAMES[provider] || provider || "model";
-  return `<span class="badge ${cls}"><span class="dot"></span>${escapeHtml(txt)}</span>`;
-}
-
-function addMsg(role, html, extras) {
-  const div = document.createElement("div");
-  div.className = "msg " + role + (extras && extras.error ? " error" : "");
-  div.innerHTML = html;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
-  return div;
-}
-
-function renderResultsTable(columns, rows) {
-  if (!rows || !rows.length) return "";
-  const head = "<tr>" + columns.map(c => `<th>${escapeHtml(c)}</th>`).join("") + "</tr>";
-  const body = rows.slice(0, 20).map(r =>
-    "<tr>" + columns.map(c => `<td>${escapeHtml(r[c])}</td>`).join("") + "</tr>"
-  ).join("");
-  const more = rows.length > 20 ? `<div class="meta">Showing first 20 of ${rows.length} rows.</div>` : "";
-  return `<table class="results">${head}${body}</table>${more}`;
-}
-
-function formatAnswer(text) {
-  if (!text) return "";
-  // Bold the OVERVIEW / KEY FINDINGS / INSIGHTS / RECOMMENDATIONS section headers (reasoning mode).
-  const escaped = escapeHtml(text);
-  return escaped.replace(
-    /^(OVERVIEW|KEY FINDINGS|INSIGHTS|RECOMMENDATIONS)(:?)/gm,
-    '<span class="section-head">$1$2</span>'
-  );
-}
-
-function renderBotMessage(data) {
-  let html = "";
-  html += badgeFor(data.provider, data.provider_label);
-  if (data.mode === "reasoning") {
-    html += '<span class="badge" style="background:#6366f1"><span class="dot"></span>Deep Report</span> ';
-  }
-  html += '<div class="answer">' + formatAnswer(data.answer) + "</div>";
-
-  if (data.sql) {
-    const tag = data.provider_label || PROVIDER_NAMES[data.provider] || "model";
-    html += `<details><summary>View SQL <span class="meta" style="margin-left:6px">(by ${escapeHtml(tag)})</span></summary><pre class="sql">${escapeHtml(data.sql)}</pre></details>`;
-  }
-  if (data.rows && data.rows.length) {
-    html += `<details open><summary>Results (${data.rows.length} row${data.rows.length === 1 ? "" : "s"})</summary>${renderResultsTable(data.columns, data.rows)}</details>`;
-  }
-  if (data.tables_considered && data.tables_considered.length) {
-    html += `<div class="meta">Tables considered: ${data.tables_considered.map(escapeHtml).join(", ")}</div>`;
-  }
-  return html;
-}
-
+// ---- provider ----
 async function loadProvider() {
   try {
     const resp = await fetch("/get-provider");
@@ -426,7 +563,6 @@ async function switchProvider(name) {
   if (name === activeProvider) return;
   const optEl = ALL_OPTS[name];
   if (!optEl || optEl.classList.contains("disabled")) return;
-
   try {
     const resp = await fetch("/set-provider", {
       method: "POST",
@@ -446,22 +582,122 @@ async function switchProvider(name) {
   }
 }
 
+// ---- row limit ----
+async function loadRowLimit() {
+  try {
+    const resp = await fetch("/get-row-limit");
+    const data = await resp.json();
+    activeRowLimit = data.limit ?? 5000;
+    paintRowsToggle();
+  } catch (e) {
+    console.warn("Could not fetch row limit", e);
+    paintRowsToggle();
+  }
+}
+
+async function switchRowLimit(limit) {
+  if (limit === activeRowLimit) return;
+  try {
+    const resp = await fetch("/set-row-limit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ limit }),
+    });
+    const data = await resp.json();
+    if (!resp.ok || data.ok === false) {
+      showToast(data.error || "Could not switch row limit", { error: true });
+      return;
+    }
+    activeRowLimit = data.limit;
+    paintRowsToggle();
+    showToast(`Row limit set to ${activeRowLimit.toLocaleString()}`);
+  } catch (e) {
+    showToast("Network error switching row limit", { error: true });
+  }
+}
+
+// ---- click handlers ----
 optGroq.addEventListener("click",    () => switchProvider("groq"));
 optGpt120b.addEventListener("click", () => switchProvider("gpt120b"));
 optGpt20b.addEventListener("click",  () => switchProvider("gpt20b"));
 optFast.addEventListener("click",      () => switchMode("fast"));
 optReasoning.addEventListener("click", () => switchMode("reasoning"));
+optDev.addEventListener("click",  () => switchView("dev"));
+optProd.addEventListener("click", () => switchView("prod"));
+optRows100.addEventListener("click",  () => switchRowLimit(100));
+optRows5000.addEventListener("click", () => switchRowLimit(5000));
 
+// ---- rendering ----
+function badgeFor(provider, label) {
+  const cls = provider in ALL_OPTS ? provider : "unknown";
+  const txt = label || PROVIDER_NAMES[provider] || provider || "model";
+  return `<span class="badge ${cls}"><span class="dot"></span>${escapeHtml(txt)}</span>`;
+}
+
+function addMsg(role, html, extras) {
+  const div = document.createElement("div");
+  div.className = "msg " + role + (extras && extras.error ? " error" : "");
+  div.innerHTML = html;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+  return div;
+}
+
+function renderResultsTable(columns, rows) {
+  if (!rows || !rows.length) return "";
+  const head = "<tr>" + columns.map(c => `<th>${escapeHtml(c)}</th>`).join("") + "</tr>";
+  const body = rows.slice(0, 20).map(r =>
+    "<tr>" + columns.map(c => `<td>${escapeHtml(r[c])}</td>`).join("") + "</tr>"
+  ).join("");
+  const more = rows.length > 20
+    ? `<div class="meta">Showing first 20 of ${rows.length.toLocaleString()} rows.</div>`
+    : "";
+  return `<table class="results">${head}${body}</table>${more}`;
+}
+
+function formatAnswer(text) {
+  if (!text) return "";
+  const escaped = escapeHtml(text);
+  return escaped.replace(
+    /^(OVERVIEW|KEY FINDINGS|INSIGHTS|RECOMMENDATIONS)(:?)/gm,
+    '<span class="section-head">$1$2</span>'
+  );
+}
+
+function renderBotMessage(data) {
+  const isProd = activeView === "prod";
+  let html = "";
+  if (!isProd) {
+    html += badgeFor(data.provider, data.provider_label);
+    if (data.mode === "reasoning") {
+      html += '<span class="badge" style="background:#6366f1"><span class="dot"></span>Deep Report</span> ';
+    }
+  }
+  html += '<div class="answer">' + formatAnswer(data.answer) + "</div>";
+  if (!isProd) {
+    if (data.sql) {
+      const tag = data.provider_label || PROVIDER_NAMES[data.provider] || "model";
+      html += `<details><summary>View SQL <span class="meta" style="margin-left:6px">(by ${escapeHtml(tag)})</span></summary><pre class="sql">${escapeHtml(data.sql)}</pre></details>`;
+    }
+    if (data.rows && data.rows.length) {
+      html += `<details open><summary>Results (${data.rows.length.toLocaleString()} row${data.rows.length === 1 ? "" : "s"})</summary>${renderResultsTable(data.columns, data.rows)}</details>`;
+    }
+    if (data.tables_considered && data.tables_considered.length) {
+      html += `<div class="meta">Tables considered: ${data.tables_considered.map(escapeHtml).join(", ")}</div>`;
+    }
+  }
+  return html;
+}
+
+// ---- chat ----
 async function ask(question) {
   addMsg("user", escapeHtml(question));
   send.disabled = true;
   q.disabled = true;
-
   const typing = addMsg("bot",
     badgeFor(activeProvider) +
     '<span class="typing"><span></span><span></span><span></span></span>'
   );
-
   try {
     const resp = await fetch("/chat", {
       method: "POST",
@@ -470,7 +706,6 @@ async function ask(question) {
     });
     const data = await resp.json();
     typing.remove();
-
     if (data.error) {
       let html = badgeFor(data.provider || activeProvider, data.provider_label);
       html += `<div><strong>Error:</strong> ${escapeHtml(data.error)}</div>`;
@@ -499,13 +734,16 @@ form.addEventListener("submit", (e) => {
   ask(text);
 });
 
+// ---- init ----
 addMsg("bot",
   '<div>Hi! Ask me anything about the EPMS database — workforce, harvesting, materials, costs, or equipment. ' +
   "I'll generate the SQL, run it read-only, and summarize the results. " +
-  "Use the model toggle to switch LLMs, and the mode toggle to switch between Fast Answer and Deep Report.</div>"
+  "Use the Settings button to switch models, modes, view, and row limits.</div>"
 );
 paintModeToggle();
+paintViewToggle();
 loadProvider().then(() => q.focus());
+loadRowLimit();
 </script>
 </body>
 </html>

@@ -1,0 +1,1244 @@
+{
+  "ZEPMS_EM_MATERIAL_OUT": {
+    "description": "SAP material master data (palm-related) replicated from SAP to the EPMS application for use in goods issuance and workdone transactions.",
+    "synonyms": ["material master", "bahan baku", "item", "SAP material", "MATNR"],
+    "example_questions": [
+      "What palm materials are available in the system?",
+      "What is the unit of measure for material code X?",
+      "Which material group does this input belong to?"
+    ]
+  },
+  "ZEPMS_EM_DESTINATION_OUT": {
+    "description": "SAP plant/destination master data used to define delivery destinations for FFB and other produce.",
+    "synonyms": ["destination", "tujuan", "pabrik", "mill", "plant", "WERKS"],
+    "example_questions": [
+      "What are the valid delivery destinations for FFB?",
+      "Which plant code corresponds to the main mill?",
+      "List all registered destinations in the system."
+    ]
+  },
+  "ZEPMS_ACTIVITY_OUT": {
+    "description": "SAP activity master replicated to EPMS, defining agricultural work activities with their cost assignment rules per block maturity and work group.",
+    "synonyms": ["activity", "kegiatan", "aktivitas", "pekerjaan", "work activity", "ACTVT"],
+    "example_questions": [
+      "What activities are applicable to mature blocks?",
+      "Which activity codes are assigned to scout blocks?",
+      "What is the unit of measure for fertilisation activity?"
+    ]
+  },
+  "ZEPMS_ATDCD_OUT": {
+    "description": "SAP attendance code master replicated to EPMS, listing all valid employee attendance codes and their descriptions.",
+    "synonyms": ["attendance code", "kode absensi", "kehadiran", "absensi"],
+    "example_questions": [
+      "What attendance codes are available in the system?",
+      "What does attendance code 'S' mean?",
+      "List all valid attendance statuses."
+    ]
+  },
+  "ZEPMS_EMPLOYEE_OUT": {
+    "description": "SAP HR employee master replicated to EPMS, containing workforce profile, job type, division assignment, and employment status for all estate employees.",
+    "synonyms": ["employee", "karyawan", "pekerja", "tenaga kerja", "SDM", "HR"],
+    "example_questions": [
+      "How many active employees are assigned to division 01?",
+      "What is the job code for employee number X?",
+      "Which employees have expired work permits?"
+    ]
+  },
+  "ZEPMS_EM_ABW_OUT": {
+    "description": "SAP average bunch weight (ABW/BJR) sampling header data per block and period, used to estimate FFB tonnage from bunch counts.",
+    "synonyms": ["ABW", "BJR", "berat janjang rata-rata", "average bunch weight", "bunch weight sample"],
+    "example_questions": [
+      "What is the ABW for block A01 in January?",
+      "Which blocks have ABW data recorded this month?",
+      "Show the bunch weight sampling schedule for this estate."
+    ]
+  },
+  "ZEPMS_EM_BLOCK_OUT": {
+    "description": "SAP block master data replicated to EPMS, describing each plantation block with its maturity state, hectarage, and total palm count per estate and division.",
+    "synonyms": ["block", "blok", "afdeling block", "petak", "BHA", "blok kebun"],
+    "example_questions": [
+      "How many mature blocks are in division 02?",
+      "What is the total palm count for block B05?",
+      "Which blocks are classified as immature this year?"
+    ]
+  },
+  "ZEPMS_EM_COST_CENTER_OUT": {
+    "description": "SAP cost center master replicated to EPMS, used for cost allocation of agricultural activities to financial reporting units.",
+    "synonyms": ["cost center", "pusat biaya", "CC", "KOSTL", "cost centre"],
+    "example_questions": [
+      "What cost centers are valid for estate X?",
+      "Which cost center covers the nursery division?",
+      "List all cost centers for the current fiscal year."
+    ]
+  },
+  "ZEPMS_EM_DIVISION_OUT": {
+    "description": "SAP division master data replicated to EPMS, representing organisational sub-units (afdeling/divisi) within an estate.",
+    "synonyms": ["division", "divisi", "afdeling", "DIVNR", "afd"],
+    "example_questions": [
+      "How many divisions exist in estate KBN?",
+      "What is the name of division 03?",
+      "List all active divisions with their codes."
+    ]
+  },
+  "ZEPMS_EM_ESTATE_OUT": {
+    "description": "SAP estate master data replicated to EPMS, representing each kebun/estate as the primary organisational unit for plantation management.",
+    "synonyms": ["estate", "kebun", "ESTNR", "perkebunan", "plantation unit"],
+    "example_questions": [
+      "What estates are registered in the system?",
+      "Which region does estate KBN belong to?",
+      "What SAP plant code is linked to estate X?"
+    ]
+  },
+  "ZEPMS_EM_GENERAL_ORDER_OUT": {
+    "description": "SAP general/maintenance order list replicated to EPMS, used as cost objects for non-purchase-order field activities.",
+    "synonyms": ["general order", "order number", "MO", "maintenance order", "work order", "AUFNR"],
+    "example_questions": [
+      "What general orders are open for this plant?",
+      "Which order number is linked to road maintenance activity?",
+      "List all general orders by vendor for estate X."
+    ]
+  },
+  "ZEPMS_EM_GL_ACCOUNT_OUT": {
+    "description": "SAP general ledger account master replicated to EPMS, used for financial posting of goods issuance and work completion transactions.",
+    "synonyms": ["GL account", "akun buku besar", "SAKNR", "general ledger", "GL acc"],
+    "example_questions": [
+      "What GL accounts are available for company code X?",
+      "Which GL account is used for fertiliser issuance?",
+      "List all GL accounts and their descriptions."
+    ]
+  },
+  "ZEPMS_EM_MATERIAL_OUT_NON_PALM": {
+    "description": "SAP material master for non-palm commodities (rubber, coconut, durian) replicated to EPMS.",
+    "synonyms": ["non-palm material", "material non-sawit", "karet", "kelapa", "durian material"],
+    "example_questions": [
+      "What non-palm materials are registered in the system?",
+      "What is the UOM for coconut material X?",
+      "List all non-palm materials available at plant Y."
+    ]
+  },
+  "ZEPMS_EM_MATERIAL_STOCK_OUT": {
+    "description": "SAP material stock levels replicated to EPMS, showing current inventory of inputs (fertilisers, chemicals, tools) per estate and storage location.",
+    "synonyms": ["material stock", "stok bahan", "inventory", "gudang", "stock level", "persediaan"],
+    "example_questions": [
+      "What is the current stock of urea at estate X?",
+      "Which materials have stock below reorder level?",
+      "Show all material stocks for storage location MAIN."
+    ]
+  },
+  "ZEPMS_EM_MEAS_POINT": {
+    "description": "SAP measurement point master for vehicle/equipment maintenance, used to record and track operational metrics such as mileage or engine hours.",
+    "synonyms": ["measurement point", "titik ukur", "meas point", "equipment point", "VRA measurement"],
+    "example_questions": [
+      "What measurement points are defined for equipment X?",
+      "List all measurement points for division 01 vehicles.",
+      "What unit is used for measurement point Y?"
+    ]
+  },
+  "ZEPMS_EM_PURCHASE_ORDER_OUT": {
+    "description": "SAP purchase order list replicated to EPMS, enabling field users to reference approved POs when recording goods receipts.",
+    "synonyms": ["PO", "purchase order", "surat pesanan", "order pembelian", "EBELN"],
+    "example_questions": [
+      "What open purchase orders exist for estate X?",
+      "Which vendor supplies PO number Y?",
+      "What materials are covered by this PO?"
+    ]
+  },
+  "ZEPMS_EM_RECEIVING_OUT": {
+    "description": "SAP RAMP/receiving point master replicated to EPMS, defining valid FFB or produce receiving points at the mill.",
+    "synonyms": ["receiving point", "ramp", "titik penerimaan", "RAMP", "loading ramp"],
+    "example_questions": [
+      "What receiving points are available at the mill?",
+      "Is ramp number 3 active?",
+      "List all valid receiving point codes."
+    ]
+  },
+  "ZEPMS_EM_SLOC_OUT": {
+    "description": "SAP storage location master replicated to EPMS, identifying warehouse or field storage points for material stock management.",
+    "synonyms": ["storage location", "SLOC", "gudang", "lokasi penyimpanan", "LGORT"],
+    "example_questions": [
+      "What storage locations are available at plant X?",
+      "Which SLOC is the main chemical warehouse?",
+      "List all storage locations and their descriptions."
+    ]
+  },
+  "ZEPMS_EM_VENDOR_OUT": {
+    "description": "SAP vendor/supplier master replicated to EPMS, used to identify contractors and transporters involved in field operations.",
+    "synonyms": ["vendor", "supplier", "kontraktor", "LIFNR", "transporter"],
+    "example_questions": [
+      "What vendors are registered for plant X?",
+      "Which vendor code corresponds to transporter Y?",
+      "List all active vendors in the system."
+    ]
+  },
+  "ZEPMS_EM_VRA_OUT": {
+    "description": "SAP vehicle/equipment order master replicated to EPMS for VRA (Vehicle Running Activity) tracking including license and order number linkages.",
+    "synonyms": ["VRA", "vehicle order", "equipment order", "kendaraan", "alat berat", "EQUNR"],
+    "example_questions": [
+      "What vehicles are registered under order number X?",
+      "Which equipment has an active maintenance order?",
+      "List all VRA records for plant Y."
+    ]
+  },
+  "ZEPMS_EM_WORK_CENTER_OUT": {
+    "description": "SAP work center master replicated to EPMS, defining operational work centres per division used for activity cost assignment.",
+    "synonyms": ["work center", "pusat kerja", "ARBPL", "work centre"],
+    "example_questions": [
+      "What work centers exist in division 02?",
+      "Which work center is used for harvesting activities?",
+      "List all work centers for estate KBN."
+    ]
+  },
+  "ZEPMS_GIGR_WBS_OUT": {
+    "description": "SAP WBS (Work Breakdown Structure) element master for GI/GR transactions, linking cost objects to blocks and GL accounts for goods movements.",
+    "synonyms": ["WBS", "WBS element", "work breakdown structure", "GI WBS", "GR WBS", "POSID"],
+    "example_questions": [
+      "What WBS elements are available for block X?",
+      "Which WBS code maps to GL account Y?",
+      "List all GI/GR WBS elements for estate Z."
+    ]
+  },
+  "ZEPMS_GRADING_OUT": {
+    "description": "SAP harvesting deduction code master replicated to EPMS, defining grading deduction types applied to FFB bunches at the mill or field level.",
+    "synonyms": ["deduction code", "kode potongan", "grading", "FFB grading", "panen deduction", "BJR deduction"],
+    "example_questions": [
+      "What deduction codes are used for FFB grading?",
+      "What does deduction type 'U' represent?",
+      "List all valid harvesting deduction codes."
+    ]
+  },
+  "ZEPMS_MAINTENANCE_OUT": {
+    "description": "SAP maintenance/work order master for plant machinery and vehicles replicated to EPMS for VRA and maintenance cost tracking.",
+    "synonyms": ["maintenance order", "work order", "MO", "AUFNR", "order perawatan"],
+    "example_questions": [
+      "What maintenance orders are open for business area X?",
+      "Which work order covers the mill compressor repair?",
+      "List all maintenance orders for company Y."
+    ]
+  },
+  "ZEPMS_MEMBER_OUT": {
+    "description": "SAP user-to-mandor assignment data replicated to EPMS, mapping field employees to their supervising mandor within a profile.",
+    "synonyms": ["member", "mandor assignment", "user assignment", "penugasan mandor", "kemandoran"],
+    "example_questions": [
+      "Which employees are assigned to mandor X?",
+      "What is the profile code for this user assignment?",
+      "List all active member assignments."
+    ]
+  },
+  "ZEPMS_PM_WORKTYPE_OUT": {
+    "description": "SAP plant maintenance work type master replicated to EPMS, classifying types of maintenance work performed on equipment.",
+    "synonyms": ["work type", "tipe pekerjaan", "maintenance type", "GRUND"],
+    "example_questions": [
+      "What work types are available for plant X?",
+      "What does work type code 'PM01' mean?",
+      "List all maintenance work types."
+    ]
+  },
+  "ZEPMS_SD_SORD_OUT": {
+    "description": "SAP sales order master replicated to EPMS, used to link FFB or produce delivery transactions (FDN) to customer sales orders.",
+    "synonyms": ["sales order", "SO", "order penjualan", "VBELN", "customer order"],
+    "example_questions": [
+      "What sales orders are open for customer X?",
+      "Which sales order covers FFB delivery to mill Y?",
+      "List all sales orders created this month."
+    ]
+  },
+  "ZEPMS_WBS_OUT": {
+    "description": "SAP WBS element master (general) replicated to EPMS, grouping work breakdown structures by project and group for field cost allocation.",
+    "synonyms": ["WBS", "work breakdown structure", "POSID", "project element"],
+    "example_questions": [
+      "What WBS elements belong to group X?",
+      "List all WBS codes and their names.",
+      "Which WBS group covers replanting activities?"
+    ]
+  },
+  "approval_substitution": {
+    "description": "Records temporary approval delegation assignments where one employee substitutes for another in the approval workflow for a defined date range.",
+    "synonyms": ["approval substitution", "delegasi persetujuan", "pengganti", "approval delegation"],
+    "example_questions": [
+      "Who is currently substituting for manager X?",
+      "List all active approval delegations this week.",
+      "When does employee Y's substitution period end?"
+    ]
+  },
+  "audit_trail": {
+    "description": "System-wide audit log capturing all user actions, transaction types, and changes made within the EPMS application for traceability.",
+    "synonyms": ["audit trail", "log aktivitas", "activity log", "audit log", "jejak audit"],
+    "example_questions": [
+      "What actions did user X perform today?",
+      "Show all audit records for transaction type 3 this month.",
+      "Who last modified the harvesting record for OPH Y?"
+    ]
+  },
+  "crop_type": {
+    "description": "Reference table defining the types of crops managed in the system (e.g., palm, coconut, rubber, durian) and whether they are harvestable.",
+    "synonyms": ["crop type", "jenis tanaman", "komoditi", "commodity", "tanaman"],
+    "example_questions": [
+      "What crop types are configured in the system?",
+      "Is rubber a harvestable crop type?",
+      "List all crop types that can be harvested."
+    ]
+  },
+  "int2t_workdone": {
+    "description": "Integration staging table for work completion records being queued for SAP posting, mirroring the main t_workdone structure with an integration status flag.",
+    "synonyms": ["workdone integration", "SAP posting queue", "integration workdone", "kegiatan integrasi"],
+    "example_questions": [
+      "Which workdone records are pending SAP integration?",
+      "How many work completion entries failed integration today?",
+      "Show integration status for mandor X's workdone submissions."
+    ]
+  },
+  "log_coconut_harvesting_plan_approval": {
+    "description": "Approval history log for coconut harvesting plans, tracking each approval or rejection event with approver details and timestamps.",
+    "synonyms": ["coconut harvest plan approval log", "log persetujuan panen kelapa", "approval history kelapa"],
+    "example_questions": [
+      "Who approved the coconut harvesting plan for block X?",
+      "Show the approval history for coconut plan ID Y.",
+      "Which coconut plans were rejected this week?"
+    ]
+  },
+  "log_giplan_approval": {
+    "description": "Approval history log for goods issuance plan (GI Plan) transactions, recording each approval step with status, approver, and timestamp.",
+    "synonyms": ["GI plan approval log", "log persetujuan GI plan", "goods issuance plan approval history"],
+    "example_questions": [
+      "Who approved GI plan X?",
+      "List all GI plans rejected in the last 7 days.",
+      "Show approval history for GI plan Y."
+    ]
+  },
+  "log_harvesting_plan_approval": {
+    "description": "Approval history log for palm FFB harvesting plans, capturing each approval or rejection with the approver identity and timing.",
+    "synonyms": ["harvest plan approval log", "log persetujuan rencana panen", "panen plan approval history", "FFB plan approval"],
+    "example_questions": [
+      "Who approved the harvesting plan for block X on date Y?",
+      "How many harvesting plans were rejected last month?",
+      "Show the full approval chain for plan ID Z."
+    ]
+  },
+  "log_system_lock": {
+    "description": "System lock event log tracking when the application is locked or unlocked, including the reason and the user who performed the action.",
+    "synonyms": ["system lock", "kunci sistem", "lock log", "application lock"],
+    "example_questions": [
+      "When was the system last locked?",
+      "Who unlocked the system on date X?",
+      "How many times was the system locked this month?"
+    ]
+  },
+  "log_workplan_approval": {
+    "description": "Approval history log for field work plans (workplan), recording each approval or rejection with the approver and timestamp.",
+    "synonyms": ["workplan approval log", "log persetujuan rencana kerja", "rencana kerja approval history"],
+    "example_questions": [
+      "Who approved workplan X?",
+      "List workplans that were rejected this week.",
+      "Show the approval audit trail for workplan ID Y."
+    ]
+  },
+  "login_log": {
+    "description": "Records user login and logout events including the device used, employee identity, and session timestamps.",
+    "synonyms": ["login log", "log masuk", "session log", "access log", "device login"],
+    "example_questions": [
+      "When did employee X last log in?",
+      "How many login sessions occurred today?",
+      "Which device ID was used for the most recent login by user Y?"
+    ]
+  },
+  "m_activity": {
+    "description": "Master table of agricultural work activities defining their codes, names, units of measure, and cost assignment rules (by block, AUC, order number, or cost center).",
+    "synonyms": ["activity", "kegiatan", "aktivitas", "pekerjaan lapangan", "work activity", "AUC activity"],
+    "example_questions": [
+      "What activities are allowed on immature blocks?",
+      "Which activities require a WBS code?",
+      "What is the UOM for fertilisation activity?"
+    ]
+  },
+  "m_assistant_manager_division": {
+    "description": "Maps assistant managers (afdeling assistants) to their responsible divisions, defining which manager oversees which afdeling.",
+    "synonyms": ["assistant manager", "asisten afdeling", "askep", "afd manager", "divisi asisten"],
+    "example_questions": [
+      "Which assistant manager is responsible for division 03?",
+      "List all assistant managers and their assigned afdelongs.",
+      "Who oversees division X in estate Y?"
+    ]
+  },
+  "m_attendance": {
+    "description": "Master reference table of employee attendance codes (e.g., present, sick, absent) used for daily workforce attendance recording.",
+    "synonyms": ["attendance code", "kode absensi", "kehadiran", "absensi karyawan"],
+    "example_questions": [
+      "What are the valid attendance codes?",
+      "What does attendance code 'H' mean?",
+      "List all attendance categories with descriptions."
+    ]
+  },
+  "m_bin": {
+    "description": "Master table of bin codes used to identify storage bins or compartments in the plantation warehouse or receiving area.",
+    "synonyms": ["bin", "bin code", "compartment", "slot gudang"],
+    "example_questions": [
+      "List all bin codes in the system.",
+      "Is bin number 5 currently in use?",
+      "How many bins are configured?"
+    ]
+  },
+  "m_block": {
+    "description": "Master table of plantation blocks (blok) within each estate and division, containing hectarage, planting date, crop type, maturity state, and total palm count.",
+    "synonyms": ["block", "blok", "petak", "afdeling block", "BHA", "blok panen", "blok kebun"],
+    "example_questions": [
+      "How many hectares does block B03 cover?",
+      "What is the total palm population in division 02?",
+      "List all mature blocks in estate X."
+    ]
+  },
+  "m_coconut_activity_type": {
+    "description": "Master reference for coconut-specific activity types used to classify activities recorded during coconut harvesting and field operations.",
+    "synonyms": ["coconut activity type", "jenis aktivitas kelapa", "tipe kegiatan kelapa"],
+    "example_questions": [
+      "What activity types exist for coconut operations?",
+      "What is activity type code 'H' for coconut?",
+      "List all coconut activity types."
+    ]
+  },
+  "m_config": {
+    "description": "System configuration table storing per-estate application settings including SAP integration credentials, crop type flags, distribution ratios, and system behaviour toggles.",
+    "synonyms": ["config", "konfigurasi", "system settings", "pengaturan sistem", "estate settings"],
+    "example_questions": [
+      "What is the cutter distribution value for estate X?",
+      "Is internet connection enabled for this estate?",
+      "What SAP API URL is configured for estate Y?"
+    ]
+  },
+  "m_confirmation_text": {
+    "description": "Master table of confirmation text codes used in field activity confirmation dialogs, providing standardised text options for worker progress reporting.",
+    "synonyms": ["confirmation text", "teks konfirmasi", "konfirmasi kegiatan", "ctext"],
+    "example_questions": [
+      "What confirmation texts are configured for estate X?",
+      "List all confirmation text codes and their descriptions.",
+      "Which confirmation code maps to 'completed with shortage'?"
+    ]
+  },
+  "m_cost_center": {
+    "description": "Master cost center table for financial cost allocation, defining valid cost centers per company with their validity periods and business area.",
+    "synonyms": ["cost center", "pusat biaya", "CC", "KOSTL", "cost centre"],
+    "example_questions": [
+      "Which cost centers are active for company X?",
+      "What business area does cost center Y belong to?",
+      "List all cost centers valid this year."
+    ]
+  },
+  "m_cost_control_mapping": {
+    "description": "Maps activity code ranges to their allowed cost assignment methods (block, AUC, order number, or cost center), controlling how field costs are posted.",
+    "synonyms": ["cost control mapping", "pemetaan biaya", "cost assignment rules", "activity cost rules"],
+    "example_questions": [
+      "Which activities can be assigned to a cost center?",
+      "For activity code range X–Y, is AUC assignment allowed?",
+      "Show cost control rules for block-based activities."
+    ]
+  },
+  "m_customer_code": {
+    "description": "Master table of customer codes per plant, used to link FFB deliveries or sales to the corresponding customer in the sales order process.",
+    "synonyms": ["customer code", "kode pelanggan", "KUNNR", "customer", "buyer code"],
+    "example_questions": [
+      "What customer codes are registered for plant X?",
+      "Which customer code corresponds to buyer Y?",
+      "List all customer codes in the system."
+    ]
+  },
+  "m_deduction_code": {
+    "description": "Master table of harvesting quality deduction codes with their rates and units of measure, applied to OPH grading to penalise non-standard FFB bunches.",
+    "synonyms": ["deduction code", "kode potongan", "grading code", "panen deduction", "FFB deduction", "tonase deduction"],
+    "example_questions": [
+      "What is the deduction rate for overripe bunches?",
+      "List all active deduction codes and their rates.",
+      "Which deduction code applies to empty bunches?"
+    ]
+  },
+  "m_deduction_type": {
+    "description": "Master reference for deduction type categories, classifying whether a harvesting deduction applies at the estate level, mill level, or customer level.",
+    "synonyms": ["deduction type", "tipe potongan", "grading type", "kategori potongan"],
+    "example_questions": [
+      "What deduction types exist in the system?",
+      "Is deduction type X applied at the mill or estate?",
+      "List all deduction type codes and descriptions."
+    ]
+  },
+  "m_destination": {
+    "description": "Master table of delivery destination names and codes for FFB and other produce, defining where harvested crop is to be delivered.",
+    "synonyms": ["destination", "tujuan", "pabrik tujuan", "delivery destination", "mill destination"],
+    "example_questions": [
+      "What destinations are configured in the system?",
+      "What is the name of destination code X?",
+      "List all valid FFB delivery destinations."
+    ]
+  },
+  "m_devices": {
+    "description": "Master table of mobile devices (tablets/phones) registered in EPMS per estate, identified by device code and IMEI for access control.",
+    "synonyms": ["device", "perangkat", "tablet", "mobile device", "IMEI", "device registration"],
+    "example_questions": [
+      "How many devices are registered for estate X?",
+      "What is the IMEI for device code Y?",
+      "List all devices assigned to this estate."
+    ]
+  },
+  "m_division": {
+    "description": "Master table of plantation divisions (afdeling/divisi) within each estate, with validity periods for historical tracking.",
+    "synonyms": ["division", "divisi", "afdeling", "afd", "DIVNR"],
+    "example_questions": [
+      "How many divisions does estate X have?",
+      "What is the name of division code 03?",
+      "List all active divisions for estate Y."
+    ]
+  },
+  "m_employee": {
+    "description": "Master employee table containing all plantation workforce records including job role, division assignment, employment status, gender, and work permit expiry.",
+    "synonyms": ["employee", "karyawan", "pekerja", "tenaga kerja", "mandor", "pemanen"],
+    "example_questions": [
+      "How many harvesters are assigned to division 02?",
+      "Which employees have job type 'harvester'?",
+      "List all employees whose work permits expire this month."
+    ]
+  },
+  "m_employee_face_template": {
+    "description": "Stores facial recognition template registration records for employees, tracking registration count, status, and linking to biometric attendance.",
+    "synonyms": ["face template", "template wajah", "biometric", "face recognition", "facial ID"],
+    "example_questions": [
+      "How many employees have registered face templates?",
+      "Is employee X enrolled in face recognition?",
+      "List employees without a face template registered."
+    ]
+  },
+  "m_employee_face_template_log": {
+    "description": "Audit log of facial template registration events, capturing the device, registering user, and the binary face template data per registration.",
+    "synonyms": ["face template log", "log registrasi wajah", "biometric log", "face registration log"],
+    "example_questions": [
+      "When was employee X's face last registered?",
+      "Which device was used to register employee Y's face?",
+      "Show all face registration events this month."
+    ]
+  },
+  "m_estate": {
+    "description": "Master estate table defining each kebun/estate as a core organisational unit, with its company code and SAP plant code linkage.",
+    "synonyms": ["estate", "kebun", "perkebunan", "ESTNR", "plantation", "kebun sawit"],
+    "example_questions": [
+      "List all estates in the system.",
+      "What is the plant code for estate KBN?",
+      "Which company does estate X belong to?"
+    ]
+  },
+  "m_field_staff_gang": {
+    "description": "Maps field staff (kerani panen/pemanen) to their assigned gang code for organising harvesting groups on the plantation.",
+    "synonyms": ["field staff gang", "gang", "kelompok panen", "regu panen", "gang code"],
+    "example_questions": [
+      "Which field staff belong to gang G01?",
+      "List all gang codes and their assigned staff.",
+      "How many harvesters are in gang X?"
+    ]
+  },
+  "m_field_staff_kemandoran": {
+    "description": "Maps individual field staff (workers) to their supervising mandor for the kemandoran (supervisory) assignment structure.",
+    "synonyms": ["kemandoran", "mandor assignment", "field staff supervisor", "penugasan mandor", "regu mandor"],
+    "example_questions": [
+      "Who is the mandor for field staff employee X?",
+      "List all workers under mandor Y.",
+      "How many field staff does mandor Z supervise?"
+    ]
+  },
+  "m_gang_employee": {
+    "description": "Master table assigning workers to harvest gangs, enabling gang-level productivity and tonnage tracking per block.",
+    "synonyms": ["gang employee", "anggota gang", "regu karyawan", "harvest gang member"],
+    "example_questions": [
+      "Who are the members of gang G02?",
+      "Which gang is employee X assigned to?",
+      "List all gang assignments for estate Y."
+    ]
+  },
+  "m_gigr_wbs": {
+    "description": "Master WBS element table specifically for GI (Goods Issue) and GR (Goods Receipt) transactions, linking SAP project elements to blocks and GL accounts.",
+    "synonyms": ["GI WBS", "GR WBS", "WBS GI/GR", "work breakdown GI", "WBS element"],
+    "example_questions": [
+      "What WBS codes are available for GI transactions in block X?",
+      "Which GL account is linked to WBS element Y?",
+      "List all GI/GR WBS elements for estate Z."
+    ]
+  },
+  "m_glacc": {
+    "description": "Master general ledger account table for financial posting of plantation transactions including goods issuance and receipts.",
+    "synonyms": ["GL account", "akun GL", "general ledger", "SAKNR", "ledger account"],
+    "example_questions": [
+      "What GL accounts are available for company X?",
+      "What is the description for GL account Y?",
+      "List all GL accounts used in GI transactions."
+    ]
+  },
+  "m_glacc_gi_order": {
+    "description": "Subset of GL accounts specifically applicable to goods issuance order transactions, used to restrict and map valid accounts for GI order postings.",
+    "synonyms": ["GI order GL account", "GL GI order", "akun GI order", "goods issuance GL"],
+    "example_questions": [
+      "Which GL accounts are valid for GI order transactions?",
+      "List GL accounts available for order-based goods issuance.",
+      "What is the description for GI order GL account X?"
+    ]
+  },
+  "m_harvest_method": {
+    "description": "Master table of FFB harvesting methods (e.g., manual, mechanised) with indicators defining whether a vehicle order number is mandatory.",
+    "synonyms": ["harvest method", "metode panen", "cara panen", "harvesting technique", "panen method"],
+    "example_questions": [
+      "What harvesting methods are available?",
+      "Does harvest method X require a vehicle order number?",
+      "List all harvest method codes and their abbreviations."
+    ]
+  },
+  "m_maintenance_order": {
+    "description": "Master maintenance/work order table for SAP PM (Plant Maintenance) integration, defining order numbers for vehicle and equipment maintenance activities.",
+    "synonyms": ["maintenance order", "MO", "work order", "order perawatan", "PM order", "AUFNR"],
+    "example_questions": [
+      "What maintenance orders are active for plant X?",
+      "Which order number covers the excavator service?",
+      "List all maintenance orders by business area."
+    ]
+  },
+  "m_material": {
+    "description": "Master table of materials used in plantation field operations (fertilisers, chemicals, tools), with their codes, names, UOM, plant, and SAP storage details.",
+    "synonyms": ["material", "bahan", "input kebun", "pupuk", "chemical", "sarana produksi", "MATNR"],
+    "example_questions": [
+      "What materials are available at plant X?",
+      "What is the batch number for material Y?",
+      "List all fertiliser materials with their storage locations."
+    ]
+  },
+  "m_meas_point": {
+    "description": "Master measurement point table for vehicle and equipment maintenance, storing equipment identifiers and measurement descriptions used in VRA reporting.",
+    "synonyms": ["measurement point", "titik ukur", "meas point", "equipment measurement", "VRA point"],
+    "example_questions": [
+      "What measurement points are configured for equipment X?",
+      "Which unit is used for measurement point Y?",
+      "List all measurement points for this plant."
+    ]
+  },
+  "m_movement_type": {
+    "description": "Master table of SAP inventory movement types defining the document type and description for stock transactions such as goods issuance and receipt.",
+    "synonyms": ["movement type", "tipe pergerakan", "MVT type", "SAP movement", "BWART"],
+    "example_questions": [
+      "What movement type is used for goods issuance?",
+      "List all configured movement types and their document types.",
+      "What does movement type 261 represent?"
+    ]
+  },
+  "m_non_palm_material": {
+    "description": "Master table of materials specific to non-palm crops (coconut, rubber, durian) used in field operations for those commodity divisions.",
+    "synonyms": ["non-palm material", "bahan non-sawit", "coconut material", "rubber material", "durian material"],
+    "example_questions": [
+      "What materials are used for rubber operations?",
+      "List all non-palm materials for plant X.",
+      "What is the UOM for coconut harvest material Y?"
+    ]
+  },
+  "m_order_header": {
+    "description": "Master general/maintenance order header and detail table used for non-PO procurement or work orders, including vendor, material, and pricing information.",
+    "synonyms": ["order header", "kepala order", "general order", "MO header", "work order header"],
+    "example_questions": [
+      "List all open general orders for plant X.",
+      "What vendor is linked to order number Y?",
+      "Show materials and quantities in order Z."
+    ]
+  },
+  "m_po_header": {
+    "description": "Master purchase order header and line-item table replicated from SAP, used for goods receipt referencing with vendor, material, and pricing details.",
+    "synonyms": ["PO header", "purchase order", "kepala PO", "surat pesanan", "EBELN", "PO detail"],
+    "example_questions": [
+      "List all open POs for plant X.",
+      "What is the net value of PO number Y?",
+      "Which vendor supplied materials under PO Z?"
+    ]
+  },
+  "m_receiving_point": {
+    "description": "Master table of FFB and produce receiving points at mills or collection points, identifying valid drop-off locations for transport.",
+    "synonyms": ["receiving point", "titik penerimaan", "RAMP", "ramp number", "collection point"],
+    "example_questions": [
+      "What receiving points are available at this mill?",
+      "Is receiving point X still active?",
+      "List all configured receiving point codes."
+    ]
+  },
+  "m_report_oph": {
+    "description": "Master configuration table for OPH (output per hectare) reporting parameters including brondolan rates, basis targets, premi rates, and HK rates per block and period.",
+    "synonyms": ["OPH report config", "OPH parameter", "BJR basis", "brondolan rate", "premi OPH", "HK rate"],
+    "example_questions": [
+      "What is the basis OPH target for block X in period Y?",
+      "What brondolan rate is configured for block A01?",
+      "Show premi rates for division 02 this month."
+    ]
+  },
+  "m_sales_order": {
+    "description": "Master sales order table linking customer orders to FFB or produce delivery transactions (FDN), including material, quantity, and SAP document details.",
+    "synonyms": ["sales order", "SO", "order penjualan", "VBELN", "customer SO", "FDN sales order"],
+    "example_questions": [
+      "What sales orders are linked to FDN X?",
+      "Which customer placed sales order Y?",
+      "List all open sales orders for plant Z."
+    ]
+  },
+  "m_sloc": {
+    "description": "Master storage location table for material stock management, mapping SLOC codes to plant and description for inventory segregation.",
+    "synonyms": ["SLOC", "storage location", "gudang", "lokasi penyimpanan", "LGORT"],
+    "example_questions": [
+      "What storage locations are configured for plant X?",
+      "What is the description for SLOC code Y?",
+      "List all active storage locations."
+    ]
+  },
+  "m_tph": {
+    "description": "Master table of TPH (Tempat Pengumpulan Hasil / field collection points) per block, storing GPS coordinates, section, and palm count for harvest logistics.",
+    "synonyms": ["TPH", "Tempat Pengumpulan Hasil", "collection point", "titik panen", "field collection", "TPH code"],
+    "example_questions": [
+      "How many TPHs are in block B04?",
+      "What is the GPS location of TPH code X?",
+      "List all TPHs in division 01 with their palm counts."
+    ]
+  },
+  "m_uom": {
+    "description": "Master unit of measure table defining all valid UOM codes and descriptions used across activities, materials, and transactions in EPMS.",
+    "synonyms": ["UOM", "unit of measure", "satuan", "satuan ukur", "MEINS"],
+    "example_questions": [
+      "What does UOM code 'KG' stand for?",
+      "List all available units of measure.",
+      "Which activities use the unit 'HK' (hari kerja)?"
+    ]
+  },
+  "m_vendor": {
+    "description": "Master vendor/contractor table listing all registered suppliers and transporters with their codes and associated plant.",
+    "synonyms": ["vendor", "supplier", "kontraktor", "transporter", "LIFNR"],
+    "example_questions": [
+      "Which vendors are registered for plant X?",
+      "What is the vendor code for contractor Y?",
+      "List all active vendors."
+    ]
+  },
+  "m_vra": {
+    "description": "Master vehicle and equipment table for VRA (Vehicle Running Activity), containing license numbers, order numbers, equipment codes, and validity periods.",
+    "synonyms": ["VRA", "vehicle", "kendaraan", "alat berat", "equipment", "license plate", "VRA master"],
+    "example_questions": [
+      "What is the order number for vehicle with license plate X?",
+      "List all active vehicles for plant Y.",
+      "Which equipment codes are registered for VRA tracking?"
+    ]
+  },
+  "m_wbs": {
+    "description": "Master WBS (Work Breakdown Structure) element table for field cost assignment, grouping project elements by code and group.",
+    "synonyms": ["WBS", "work breakdown structure", "elemen WBS", "WBS code", "project WBS"],
+    "example_questions": [
+      "What WBS elements are in group X?",
+      "List all WBS codes available in the system.",
+      "What is the name of WBS code Y?"
+    ]
+  },
+  "m_work_center": {
+    "description": "Master work center table per estate and division, used to classify operational areas or teams for cost and activity assignment.",
+    "synonyms": ["work center", "pusat kerja", "ARBPL", "work centre", "operational center"],
+    "example_questions": [
+      "What work centers exist in division 02?",
+      "Which work center covers the nursery?",
+      "List all work centers for estate X."
+    ]
+  },
+  "m_worktype": {
+    "description": "Master work type table classifying the nature of field or maintenance work performed, used in GI/GR transactions for movement categorisation.",
+    "synonyms": ["work type", "tipe pekerjaan", "jenis kerja", "worktype code"],
+    "example_questions": [
+      "What work types are available in the system?",
+      "What does work type code 'MO' mean?",
+      "List all work types and their names."
+    ]
+  },
+  "mail_scheduler": {
+    "description": "System email scheduler table queuing outbound notification emails including type, recipients, subject, content, and send status.",
+    "synonyms": ["mail scheduler", "email queue", "antrian email", "notifikasi email"],
+    "example_questions": [
+      "How many emails are pending in the queue?",
+      "Were notification emails sent successfully today?",
+      "List all unsent emails in the scheduler."
+    ]
+  },
+  "master_data_log": {
+    "description": "Log tracking the last refresh and update timestamps for each master data table, indicating data freshness for SAP-to-EPMS synchronisation.",
+    "synonyms": ["master data log", "log data master", "refresh log", "SAP sync log", "data refresh"],
+    "example_questions": [
+      "When was the employee master last refreshed from SAP?",
+      "Which master tables have not been updated in the last 7 days?",
+      "Show the last refresh timestamps for all master data tables."
+    ]
+  },
+  "master_data_setting": {
+    "description": "Configuration table controlling which master data tables are enabled for SAP synchronisation, including refresh schedules and SAP parameters.",
+    "synonyms": ["master data setting", "pengaturan data master", "SAP sync config", "refresh setting"],
+    "example_questions": [
+      "Which master data tables are enabled for SAP sync?",
+      "What SAP parameters are used to fetch the block master?",
+      "Is employee master sync currently enabled?"
+    ]
+  },
+  "material_stock": {
+    "description": "Tracks current stock levels of materials (fertilisers, chemicals, tools) per plant and storage location, updated with each goods issuance or receipt transaction.",
+    "synonyms": ["material stock", "stok bahan", "inventory", "persediaan", "stock level", "gudang stok"],
+    "example_questions": [
+      "What is the current stock of herbicide X at plant Y?",
+      "Which materials have zero stock at SLOC MAIN?",
+      "Show all material stock quantities for estate Z."
+    ]
+  },
+  "material_type_group": {
+    "description": "Groups materials into logical type categories (e.g., fertiliser, pesticide, tools) for reporting and issuance filtering purposes.",
+    "synonyms": ["material type group", "kelompok jenis material", "material category", "material group", "MATKL"],
+    "example_questions": [
+      "Which materials belong to the fertiliser group?",
+      "List all material type groups and their member materials.",
+      "What is the description for material type code X?"
+    ]
+  },
+  "mc_fdn_card": {
+    "description": "Master card table for FDN (Field Delivery Note) transactions per division, uniquely identifying each delivery card issued for FFB transport.",
+    "synonyms": ["FDN card", "kartu FDN", "delivery card", "kartu pengiriman", "FDN voucher"],
+    "example_questions": [
+      "List all FDN cards for division X.",
+      "Is FDN card Y still active?",
+      "Who created FDN card Z?"
+    ]
+  },
+  "mc_oph_card": {
+    "description": "Master card table for OPH (Output Per Hectare) harvest recording transactions per division, identifying each harvest recording card.",
+    "synonyms": ["OPH card", "kartu OPH", "harvest card", "kartu panen", "OPH voucher"],
+    "example_questions": [
+      "List all OPH cards for division X.",
+      "When was OPH card Y created?",
+      "How many OPH cards are assigned to division Z?"
+    ]
+  },
+  "res_data": {
+    "description": "Temporary response data storage table used by the application to cache or queue large text responses from SAP or external API calls.",
+    "synonyms": ["response data", "res data", "API response cache", "temp response"],
+    "example_questions": [
+      "What is the latest cached response in res_data?",
+      "How many response records are stored?",
+      "When was the last res_data entry created?"
+    ]
+  },
+  "t_abw": {
+    "description": "Transactional ABW (Average Bunch Weight / BJR) data recording actual bunch weight samples per block and period, used to compute FFB tonnage estimates.",
+    "synonyms": ["ABW", "BJR", "berat janjang rata-rata", "bunch weight", "average bunch weight transaction"],
+    "example_questions": [
+      "What is the recorded ABW for block X in month Y?",
+      "List all ABW samples taken this quarter.",
+      "Show bunch weight trends for block B01 over 6 months."
+    ]
+  },
+  "t_adjustment": {
+    "description": "Records data adjustment transactions made to correct or revise previously submitted field data, including type, reason, and the adjusting employee.",
+    "synonyms": ["adjustment", "penyesuaian", "koreksi data", "revisi", "data correction"],
+    "example_questions": [
+      "What adjustments were made to record X?",
+      "List all adjustments performed today.",
+      "How many adjustment transactions occurred this month?"
+    ]
+  },
+  "t_attendance": {
+    "description": "Daily employee attendance transaction records capturing attendance code, mandor, employee, work status, closing approval, and SAP integration status.",
+    "synonyms": ["attendance", "absensi", "kehadiran karyawan", "daftar hadir", "absen harian"],
+    "example_questions": [
+      "How many employees were absent in division 02 yesterday?",
+      "List attendance records for mandor X on date Y.",
+      "Which employees had an 'S' (sick) attendance code today?"
+    ]
+  },
+  "t_checkpoint": {
+    "description": "Coconut harvesting checkpoint (CP) header transaction recording the vehicle, seal, tonnage, GPS location, and delivery details for coconut transport.",
+    "synonyms": ["checkpoint", "CP kelapa", "coconut CP", "titik pemeriksaan kelapa", "coconut transport"],
+    "example_questions": [
+      "How many coconut CPs were closed today?",
+      "What is the actual tonnage for CP ID X?",
+      "List all open coconut checkpoints for division Y."
+    ]
+  },
+  "t_checkpoint_detail": {
+    "description": "Detail lines of coconut checkpoint transactions, linking individual harvest collection records (HC) to the CP header with block, TPH, and nut delivery quantities.",
+    "synonyms": ["checkpoint detail", "CP detail kelapa", "coconut CP line", "hc delivery", "nut delivery detail"],
+    "example_questions": [
+      "How many nuts were delivered from block X in CP Y?",
+      "List all HC records included in checkpoint Z.",
+      "What TPH codes are referenced in CP detail for division A?"
+    ]
+  },
+  "t_checkpoint_loader": {
+    "description": "Records loader/worker assignments for coconut checkpoint transport, including their percentage share and vendor linkage.",
+    "synonyms": ["checkpoint loader", "loader kelapa", "pengangkut CP", "CP worker", "coconut transporter"],
+    "example_questions": [
+      "Who were the loaders for checkpoint X?",
+      "What percentage is allocated to each loader in CP Y?",
+      "List loaders supplied by vendor Z for this checkpoint."
+    ]
+  },
+  "t_coconut_fdn": {
+    "description": "Field Delivery Note (FDN) header transaction for coconut produce, recording vehicle, driver, tonnage (bruto/tarra), sales order, and delivery closing details.",
+    "synonyms": ["coconut FDN", "FDN kelapa", "surat jalan kelapa", "coconut delivery note", "FDN coconut"],
+    "example_questions": [
+      "What is the actual tonnage for coconut FDN X?",
+      "List all open coconut FDNs for division Y.",
+      "Which sales order is linked to coconut FDN Z?"
+    ]
+  },
+  "t_coconut_fdn_detail": {
+    "description": "Detail lines of coconut FDN, linking individual OPH harvest records to the delivery note with customer nut quantities.",
+    "synonyms": ["coconut FDN detail", "FDN detail kelapa", "coconut delivery detail", "OPH FDN link"],
+    "example_questions": [
+      "Which OPH records are included in coconut FDN X?",
+      "What is the customer nut quantity for FDN detail Y?",
+      "List all FDN detail lines for delivery note Z."
+    ]
+  },
+  "t_coconut_harvesting_plan": {
+    "description": "Coconut harvesting plan transaction recording planned harvest quantities, HK, hectares, and block assignments per division with approval workflow.",
+    "synonyms": ["coconut harvest plan", "rencana panen kelapa", "coconut plan", "panen kelapa plan"],
+    "example_questions": [
+      "What is the target quantity in the coconut harvest plan for block X?",
+      "How many HK are planned for coconut harvest in division Y?",
+      "List all approved coconut harvest plans this month."
+    ]
+  },
+  "t_coconut_oph": {
+    "description": "OPH (Output Per Harvest) transaction for coconut, recording harvest event details per TPH/block including gang, checker, nut totals, GPS, and approval status.",
+    "synonyms": ["coconut OPH", "OPH kelapa", "coconut harvest record", "panen kelapa", "HC kelapa"],
+    "example_questions": [
+      "How many coconut OPHs were recorded for block X today?",
+      "List all open coconut OPHs for division Y.",
+      "What is the total nut count in coconut OPH Z?"
+    ]
+  },
+  "t_coconut_oph_detail": {
+    "description": "Material-level detail of coconut OPH transactions, capturing customer nut quantities per material and closing approval status.",
+    "synonyms": ["coconut OPH detail", "detail OPH kelapa", "coconut harvest material", "nut material detail"],
+    "example_questions": [
+      "What materials are recorded in coconut OPH X?",
+      "What is the customer nut quantity for material Y in OPH Z?",
+      "List all OPH detail lines for this harvest session."
+    ]
+  },
+  "t_coconut_oph_harvesting_deduction": {
+    "description": "Grading deduction records applied to coconut OPH transactions, capturing deduction type (estate or customer), material code, and quantity.",
+    "synonyms": ["coconut OPH deduction", "grading kelapa", "potongan panen kelapa", "coconut grading", "OPH deduction kelapa"],
+    "example_questions": [
+      "What deductions were applied to coconut OPH X?",
+      "How much was deducted from the customer for OPH Y?",
+      "List all estate-level deductions recorded today."
+    ]
+  },
+  "t_coconut_oph_persons": {
+    "description": "Worker assignment detail for coconut OPH, recording individual employees participating in each coconut harvest event with their activity type.",
+    "synonyms": ["coconut OPH persons", "pemanen kelapa", "coconut harvest worker", "OPH worker kelapa"],
+    "example_questions": [
+      "Which workers participated in coconut OPH X?",
+      "List all persons assigned to OPH Y.",
+      "How many cutters were in coconut harvest session Z?"
+    ]
+  },
+  "t_cp": {
+    "description": "FFB checkpoint (CP) header transaction recording the transport vehicle, seal, bunches by grading category, GPS, actual tonnage, and delivery note for palm FFB.",
+    "synonyms": ["CP", "checkpoint", "surat jalan FFB", "FFB transport", "checkpoint panen", "tonnase FFB"],
+    "example_questions": [
+      "What is the total actual tonnage for CP X?",
+      "How many bunches were graded as ripe in CP Y?",
+      "List all open FFB checkpoints for estate Z today."
+    ]
+  },
+  "t_cp_detail": {
+    "description": "Detail lines of FFB checkpoint, linking individual OPH records to the CP with bunches delivered, loose fruit, block, and TPH data.",
+    "synonyms": ["CP detail", "detail checkpoint", "FFB CP line", "OPH delivery link", "tonase detail"],
+    "example_questions": [
+      "How many bunches from OPH X were delivered in CP Y?",
+      "List all OPH entries in checkpoint Z.",
+      "What blocks contributed to CP delivery today?"
+    ]
+  },
+  "t_cp_loader": {
+    "description": "Loader/worker assignment records for FFB checkpoint transport, capturing each loader's percentage contribution and vendor linkage.",
+    "synonyms": ["CP loader", "loader FFB", "pengangkut FFB", "CP worker", "transporter loader"],
+    "example_questions": [
+      "Who were the loaders for checkpoint X?",
+      "What percentage is assigned to loader Y in CP Z?",
+      "List vendor loaders for all CPs this week."
+    ]
+  },
+  "t_deleted_oph": {
+    "description": "Archive table of soft-deleted OPH (palm harvest) records, preserving the full bunch count and harvest details for audit purposes before permanent removal.",
+    "synonyms": ["deleted OPH", "OPH terhapus", "deleted harvest", "panen dihapus", "OPH archive"],
+    "example_questions": [
+      "What OPH records were deleted this month?",
+      "Show the bunch count of deleted OPH X.",
+      "Why was OPH Y deleted and by whom?"
+    ]
+  },
+  "t_deleted_oph_persons": {
+    "description": "Archive of worker assignment records for deleted OPH transactions, preserving individual harvest contribution data for deleted harvest sessions.",
+    "synonyms": ["deleted OPH persons", "pemanen OPH dihapus", "deleted harvest worker", "OPH worker archive"],
+    "example_questions": [
+      "Which workers were in the deleted OPH X?",
+      "Show the bunch contribution of each worker in deleted OPH Y.",
+      "List all deleted OPH person records for this month."
+    ]
+  },
+  "t_employee_face_attendance": {
+    "description": "Biometric facial recognition attendance transaction log recording employee clock-in and clock-out timestamps, source device, and attendance code for each working day.",
+    "synonyms": ["face attendance", "absensi wajah", "biometric attendance", "clock in", "clock out", "facial attendance"],
+    "example_questions": [
+      "What time did employee X clock in today?",
+      "List employees who clocked in late this morning.",
+      "How many face attendance records were captured yesterday?"
+    ]
+  },
+  "t_fdn": {
+    "description": "FFB Field Delivery Note (FDN/surat jalan) header transaction recording vehicle, driver, destination, tonnage (bruto/tarra), grading data, and delivery closing status.",
+    "synonyms": ["FDN", "surat jalan", "field delivery note", "delivery note FFB", "FDN panen", "tonase FDN"],
+    "example_questions": [
+      "What is the actual tonnage for FDN X?",
+      "List all open FDNs for estate Y today.",
+      "Which destination received FDN delivery Z?"
+    ]
+  },
+  "t_fdn_detail": {
+    "description": "Detail lines of FFB FDN, linking individual OPH records to the delivery note with bunches and loose fruit quantities per block and TPH.",
+    "synonyms": ["FDN detail", "surat jalan detail", "FDN line", "OPH FDN link", "FFB delivery line"],
+    "example_questions": [
+      "Which OPH records are included in FDN X?",
+      "How many bunches from block Y were delivered in FDN Z?",
+      "List all FDN detail lines for today's deliveries."
+    ]
+  },
+  "t_fdn_loader": {
+    "description": "Loader worker assignment records for FFB FDN transport, capturing loader employee, percentage share, type, and transporter vendor linkage.",
+    "synonyms": ["FDN loader", "loader surat jalan", "FFB loader", "pengangkut FDN", "transporter"],
+    "example_questions": [
+      "Who were the loaders for FDN X?",
+      "What percentage is allocated to each loader in FDN Y?",
+      "List all loaders by vendor for deliveries today."
+    ]
+  },
+  "t_general_worker_assignment": {
+    "description": "Work assignment records for general (non-harvesting) field workers, assigning activities per block with target quantities and cost objects.",
+    "synonyms": ["general worker assignment", "penugasan pekerja umum", "work assignment", "kegiatan umum"],
+    "example_questions": [
+      "What activities were assigned to general workers in division X today?",
+      "List all work assignments for mandor Y this week.",
+      "Which blocks have pending general worker assignments?"
+    ]
+  },
+  "t_harvester_assignment": {
+    "description": "Block-level harvester (pemanen) assignment records mapping specific harvesters to their assigned blocks on a given date.",
+    "synonyms": ["harvester assignment", "penugasan pemanen", "pemanen blok", "panen assignment", "blok pemanen"],
+    "example_questions": [
+      "Which harvester is assigned to block X today?",
+      "List all harvester assignments for division Y this week.",
+      "How many blocks does harvester Z cover?"
+    ]
+  },
+  "t_harvesting_deduction": {
+    "description": "Grading deduction transaction records applied to individual OPH harvest sessions, capturing deduction code, quantity, and SAP integration status.",
+    "synonyms": ["harvesting deduction", "potongan panen", "grading deduction", "FFB deduction", "OPH grading", "tonase potongan"],
+    "example_questions": [
+      "What deductions were applied to OPH X?",
+      "How much was deducted for unripe bunches this month?",
+      "List all grading deductions pending SAP integration."
+    ]
+  },
+  "t_harvesting_plan": {
+    "description": "FFB harvesting plan transaction for palm, recording planned HK, hectares, block, assistant manager, and approval workflow per estate and division.",
+    "synonyms": ["harvesting plan", "rencana panen", "panen plan", "FFB plan", "HK panen", "rencana panen sawit"],
+    "example_questions": [
+      "What is the planned HK for block X this month?",
+      "List all approved harvesting plans for division Y.",
+      "Which harvesting plans are pending approval?"
+    ]
+  },
+  "t_mill_grader_oph": {
+    "description": "Mill grader's OPH re-grading transaction capturing mill-side bunch count re-assessment by category, used for mill vs. field grading comparison.",
+    "synonyms": ["mill grader OPH", "grading pabrik", "mill grading", "OPH grader pabrik", "recount pabrik"],
+    "example_questions": [
+      "How does mill grading compare to field grading for OPH X?",
+      "List all mill grader OPHs recorded today.",
+      "What is the total unripe bunch count from mill grading for division Y?"
+    ]
+  },
+  "t_oph": {
+    "description": "Core OPH (Output Per Harvest) transaction for palm FFB, capturing the full harvest event per TPH including bunch counts by grading category, loose fruit, mandor, kerani panen, GPS, and SAP integration status.",
+    "synonyms": ["OPH", "panen", "harvest record", "output per harvest", "panen sawit", "janjang", "FFB OPH", "blok panen"],
+    "example_questions": [
+      "How many total bunches were harvested in block X today?",
+      "List all OPHs pending SAP integration.",
+      "What is the loose fruit count for OPH Y?"
+    ]
+  },
+  "t_oph_mill_grader_persons": {
+    "description": "Worker assignment records for mill grader OPH sessions, linking individual employees to the mill grading verification activity.",
+    "synonyms": ["mill grader persons", "pekerja grader pabrik", "mill grading worker", "grader person"],
+    "example_questions": [
+      "Who performed mill grading for OPH X?",
+      "List all mill grader persons assigned today.",
+      "Which employees are registered as mill graders?"
+    ]
+  },
+  "t_oph_persons": {
+    "description": "Worker participation detail for each OPH palm harvest, recording individual harvesters/carriers with their percentage contribution and bunch share.",
+    "synonyms": ["OPH persons", "pemanen OPH", "harvest worker", "OPH worker", "panen persons", "carrier", "cutter"],
+    "example_questions": [
+      "Which workers participated in OPH X?",
+      "What is the bundle share for cutter Y in OPH Z?",
+      "List all OPH persons for block B03 today."
+    ]
+  },
+  "t_oph_supervise": {
+    "description": "Supervision verification transaction for OPH palm harvest, recording a supervisory bunch count re-check per OPH to validate field data accuracy.",
+    "synonyms": ["OPH supervise", "supervisi panen", "OPH supervision", "verifikasi panen", "kerani supervisi"],
+    "example_questions": [
+      "Was OPH X verified by a supervisor?",
+      "List all supervised OPHs for division Y today.",
+      "What is the bunch count from supervision for OPH Z?"
+    ]
+  },
+  "t_overtime": {
+    "description": "Overtime work transaction records for employees, capturing activity, duration, block, cost objects, mandor, and approval for SAP posting.",
+    "synonyms": ["overtime", "lembur", "kerja lebih", "OT", "jam lembur"],
+    "example_questions": [
+      "How many overtime hours did employee X record this month?",
+      "List all overtime records pending approval in division Y.",
+      "What activities generated the most overtime this week?"
+    ]
+  },
+  "t_platform_checking": {
+    "description": "Platform checking transaction recording inspections of TPH collection points, verifying the physical status of field platforms per block and division.",
+    "synonyms": ["platform checking", "pemeriksaan TPH", "platform inspection", "TPH check"],
+    "example_questions": [
+      "Was TPH X checked today?",
+      "List all platform inspections for division Y this week.",
+      "How many platforms were inspected this month?"
+    ]
+  },
+  "t_user_assignment": {
+    "description": "Transactional mandor-to-worker assignment table defining which employees are under which mandor's supervision for a given validity period.",
+    "synonyms": ["user assignment", "penugasan mandor", "mandor assignment", "kemandoran", "mandor link"],
+    "example_questions": [
+      "Which employees are currently assigned to mandor X?",
+      "Show the validity period for employee Y's mandor assignment.",
+      "List all active mandor assignments for estate Z."
+    ]
+  },
+  "t_vra": {
+    "description": "Vehicle Running Activity (VRA) transaction recording daily vehicle/equipment usage including work center, run time, measurement, confirmation text, and approval.",
+    "synonyms": ["VRA", "vehicle running activity", "aktivitas kendaraan", "alat berat log", "vehicle log", "equipment usage"],
+    "example_questions": [
+      "How many VRA records were submitted for vehicle X today?",
+      "List all VRA transactions pending SAP integration.",
+      "What is the total running hours for equipment Y this month?"
+    ]
+  },
+  "t_work_assignment": {
+    "description": "Daily work assignment transaction for field workers, specifying the activity, block, cost objects, employee, mandor, and planned vs. actual quantities.",
+    "synonyms": ["work assignment", "penugasan kerja", "assignment harian", "kerja harian", "field work assignment"],
+    "example_questions": [
+      "What work assignments were issued to mandor X today?",
+      "List all work assignments for block Y this week.",
+      "Which activities are most frequently assigned in division Z?"
+    ]
+  },
+  "t_workdone": {
+    "description": "Work completion (actual realisasi) transaction recording what field work was actually done by each worker per activity, block, and cost object with mandays and quantity.",
+    "synonyms": ["workdone", "realisasi kerja", "actual work", "kerja selesai", "work completion", "realisasi kegiatan"],
+    "example_questions": [
+      "What is the total workdone quantity for activity X in division Y this month?",
+      "List all workdone records pending SAP posting.",
+      "How many mandays were recorded for block Z today?"
+    ]
+  },
+  "t_workdone_material": {
+    "description": "Material consumption detail linked to work completion records, capturing the materials (inputs) used when carrying out each field activity.",
+    "synonyms": ["workdone material", "material realisasi", "input consumption", "bahan kegiatan", "material kerja"],
+    "example_questions": [
+      "What materials were consumed in workdone X?",
+      "How much urea was used across all workdone records this month?",
+      "List all material consumption for activity Y in division Z."
+    ]
+  },
+  "t_workplan": {
+    "description": "Field work plan transaction (rencana kerja) capturing planned activities, target quantities, HK, block, cost objects, and approval per estate and division.",
+    "synonyms": ["workplan", "rencana kerja", "work plan", "plan kegiatan", "rencana harian"],
+    "example_questions": [
+      "What work is planned for division X tomorrow?",
+      "List all approved workplans for activity Y this week.",
+      "Which workplans are pending approval?"
+    ]
+  },
+  "t_workplan_material": {
+    "description": "Planned material requirements linked to work plan transactions, specifying expected material codes, quantities, and UOM for each planned activity.",
+    "synonyms": ["workplan material", "material rencana kerja", "planned material", "kebutuhan bahan", "material plan"],
+    "example_questions": [
+      "What materials are planned for workplan X?",
+      "How much fertiliser is planned for block Y this month?",
+      "List all planned material requirements for activity Z."
+    ]
+  },
+  "tc_user": {
+    "description": "EPMS application user account table, storing login credentials, roles, employee linkage, and token for authentication and access control.",
+    "synonyms": ["user", "pengguna", "akun", "login", "user account", "EPMS user"],
+    "example_questions": [
+      "How many active users are registered in the system?",
+      "What role does user X have?",
+      "List all users linked to employee code Y."
+    ]
+  },
+  "tr_gi_detail": {
+    "description": "Goods Issuance (GI) transaction detail line, recording each material issued with quantity, batch, UOM, storage location, order reference, and QR code.",
+    "synonyms": ["GI detail", "detail pengeluaran barang", "goods issuance line", "material issued", "GI line item"],
+    "example_questions": [
+      "What materials were issued in GI transaction X?",
+      "How much fertiliser was issued in GI header Y?",
+      "List all GI detail lines for order number Z."
+    ]
+  },
+  "tr_gi_header": {
+    "description": "Goods Issuance (GI) transaction header capturing the document number, plant, division, movement type, cost object, block, approval, and SAP integration status.",
+    "synonyms": ["GI header", "pengeluaran barang", "goods issuance", "GI document", "material issuance", "MIGO GI"],
+    "example_questions": [
+      "List all GI transactions pending SAP posting.",
+      "Which GI documents were approved today?",
+      "What is the movement type for GI header X?"
+    ]
+  },
+  "tr_gi_plan": {
+    "description": "Goods Issuance Plan (GI Plan) transaction header, capturing planned material issuance requests with approval workflow before actual GI execution.",
+    "synonyms": ["GI plan", "rencana pengeluaran barang", "planned GI", "GI request", "material request plan"],
+    "example_questions": [
+      "Which GI plans are awaiting approval?",
+      "List all GI plans submitted this week for block X.",
+      "What materials are requested in GI plan Y?"
+    ]
+  },
+  "tr_gi_plan_detail": {
+    "description": "Detail line items of GI Plan transactions, specifying planned material codes, quantities, batch, UOM, and storage location per issuance plan.",
+    "synonyms": ["GI plan detail", "detail rencana GI", "planned material line", "GI plan line item"],
+    "example_questions": [
+      "What materials are planned in GI plan X?",
+      "How much herbicide is requested in GI plan Y?",
+      "List all GI plan detail lines for order Z."
+    ]
+  },
+  "tr_gr_detail": {
+    "description": "Goods Receipt (GR) transaction detail line recording each material received with quantity, batch, UOM, storage location, and supplier reference.",
+    "synonyms": ["GR detail", "penerimaan barang detail", "goods receipt line", "material received", "GR line item"],
+    "example_questions": [
+      "What materials were received in GR transaction X?",
+      "How much fertiliser was received in GR header Y?",
+      "List all GR detail lines for PO number Z."
+    ]
+  },
+  "tr_gr_header": {
+    "description": "Goods Receipt (GR) transaction header capturing the receipt document number, plant, supplier, movement type, storage location, approval, and SAP integration status.",
+    "synonyms": ["GR header", "penerimaan barang", "goods receipt", "GR document", "material receipt", "MIGO GR"],
+    "example_questions": [
+      "List all GR transactions pending SAP posting.",
+      "Which GR documents were received today?",
+      "What is the supplier for GR header X?"
+    ]
+  }
+}

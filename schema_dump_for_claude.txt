@@ -1,0 +1,3075 @@
+SCHEMA: public
+TOTAL TABLES: 138
+
+TABLE: ZEPMS_ACTIVITY_OUT
+  activity_id (bigint, not null)
+  ACTVT_NO (character varying, nullable)
+  ACTVT_NAME (character varying, nullable)
+  AMEIN (character varying, nullable)
+  BLOCK (character varying, nullable)
+  COST_CENTER (character varying, nullable)
+  AUC (character varying, nullable)
+  ORDER_NUMBER (character varying, nullable)
+  BLOCK_LC (character varying, nullable)
+  BLOCK_IMMATURE (character varying, nullable)
+  BLOCK_SCOUT (character varying, nullable)
+  BLOCK_MATURE (character varying, nullable)
+  ACTREG (character varying, nullable)
+  AMEIN2 (character varying, nullable)
+  WRK_GRP (character varying, nullable)
+  DTWBS (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP activity master replicated to EPMS, defining agricultural work activities with their cost assignment rules per block maturity and work group.
+  synonyms: ['activity', 'kegiatan', 'aktivitas', 'pekerjaan', 'work activity', 'ACTVT']
+  example_questions: ['What activities are applicable to mature blocks?', 'Which activity codes are assigned to scout blocks?', 'What is the unit of measure for fertilisation activity?']
+
+TABLE: ZEPMS_ATDCD_OUT
+  attendance_id (bigint, not null)
+  CODE (character varying, nullable)
+  DESC (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP attendance code master replicated to EPMS, listing all valid employee attendance codes and their descriptions.
+  synonyms: ['attendance code', 'kode absensi', 'kehadiran', 'absensi']
+  example_questions: ['What attendance codes are available in the system?', "What does attendance code 'S' mean?", 'List all valid attendance statuses.']
+
+TABLE: ZEPMS_EMPLOYEE_OUT
+  employee_id (bigint, not null)
+  BUKRS (character varying, nullable)
+  ESTNR (character varying, nullable)
+  PRFNR (character varying, nullable)
+  EMPNR (character varying, nullable)
+  ENAME (character varying, nullable)
+  CNAME (character varying, nullable)
+  KDATB (character varying, nullable)
+  KDATE (character varying, nullable)
+  JBCDE (character varying, nullable)
+  JBTYP (character varying, nullable)
+  KUNNR (character varying, nullable)
+  RESDT (character varying, nullable)
+  SEX (character varying, nullable)
+  STATS (character varying, nullable)
+  DIVNR (character varying, nullable)
+  WOPXD (character varying, nullable)
+  DEPNR (character varying, nullable)
+  LIFNR (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP HR employee master replicated to EPMS, containing workforce profile, job type, division assignment, and employment status for all estate employees.
+  synonyms: ['employee', 'karyawan', 'pekerja', 'tenaga kerja', 'SDM', 'HR']
+  example_questions: ['How many active employees are assigned to division 01?', 'What is the job code for employee number X?', 'Which employees have expired work permits?']
+
+TABLE: ZEPMS_EM_ABW_OUT
+  abw_id (bigint, not null)
+  BUKRS (character varying, nullable)
+  ESTNR (character varying, nullable)
+  SPMON (character varying, nullable)
+  BLOCK (character varying, nullable)
+  CRDAT (character varying, nullable)
+  SAMPLE_DT (character varying, nullable)
+  KOMDL (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP average bunch weight (ABW/BJR) sampling header data per block and period, used to estimate FFB tonnage from bunch counts.
+  synonyms: ['ABW', 'BJR', 'berat janjang rata-rata', 'average bunch weight', 'bunch weight sample']
+  example_questions: ['What is the ABW for block A01 in January?', 'Which blocks have ABW data recorded this month?', 'Show the bunch weight sampling schedule for this estate.']
+
+TABLE: ZEPMS_EM_BLOCK_OUT
+  block_id (bigint, not null)
+  BUKRS (character varying, nullable)
+  ESTNR (character varying, nullable)
+  DIVNR (character varying, nullable)
+  BLOCK (character varying, nullable)
+  KDATB (character varying, nullable)
+  KDATE (character varying, nullable)
+  PLBLK (character varying, nullable)
+  BNAME (character varying, nullable)
+  INITL (character varying, nullable)
+  MAINT (character varying, nullable)
+  BSTATE (character varying, nullable)
+  BHA (character varying, nullable)
+  CROP_TYPE (character varying, nullable)
+  POINT (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP block master data replicated to EPMS, describing each plantation block with its maturity state, hectarage, and total palm count per estate and division.
+  synonyms: ['block', 'blok', 'afdeling block', 'petak', 'BHA', 'blok kebun']
+  example_questions: ['How many mature blocks are in division 02?', 'What is the total palm count for block B05?', 'Which blocks are classified as immature this year?']
+
+TABLE: ZEPMS_EM_COST_CENTER_OUT
+  cc_id (bigint, not null)
+  BUKRS (character varying, nullable)
+  KOSTL (character varying, nullable)
+  DATAB (character varying, nullable)
+  DATBI (character varying, nullable)
+  GSBER (character varying, nullable)
+  LTEXT (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP cost center master replicated to EPMS, used for cost allocation of agricultural activities to financial reporting units.
+  synonyms: ['cost center', 'pusat biaya', 'CC', 'KOSTL', 'cost centre']
+  example_questions: ['What cost centers are valid for estate X?', 'Which cost center covers the nursery division?', 'List all cost centers for the current fiscal year.']
+
+TABLE: ZEPMS_EM_DESTINATION_OUT
+  destination_id (bigint, not null)
+  WERKS (character varying, nullable)
+  NAME1 (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP plant/destination master data used to define delivery destinations for FFB and other produce.
+  synonyms: ['destination', 'tujuan', 'pabrik', 'mill', 'plant', 'WERKS']
+  example_questions: ['What are the valid delivery destinations for FFB?', 'Which plant code corresponds to the main mill?', 'List all registered destinations in the system.']
+
+TABLE: ZEPMS_EM_DIVISION_OUT
+  division_id (bigint, not null)
+  BUKRS (character varying, nullable)
+  ESTNR (character varying, nullable)
+  DIVNR (character varying, nullable)
+  KDATB (character varying, nullable)
+  KDATE (character varying, nullable)
+  NAME1 (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP division master data replicated to EPMS, representing organisational sub-units (afdeling/divisi) within an estate.
+  synonyms: ['division', 'divisi', 'afdeling', 'DIVNR', 'afd']
+  example_questions: ['How many divisions exist in estate KBN?', 'What is the name of division 03?', 'List all active divisions with their codes.']
+
+TABLE: ZEPMS_EM_ESTATE_OUT
+  estate_id (bigint, not null)
+  BUKRS (character varying, nullable)
+  ESTNR (character varying, nullable)
+  KDATB (character varying, nullable)
+  KDATE (character varying, nullable)
+  RGNNR (character varying, nullable)
+  NAME1 (character varying, nullable)
+  WERKS (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP estate master data replicated to EPMS, representing each kebun/estate as the primary organisational unit for plantation management.
+  synonyms: ['estate', 'kebun', 'ESTNR', 'perkebunan', 'plantation unit']
+  example_questions: ['What estates are registered in the system?', 'Which region does estate KBN belong to?', 'What SAP plant code is linked to estate X?']
+
+TABLE: ZEPMS_EM_GENERAL_ORDER_OUT
+  mo_id (bigint, not null)
+  EBELN (character varying, nullable)
+  EBELP (character varying, nullable)
+  BSART (character varying, nullable)
+  BEDAT (character varying, nullable)
+  WERKS (character varying, nullable)
+  EKORG (character varying, nullable)
+  EKGRP (character varying, nullable)
+  LIFNR (character varying, nullable)
+  NAME1 (character varying, nullable)
+  MATNR (character varying, nullable)
+  TXZ01 (character varying, nullable)
+  MATKL (character varying, nullable)
+  MENGE (character varying, nullable)
+  MEINS (character varying, nullable)
+  WAERS (character varying, nullable)
+  NETPR (character varying, nullable)
+  PEINH (character varying, nullable)
+  BPRME (character varying, nullable)
+  NETWR (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP general/maintenance order list replicated to EPMS, used as cost objects for non-purchase-order field activities.
+  synonyms: ['general order', 'order number', 'MO', 'maintenance order', 'work order', 'AUFNR']
+  example_questions: ['What general orders are open for this plant?', 'Which order number is linked to road maintenance activity?', 'List all general orders by vendor for estate X.']
+
+TABLE: ZEPMS_EM_GL_ACCOUNT_OUT
+  m_glacc_id (bigint, not null)
+  BUKRS (character varying, nullable)
+  SAKNR (character varying, nullable)
+  TXT50 (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP general ledger account master replicated to EPMS, used for financial posting of goods issuance and work completion transactions.
+  synonyms: ['GL account', 'akun buku besar', 'SAKNR', 'general ledger', 'GL acc']
+  example_questions: ['What GL accounts are available for company code X?', 'Which GL account is used for fertiliser issuance?', 'List all GL accounts and their descriptions.']
+
+TABLE: ZEPMS_EM_MATERIAL_OUT
+  material_id (bigint, not null)
+  MATNR (character varying, nullable)
+  MAKTX (character varying, nullable)
+  WERKS (character varying, nullable)
+  MEINS (character varying, nullable)
+  LGORT (character varying, nullable)
+  CHARG (character varying, nullable)
+  MATKL (character varying, nullable)
+  MTART (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP material master data (palm-related) replicated from SAP to the EPMS application for use in goods issuance and workdone transactions.
+  synonyms: ['material master', 'bahan baku', 'item', 'SAP material', 'MATNR']
+  example_questions: ['What palm materials are available in the system?', 'What is the unit of measure for material code X?', 'Which material group does this input belong to?']
+
+TABLE: ZEPMS_EM_MATERIAL_OUT_NON_PALM
+  non_palm_material_id (bigint, not null)
+  MATNR (character varying, nullable)
+  MAKTX (character varying, nullable)
+  WERKS (character varying, nullable)
+  MEINS (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP material master for non-palm commodities (rubber, coconut, durian) replicated to EPMS.
+  synonyms: ['non-palm material', 'material non-sawit', 'karet', 'kelapa', 'durian material']
+  example_questions: ['What non-palm materials are registered in the system?', 'What is the UOM for coconut material X?', 'List all non-palm materials available at plant Y.']
+
+TABLE: ZEPMS_EM_MATERIAL_STOCK_OUT
+  material_stock_id (bigint, not null)
+  BUKRS (character varying, nullable)
+  ESTNR (character varying, nullable)
+  KDATB (character varying, nullable)
+  KDATE (character varying, nullable)
+  NAME1 (character varying, nullable)
+  ACC (character varying, nullable)
+  ACCGRP (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP material stock levels replicated to EPMS, showing current inventory of inputs (fertilisers, chemicals, tools) per estate and storage location.
+  synonyms: ['material stock', 'stok bahan', 'inventory', 'gudang', 'stock level', 'persediaan']
+  example_questions: ['What is the current stock of urea at estate X?', 'Which materials have stock below reorder level?', 'Show all material stocks for storage location MAIN.']
+
+TABLE: ZEPMS_EM_MEAS_POINT
+  meas_point_id (bigint, not null)
+  BUKRS (character varying, nullable)
+  ESTNR (character varying, nullable)
+  DIVNR (character varying, nullable)
+  WERKS (character varying, nullable)
+  AUFNR (character varying, nullable)
+  EQUNR (character varying, nullable)
+  OBJNR (character varying, nullable)
+  POINT (character varying, nullable)
+  UNITTXT (character varying, nullable)
+  PTTXT (character varying, nullable)
+  MAINT (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP measurement point master for vehicle/equipment maintenance, used to record and track operational metrics such as mileage or engine hours.
+  synonyms: ['measurement point', 'titik ukur', 'meas point', 'equipment point', 'VRA measurement']
+  example_questions: ['What measurement points are defined for equipment X?', 'List all measurement points for division 01 vehicles.', 'What unit is used for measurement point Y?']
+
+TABLE: ZEPMS_EM_PURCHASE_ORDER_OUT
+  purchase_order_id (bigint, not null)
+  EBELN (character varying, nullable)
+  EBELP (character varying, nullable)
+  BSART (character varying, nullable)
+  BEDAT (character varying, nullable)
+  WERKS (character varying, nullable)
+  EKORG (character varying, nullable)
+  EKGRP (character varying, nullable)
+  LIFNR (character varying, nullable)
+  NAME1 (character varying, nullable)
+  MATNR (character varying, nullable)
+  TXZ01 (character varying, nullable)
+  MATKL (character varying, nullable)
+  MENGE (character varying, nullable)
+  MEINS (character varying, nullable)
+  WAERS (character varying, nullable)
+  NETPR (character varying, nullable)
+  PEINH (character varying, nullable)
+  BPRME (character varying, nullable)
+  NETWR (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP purchase order list replicated to EPMS, enabling field users to reference approved POs when recording goods receipts.
+  synonyms: ['PO', 'purchase order', 'surat pesanan', 'order pembelian', 'EBELN']
+  example_questions: ['What open purchase orders exist for estate X?', 'Which vendor supplies PO number Y?', 'What materials are covered by this PO?']
+
+TABLE: ZEPMS_EM_RECEIVING_OUT
+  ramp_id (bigint, not null)
+  VALUE (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP RAMP/receiving point master replicated to EPMS, defining valid FFB or produce receiving points at the mill.
+  synonyms: ['receiving point', 'ramp', 'titik penerimaan', 'RAMP', 'loading ramp']
+  example_questions: ['What receiving points are available at the mill?', 'Is ramp number 3 active?', 'List all valid receiving point codes.']
+
+TABLE: ZEPMS_EM_SLOC_OUT
+  sloc_id (bigint, not null)
+  LGORT (character varying, nullable)
+  WERKS (character varying, nullable)
+  LGOBE (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP storage location master replicated to EPMS, identifying warehouse or field storage points for material stock management.
+  synonyms: ['storage location', 'SLOC', 'gudang', 'lokasi penyimpanan', 'LGORT']
+  example_questions: ['What storage locations are available at plant X?', 'Which SLOC is the main chemical warehouse?', 'List all storage locations and their descriptions.']
+
+TABLE: ZEPMS_EM_VENDOR_OUT
+  vendor_id (bigint, not null)
+  LIFNR (character varying, nullable)
+  NAME1 (character varying, nullable)
+  WERKS (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP vendor/supplier master replicated to EPMS, used to identify contractors and transporters involved in field operations.
+  synonyms: ['vendor', 'supplier', 'kontraktor', 'LIFNR', 'transporter']
+  example_questions: ['What vendors are registered for plant X?', 'Which vendor code corresponds to transporter Y?', 'List all active vendors in the system.']
+
+TABLE: ZEPMS_EM_VRA_OUT
+  vra_id (bigint, not null)
+  EQUNR (character varying, nullable)
+  DATAB (character varying, nullable)
+  DATBI (character varying, nullable)
+  SWERK (character varying, nullable)
+  LICENSE_NUM (character varying, nullable)
+  AUFNR (character varying, nullable)
+  AUART (character varying, nullable)
+  AUTYP (character varying, nullable)
+  WERKS (character varying, nullable)
+  EQART (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP vehicle/equipment order master replicated to EPMS for VRA (Vehicle Running Activity) tracking including license and order number linkages.
+  synonyms: ['VRA', 'vehicle order', 'equipment order', 'kendaraan', 'alat berat', 'EQUNR']
+  example_questions: ['What vehicles are registered under order number X?', 'Which equipment has an active maintenance order?', 'List all VRA records for plant Y.']
+
+TABLE: ZEPMS_EM_WORK_CENTER_OUT
+  work_center_id (bigint, not null)
+  BUKRS (character varying, nullable)
+  ESTNR (character varying, nullable)
+  DIVNR (character varying, nullable)
+  WERKS (character varying, nullable)
+  ARBPL (character varying, nullable)
+  KTEXT (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP work center master replicated to EPMS, defining operational work centres per division used for activity cost assignment.
+  synonyms: ['work center', 'pusat kerja', 'ARBPL', 'work centre']
+  example_questions: ['What work centers exist in division 02?', 'Which work center is used for harvesting activities?', 'List all work centers for estate KBN.']
+
+TABLE: ZEPMS_GIGR_WBS_OUT
+  wbs_id (bigint, not null)
+  PSPNR (character varying, nullable)
+  POSID_EDIT (character varying, nullable)
+  PBUKR (character varying, nullable)
+  PGSBR (character varying, nullable)
+  ESTNR (character varying, nullable)
+  DIVNR (character varying, nullable)
+  BLOCK (character varying, nullable)
+  WRK_TYPE (character varying, nullable)
+  POST1 (character varying, nullable)
+  SAKNR (character varying, nullable)
+  TXT50 (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP WBS (Work Breakdown Structure) element master for GI/GR transactions, linking cost objects to blocks and GL accounts for goods movements.
+  synonyms: ['WBS', 'WBS element', 'work breakdown structure', 'GI WBS', 'GR WBS', 'POSID']
+  example_questions: ['What WBS elements are available for block X?', 'Which WBS code maps to GL account Y?', 'List all GI/GR WBS elements for estate Z.']
+
+TABLE: ZEPMS_GRADING_OUT
+  deduction_code_id (bigint, not null)
+  DTYPE (character varying, nullable)
+  KDATB (character varying, nullable)
+  KDATE (character varying, nullable)
+  DPDES (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP harvesting deduction code master replicated to EPMS, defining grading deduction types applied to FFB bunches at the mill or field level.
+  synonyms: ['deduction code', 'kode potongan', 'grading', 'FFB grading', 'panen deduction', 'BJR deduction']
+  example_questions: ['What deduction codes are used for FFB grading?', "What does deduction type 'U' represent?", 'List all valid harvesting deduction codes.']
+
+TABLE: ZEPMS_MAINTENANCE_OUT
+  mo_id (bigint, not null)
+  AUFNR (character varying, nullable)
+  AUART (character varying, nullable)
+  KTEXT (character varying, nullable)
+  GSBER (character varying, nullable)
+  BUKRS (character varying, nullable)
+  WERKS (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP maintenance/work order master for plant machinery and vehicles replicated to EPMS for VRA and maintenance cost tracking.
+  synonyms: ['maintenance order', 'work order', 'MO', 'AUFNR', 'order perawatan']
+  example_questions: ['What maintenance orders are open for business area X?', 'Which work order covers the mill compressor repair?', 'List all maintenance orders for company Y.']
+
+TABLE: ZEPMS_MEMBER_OUT
+  user_assignment_id (bigint, not null)
+  EMPNR (character varying, nullable)
+  KDATB (character varying, nullable)
+  KDATE (character varying, nullable)
+  EMPNR_M (character varying, nullable)
+  PRFNR (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP user-to-mandor assignment data replicated to EPMS, mapping field employees to their supervising mandor within a profile.
+  synonyms: ['member', 'mandor assignment', 'user assignment', 'penugasan mandor', 'kemandoran']
+  example_questions: ['Which employees are assigned to mandor X?', 'What is the profile code for this user assignment?', 'List all active member assignments.']
+
+TABLE: ZEPMS_PM_WORKTYPE_OUT
+  worktype_id (bigint, not null)
+  GRUND (character varying, nullable)
+  GRDTX (character varying, nullable)
+  WERKS (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP plant maintenance work type master replicated to EPMS, classifying types of maintenance work performed on equipment.
+  synonyms: ['work type', 'tipe pekerjaan', 'maintenance type', 'GRUND']
+  example_questions: ['What work types are available for plant X?', "What does work type code 'PM01' mean?", 'List all maintenance work types.']
+
+TABLE: ZEPMS_SD_SORD_OUT
+  sales_order_id (bigint, not null)
+  WERKS (character varying, nullable)
+  VBELN (character varying, nullable)
+  POSNR (character varying, nullable)
+  BSTNK (character varying, nullable)
+  KUNNR (character varying, nullable)
+  C_NAME1 (character varying, nullable)
+  C_NAME2 (character varying, nullable)
+  MATNR (character varying, nullable)
+  KWMENG (character varying, nullable)
+  VRKME (character varying, nullable)
+  ZTERM (character varying, nullable)
+  INCO1 (character varying, nullable)
+  INCO2 (character varying, nullable)
+  ABGRU (character varying, nullable)
+  ARKTX (character varying, nullable)
+  AEDAT (character varying, nullable)
+  AENAM (character varying, nullable)
+  AEZET (character varying, nullable)
+  ERDAT (character varying, nullable)
+  ERNAM (character varying, nullable)
+  ERZET (character varying, nullable)
+  MANDT (character varying, nullable)
+  TYPE (character varying, nullable)
+  ZSENT (character varying, nullable)
+  AUDAT (character varying, nullable)
+  REQUEST_ID (character varying, nullable)
+  UNIQUE_ID (character varying, nullable)
+  STATE (character varying, nullable)
+  is_replaced (smallint, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP sales order master replicated to EPMS, used to link FFB or produce delivery transactions (FDN) to customer sales orders.
+  synonyms: ['sales order', 'SO', 'order penjualan', 'VBELN', 'customer order']
+  example_questions: ['What sales orders are open for customer X?', 'Which sales order covers FFB delivery to mill Y?', 'List all sales orders created this month.']
+
+TABLE: ZEPMS_WBS_OUT
+  wbs_id (bigint, not null)
+  POSID (character varying, nullable)
+  POST1 (character varying, nullable)
+  GRPID (character varying, nullable)
+  GRPDS (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: SAP WBS element master (general) replicated to EPMS, grouping work breakdown structures by project and group for field cost allocation.
+  synonyms: ['WBS', 'work breakdown structure', 'POSID', 'project element']
+  example_questions: ['What WBS elements belong to group X?', 'List all WBS codes and their names.', 'Which WBS group covers replanting activities?']
+
+TABLE: approval_substitution
+  approval_substitution_id (bigint, not null)
+  approval_substitution_employee_code (character varying, nullable)
+  approval_substitution_employee_name (character varying, nullable)
+  approval_substitution_employee_code_target (character varying, nullable)
+  approval_substitution_employee_name_target (character varying, nullable)
+  approval_substitution_from (date, nullable)
+  approval_substitution_to (date, nullable)
+  approval_created_by (character varying, nullable)
+  approval_created_date (date, nullable)
+  approval_created_time (time without time zone, nullable)
+  approval_updated_by (character varying, nullable)
+  approval_updated_date (date, nullable)
+  approval_updated_time (time without time zone, nullable)
+  approval_substitution_type (smallint, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Records temporary approval delegation assignments where one employee substitutes for another in the approval workflow for a defined date range.
+  synonyms: ['approval substitution', 'delegasi persetujuan', 'pengganti', 'approval delegation']
+  example_questions: ['Who is currently substituting for manager X?', 'List all active approval delegations this week.', "When does employee Y's substitution period end?"]
+
+TABLE: audit_trail
+  audit_trail_id (character varying, not null)
+  audit_trail_transaction (smallint, nullable)
+  audit_trail_type (smallint, nullable)
+  audit_trail_user_code (character varying, nullable)
+  audit_trail_user_name (character varying, nullable)
+  audit_trail_description (text, nullable)
+  audit_trail_created_by (character varying, nullable)
+  audit_trail_created_date (date, nullable)
+  audit_trail_created_time (time without time zone, nullable)
+  audit_trail_updated_by (character varying, nullable)
+  audit_trail_updated_date (date, nullable)
+  audit_trail_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: System-wide audit log capturing all user actions, transaction types, and changes made within the EPMS application for traceability.
+  synonyms: ['audit trail', 'log aktivitas', 'activity log', 'audit log', 'jejak audit']
+  example_questions: ['What actions did user X perform today?', 'Show all audit records for transaction type 3 this month.', 'Who last modified the harvesting record for OPH Y?']
+
+TABLE: crop_type
+  croptypecode (character varying, not null)
+  croptypename (character varying, nullable)
+  description (character varying, nullable)
+  canharvest (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Reference table defining the types of crops managed in the system (e.g., palm, coconut, rubber, durian) and whether they are harvestable.
+  synonyms: ['crop type', 'jenis tanaman', 'komoditi', 'commodity', 'tanaman']
+  example_questions: ['What crop types are configured in the system?', 'Is rubber a harvestable crop type?', 'List all crop types that can be harvested.']
+
+TABLE: int2t_workdone
+  workdone_id (character varying, not null)
+  workdone_date (date, not null)
+  workdone_estate_code (character varying, nullable)
+  workdone_plant_code (character varying, nullable)
+  workdone_division_code (character varying, nullable)
+  workdone_activity_code (character varying, nullable)
+  workdone_activity_name (character varying, nullable)
+  workdone_activity_uom (character varying, nullable)
+  workdone_mandays (double precision, nullable)
+  workdone_qty (double precision, nullable)
+  workdone_remark (character varying, nullable)
+  workdone_mandor_employee_code (character varying, nullable)
+  workdone_mandor_employee_name (character varying, nullable)
+  workdone_employee_code (character varying, nullable)
+  workdone_employee_name (character varying, nullable)
+  workdone_block_code (character varying, nullable)
+  workdone_order_number (character varying, nullable)
+  workdone_auc_number (character varying, nullable)
+  workdone_cost_center (character varying, nullable)
+  workdone_flexrate (double precision, nullable)
+  workdone_start_time (time without time zone, nullable)
+  workdone_end_time (time without time zone, nullable)
+  workdone_duration (double precision, nullable)
+  workdone_description (character varying, nullable)
+  workdone_customer_code (character varying, nullable)
+  workdone_is_planned (smallint, nullable)
+  workdone_is_approved (smallint, nullable)
+  workdone_approved_by (character varying, nullable)
+  workdone_approved_by_name (character varying, nullable)
+  workdone_approved_date (date, nullable)
+  workdone_approved_time (time without time zone, nullable)
+  workdone_is_closed (smallint, not null)
+  workdone_created_by (character varying, nullable)
+  workdone_created_date (date, nullable)
+  workdone_created_time (time without time zone, nullable)
+  workdone_updated_by (character varying, nullable)
+  workdone_updated_date (date, nullable)
+  workdone_updated_time (time without time zone, nullable)
+  workdone_manday (double precision, nullable)
+  workdone_target_qty (double precision, nullable)
+  integration_status (smallint, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Integration staging table for work completion records being queued for SAP posting, mirroring the main t_workdone structure with an integration status flag.
+  synonyms: ['workdone integration', 'SAP posting queue', 'integration workdone', 'kegiatan integrasi']
+  example_questions: ['Which workdone records are pending SAP integration?', 'How many work completion entries failed integration today?', "Show integration status for mandor X's workdone submissions."]
+
+TABLE: log_coconut_harvesting_plan_approval
+  coconut_harvesting_plan_approval_id (bigint, not null)
+  coconut_harvesting_plan_id (bigint, not null)
+  coconut_harvesting_plan_approval_status (smallint, nullable)
+  coconut_harvesting_plan_approval_remark (character varying, nullable)
+  coconut_harvesting_plan_approval_by (character varying, not null)
+  coconut_harvesting_plan_approval_by_name (character varying, not null)
+  coconut_harvesting_plan_approval_created_by (character varying, nullable)
+  coconut_harvesting_plan_approval_created_date (date, nullable)
+  coconut_harvesting_plan_approval_created_time (time without time zone, nullable)
+  coconut_harvesting_plan_approval_updated_by (character varying, nullable)
+  coconut_harvesting_plan_approval_updated_date (date, nullable)
+  coconut_harvesting_plan_approval_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Approval history log for coconut harvesting plans, tracking each approval or rejection event with approver details and timestamps.
+  synonyms: ['coconut harvest plan approval log', 'log persetujuan panen kelapa', 'approval history kelapa']
+  example_questions: ['Who approved the coconut harvesting plan for block X?', 'Show the approval history for coconut plan ID Y.', 'Which coconut plans were rejected this week?']
+
+TABLE: log_giplan_approval
+  log_giplan_approval_id (bigint, not null)
+  giplan_id (character varying, not null)
+  giplan_approval_status (smallint, nullable)
+  giplan_approval_remark (character varying, nullable)
+  giplan_approval_by (character varying, not null)
+  giplan_approval_by_name (character varying, not null)
+  giplan_approval_created_by (character varying, nullable)
+  giplan_approval_created_date (date, nullable)
+  giplan_approval_created_time (time without time zone, nullable)
+  giplan_approval_updated_by (character varying, nullable)
+  giplan_approval_updated_date (date, nullable)
+  giplan_approval_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Approval history log for goods issuance plan (GI Plan) transactions, recording each approval step with status, approver, and timestamp.
+  synonyms: ['GI plan approval log', 'log persetujuan GI plan', 'goods issuance plan approval history']
+  example_questions: ['Who approved GI plan X?', 'List all GI plans rejected in the last 7 days.', 'Show approval history for GI plan Y.']
+
+TABLE: log_harvesting_plan_approval
+  harvesting_plan_approval_id (bigint, not null)
+  harvesting_plan_id (bigint, not null)
+  harvesting_plan_approval_status (smallint, nullable)
+  harvesting_plan_approval_remark (character varying, nullable)
+  harvesting_plan_approval_by (character varying, not null)
+  harvesting_plan_approval_by_name (character varying, not null)
+  harvesting_plan_approval_created_by (character varying, nullable)
+  harvesting_plan_approval_created_date (date, nullable)
+  harvesting_plan_approval_created_time (time without time zone, nullable)
+  harvesting_plan_approval_updated_by (character varying, nullable)
+  harvesting_plan_approval_updated_date (date, nullable)
+  harvesting_plan_approval_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Approval history log for palm FFB harvesting plans, capturing each approval or rejection with the approver identity and timing.
+  synonyms: ['harvest plan approval log', 'log persetujuan rencana panen', 'panen plan approval history', 'FFB plan approval']
+  example_questions: ['Who approved the harvesting plan for block X on date Y?', 'How many harvesting plans were rejected last month?', 'Show the full approval chain for plan ID Z.']
+
+TABLE: log_system_lock
+  lock_id (bigint, not null)
+  is_locked (boolean, not null)
+  locked_at (timestamp without time zone, not null)
+  unlocked_at (timestamp without time zone, nullable)
+  unlocked_by (bigint, nullable)
+  unlock_reason (text, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: System lock event log tracking when the application is locked or unlocked, including the reason and the user who performed the action.
+  synonyms: ['system lock', 'kunci sistem', 'lock log', 'application lock']
+  example_questions: ['When was the system last locked?', 'Who unlocked the system on date X?', 'How many times was the system locked this month?']
+
+TABLE: log_workplan_approval
+  log_workplan_approval_id (bigint, not null)
+  workplan_id (character varying, not null)
+  workplan_approval_status (smallint, nullable)
+  workplan_approval_remark (character varying, nullable)
+  workplan_approval_by (character varying, not null)
+  workplan_approval_by_name (character varying, not null)
+  workplan_approval_created_by (character varying, nullable)
+  workplan_approval_created_date (date, nullable)
+  workplan_approval_created_time (time without time zone, nullable)
+  workplan_approval_updated_by (character varying, nullable)
+  workplan_approval_updated_date (date, nullable)
+  workplan_approval_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Approval history log for field work plans (workplan), recording each approval or rejection with the approver and timestamp.
+  synonyms: ['workplan approval log', 'log persetujuan rencana kerja', 'rencana kerja approval history']
+  example_questions: ['Who approved workplan X?', 'List workplans that were rejected this week.', 'Show the approval audit trail for workplan ID Y.']
+
+TABLE: login_log
+  login_id (bigint, not null)
+  login_device_id (integer, nullable)
+  login_employee_code (character varying, nullable)
+  login_employee_name (character varying, nullable)
+  logout_date (date, nullable)
+  logout_time (time without time zone, nullable)
+  login_created_by (character varying, nullable)
+  login_created_date (date, nullable)
+  login_created_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Records user login and logout events including the device used, employee identity, and session timestamps.
+  synonyms: ['login log', 'log masuk', 'session log', 'access log', 'device login']
+  example_questions: ['When did employee X last log in?', 'How many login sessions occurred today?', 'Which device ID was used for the most recent login by user Y?']
+
+TABLE: m_activity
+  activity_id (bigint, not null)
+  activity_code (character varying, nullable)
+  activity_name (character varying, nullable)
+  activity_uom (character varying, nullable)
+  activity_created_by (character varying, nullable)
+  activity_created_date (date, nullable)
+  activity_created_time (time without time zone, nullable)
+  activity_updated_by (character varying, nullable)
+  activity_updated_date (date, nullable)
+  activity_updated_time (time without time zone, nullable)
+  activity_cost_by_block (smallint, nullable)
+  activity_cost_by_auc (smallint, nullable)
+  activity_cost_by_order_number (smallint, nullable)
+  activity_cost_by_cost_center (smallint, nullable)
+  activity_block_is_lc (smallint, nullable)
+  activity_block_is_immature (smallint, nullable)
+  activity_block_is_mature (smallint, nullable)
+  activity_block_is_scout (smallint, nullable)
+  activity_uom_name (character varying, nullable)
+  activity_group_code (character varying, nullable)
+  activity_is_wbs_required (boolean, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master table of agricultural work activities defining their codes, names, units of measure, and cost assignment rules (by block, AUC, order number, or cost center).
+  synonyms: ['activity', 'kegiatan', 'aktivitas', 'pekerjaan lapangan', 'work activity', 'AUC activity']
+  example_questions: ['What activities are allowed on immature blocks?', 'Which activities require a WBS code?', 'What is the UOM for fertilisation activity?']
+
+TABLE: m_assistant_manager_division
+  assistant_manager_division_id (bigint, not null)
+  assistant_manager_code (character varying, nullable)
+  assistant_manager_name (character varying, nullable)
+  assistant_manager_division_code (character varying, nullable)
+  assistant_manager_division_name (character varying, nullable)
+  assistant_manager_created_by (character varying, nullable)
+  assistant_manager_created_date (date, nullable)
+  assistant_manager_created_time (time without time zone, nullable)
+  assistant_manager_updated_by (character varying, nullable)
+  assistant_manager_updated_date (date, nullable)
+  assistant_manager_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Maps assistant managers (afdeling assistants) to their responsible divisions, defining which manager oversees which afdeling.
+  synonyms: ['assistant manager', 'asisten afdeling', 'askep', 'afd manager', 'divisi asisten']
+  example_questions: ['Which assistant manager is responsible for division 03?', 'List all assistant managers and their assigned afdelongs.', 'Who oversees division X in estate Y?']
+
+TABLE: m_attendance
+  attendance_id (bigint, not null)
+  attendance_code (character varying, nullable)
+  attendance_desc (character varying, nullable)
+  attendance_created_by (character varying, nullable)
+  attendance_created_date (date, nullable)
+  attendance_created_time (time without time zone, nullable)
+  attendance_updated_by (character varying, nullable)
+  attendance_updated_date (date, nullable)
+  attendance_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master reference table of employee attendance codes (e.g., present, sick, absent) used for daily workforce attendance recording.
+  synonyms: ['attendance code', 'kode absensi', 'kehadiran', 'absensi karyawan']
+  example_questions: ['What are the valid attendance codes?', "What does attendance code 'H' mean?", 'List all attendance categories with descriptions.']
+
+TABLE: m_bin
+  bin_id (bigint, not null)
+  bin_code (character varying, nullable)
+  bin_created_by (character varying, nullable)
+  bin_created_date (date, nullable)
+  bin_created_time (time without time zone, nullable)
+  bin_updated_by (character varying, nullable)
+  bin_updated_date (date, nullable)
+  bin_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master table of bin codes used to identify storage bins or compartments in the plantation warehouse or receiving area.
+  synonyms: ['bin', 'bin code', 'compartment', 'slot gudang']
+  example_questions: ['List all bin codes in the system.', 'Is bin number 5 currently in use?', 'How many bins are configured?']
+
+TABLE: m_block
+  block_id (bigint, not null)
+  block_company_code (character varying, nullable)
+  block_estate_code (character varying, nullable)
+  block_division_code (character varying, nullable)
+  block_code (character varying, nullable)
+  block_name (character varying, nullable)
+  block_hectarage (double precision, nullable)
+  block_planted_date (date, nullable)
+  block_valid_from (date, nullable)
+  block_valid_to (date, nullable)
+  block_created_by (character varying, nullable)
+  block_created_date (date, nullable)
+  block_created_time (time without time zone, nullable)
+  block_updated_by (character varying, nullable)
+  block_updated_date (date, nullable)
+  block_updated_time (time without time zone, nullable)
+  block_state (character varying, nullable)
+  block_is_planted (smallint, nullable)
+  block_crop_type (character varying, nullable)
+  block_total_palm (bigint, not null)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master table of plantation blocks (blok) within each estate and division, containing hectarage, planting date, crop type, maturity state, and total palm count.
+  synonyms: ['block', 'blok', 'petak', 'afdeling block', 'BHA', 'blok panen', 'blok kebun']
+  example_questions: ['How many hectares does block B03 cover?', 'What is the total palm population in division 02?', 'List all mature blocks in estate X.']
+
+TABLE: m_coconut_activity_type
+  coconut_activity_type_id (bigint, not null)
+  coconut_activity_type_code (character varying, nullable)
+  coconut_activity_type_desc (character varying, nullable)
+  coconut_activity_type_created_by (character varying, nullable)
+  coconut_activity_type_created_date (date, nullable)
+  coconut_activity_type_created_time (time without time zone, nullable)
+  coconut_activity_type_updated_by (character varying, nullable)
+  coconut_activity_type_updated_date (date, nullable)
+  coconut_activity_type_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master reference for coconut-specific activity types used to classify activities recorded during coconut harvesting and field operations.
+  synonyms: ['coconut activity type', 'jenis aktivitas kelapa', 'tipe kegiatan kelapa']
+  example_questions: ['What activity types exist for coconut operations?', "What is activity type code 'H' for coconut?", 'List all coconut activity types.']
+
+TABLE: m_config
+  config_id (bigint, not null)
+  company_code (character varying, nullable)
+  company_name (character varying, nullable)
+  profile_code (character varying, nullable)
+  profile_name (character varying, nullable)
+  estate_code (character varying, nullable)
+  estate_name (character varying, nullable)
+  plant_code (character varying, nullable)
+  cutter_distribution_value (double precision, nullable)
+  carrier_distribution_value (double precision, nullable)
+  created_by (character varying, nullable)
+  created_date (date, nullable)
+  created_time (time without time zone, nullable)
+  updated_by (character varying, nullable)
+  updated_date (date, nullable)
+  updated_time (time without time zone, nullable)
+  attendance_default_value (character varying, nullable)
+  allowed_attandance_codes_for_work_assignment (character varying, nullable)
+  sap_user_id (character varying, nullable)
+  sap_password (character varying, nullable)
+  integration_type (smallint, nullable)
+  have_internet_connection (smallint, nullable)
+  attendance_normal_default_value (character varying, nullable)
+  sap_api_url (character varying, nullable)
+  system_is_palm (boolean, nullable)
+  system_is_coconut (boolean, nullable)
+  system_is_durian (boolean, nullable)
+  system_is_rubber (boolean, nullable)
+  carrier_lf_distribution_value (integer, nullable)
+  cutter_lf_distribution_value (integer, nullable)
+  daily_overtime_max_limit (smallint, nullable)
+  country_code (character varying, nullable)
+  additional_settings (json, nullable)
+  fdn_oph (integer, nullable)
+  is_fixed_platform (boolean, nullable)
+  attendance_unattendded_value (character varying, nullable)
+  max_oph_restan (smallint, nullable)
+  is_lock_system (boolean, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: System configuration table storing per-estate application settings including SAP integration credentials, crop type flags, distribution ratios, and system behaviour toggles.
+  synonyms: ['config', 'konfigurasi', 'system settings', 'pengaturan sistem', 'estate settings']
+  example_questions: ['What is the cutter distribution value for estate X?', 'Is internet connection enabled for this estate?', 'What SAP API URL is configured for estate Y?']
+
+TABLE: m_confirmation_text
+  ctext_id (bigint, not null)
+  ctext_company_code (character varying, nullable)
+  ctext_estate_code (character varying, nullable)
+  ctext_code (character varying, nullable)
+  ctext_text (character varying, nullable)
+  ctext_desc (character varying, nullable)
+  ctext_created_by (character varying, nullable)
+  ctext_created_date (date, nullable)
+  ctext_created_time (time without time zone, nullable)
+  ctext_updated_by (character varying, nullable)
+  ctext_updated_date (date, nullable)
+  ctext_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master table of confirmation text codes used in field activity confirmation dialogs, providing standardised text options for worker progress reporting.
+  synonyms: ['confirmation text', 'teks konfirmasi', 'konfirmasi kegiatan', 'ctext']
+  example_questions: ['What confirmation texts are configured for estate X?', 'List all confirmation text codes and their descriptions.', "Which confirmation code maps to 'completed with shortage'?"]
+
+TABLE: m_cost_center
+  cc_id (bigint, not null)
+  cc_code (character varying, nullable)
+  cc_desc (character varying, nullable)
+  cc_gsber (character varying, nullable)
+  cc_valid_from (date, nullable)
+  cc_valid_to (date, nullable)
+  cc_company_code (character varying, nullable)
+  cc_created_by (character varying, nullable)
+  cc_created_timestamp (timestamp without time zone, nullable)
+  cc_updated_by (character varying, nullable)
+  cc_updated_timestamp (timestamp without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master cost center table for financial cost allocation, defining valid cost centers per company with their validity periods and business area.
+  synonyms: ['cost center', 'pusat biaya', 'CC', 'KOSTL', 'cost centre']
+  example_questions: ['Which cost centers are active for company X?', 'What business area does cost center Y belong to?', 'List all cost centers valid this year.']
+
+TABLE: m_cost_control_mapping
+  cost_control_id (bigint, not null)
+  activity_code_start (character varying, nullable)
+  activity_code_end (character varying, nullable)
+  cost_by_block (smallint, nullable)
+  cost_by_auc (smallint, nullable)
+  cost_by_order_number (smallint, nullable)
+  cost_by_cost_center (smallint, nullable)
+  cost_control_mapping_created_by (character varying, nullable)
+  cost_control_mapping_created_date (date, nullable)
+  cost_control_mapping_created_time (time without time zone, nullable)
+  cost_control_mapping_updated_by (character varying, nullable)
+  cost_control_mapping_updated_date (date, nullable)
+  cost_control_mapping_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Maps activity code ranges to their allowed cost assignment methods (block, AUC, order number, or cost center), controlling how field costs are posted.
+  synonyms: ['cost control mapping', 'pemetaan biaya', 'cost assignment rules', 'activity cost rules']
+  example_questions: ['Which activities can be assigned to a cost center?', 'For activity code range X–Y, is AUC assignment allowed?', 'Show cost control rules for block-based activities.']
+
+TABLE: m_customer_code
+  customer_code_id (bigint, not null)
+  customer_code_plant_code (character varying, nullable)
+  customer_code (character varying, nullable)
+  customer_code_created_by (character varying, nullable)
+  customer_code_created_date (date, nullable)
+  customer_code_created_time (time without time zone, nullable)
+  customer_code_updated_by (character varying, nullable)
+  customer_code_updated_date (date, nullable)
+  customer_code_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master table of customer codes per plant, used to link FFB deliveries or sales to the corresponding customer in the sales order process.
+  synonyms: ['customer code', 'kode pelanggan', 'KUNNR', 'customer', 'buyer code']
+  example_questions: ['What customer codes are registered for plant X?', 'Which customer code corresponds to buyer Y?', 'List all customer codes in the system.']
+
+TABLE: m_deduction_code
+  deduction_code_id (bigint, not null)
+  deduction_code (character varying, not null)
+  deduction_code_description (character varying, nullable)
+  deduction_code_uom (character varying, nullable)
+  deduction_code_rate (double precision, nullable)
+  deduction_created_by (character varying, nullable)
+  deduction_created_date (date, nullable)
+  deduction_created_time (time without time zone, nullable)
+  deduction_updated_by (character varying, nullable)
+  deduction_updated_date (date, nullable)
+  deduction_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master table of harvesting quality deduction codes with their rates and units of measure, applied to OPH grading to penalise non-standard FFB bunches.
+  synonyms: ['deduction code', 'kode potongan', 'grading code', 'panen deduction', 'FFB deduction', 'tonase deduction']
+  example_questions: ['What is the deduction rate for overripe bunches?', 'List all active deduction codes and their rates.', 'Which deduction code applies to empty bunches?']
+
+TABLE: m_deduction_type
+  deduction_type_id (bigint, not null)
+  deduction_type_code (character varying, not null)
+  deduction_type_description (character varying, not null)
+  deduction_type_created_by (character varying, nullable)
+  deduction_type_created_date (date, nullable)
+  deduction_type_created_time (time without time zone, nullable)
+  deduction_type_updated_by (character varying, nullable)
+  deduction_type_updated_date (date, nullable)
+  deduction_type_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master reference for deduction type categories, classifying whether a harvesting deduction applies at the estate level, mill level, or customer level.
+  synonyms: ['deduction type', 'tipe potongan', 'grading type', 'kategori potongan']
+  example_questions: ['What deduction types exist in the system?', 'Is deduction type X applied at the mill or estate?', 'List all deduction type codes and descriptions.']
+
+TABLE: m_destination
+  destination_id (bigint, not null)
+  destination_code (character varying, nullable)
+  destination_name (character varying, nullable)
+  destination_created_by (character varying, nullable)
+  destination_created_date (date, nullable)
+  destination_created_time (time without time zone, nullable)
+  destination_updated_by (character varying, nullable)
+  destination_updated_date (date, nullable)
+  destination_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master table of delivery destination names and codes for FFB and other produce, defining where harvested crop is to be delivered.
+  synonyms: ['destination', 'tujuan', 'pabrik tujuan', 'delivery destination', 'mill destination']
+  example_questions: ['What destinations are configured in the system?', 'What is the name of destination code X?', 'List all valid FFB delivery destinations.']
+
+TABLE: m_devices
+  device_id (bigint, not null)
+  device_code (character varying, nullable)
+  device_estate_code (character varying, nullable)
+  device_imei (character varying, nullable)
+  device_created_by (character varying, nullable)
+  device_created_date (date, nullable)
+  device_created_time (time without time zone, nullable)
+  device_updated_by (character varying, nullable)
+  device_updated_date (date, nullable)
+  device_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master table of mobile devices (tablets/phones) registered in EPMS per estate, identified by device code and IMEI for access control.
+  synonyms: ['device', 'perangkat', 'tablet', 'mobile device', 'IMEI', 'device registration']
+  example_questions: ['How many devices are registered for estate X?', 'What is the IMEI for device code Y?', 'List all devices assigned to this estate.']
+
+TABLE: m_division
+  division_id (bigint, not null)
+  division_company_code (character varying, nullable)
+  division_estate_code (character varying, nullable)
+  division_code (character varying, nullable)
+  division_name (character varying, nullable)
+  division_valid_from (date, nullable)
+  division_valid_to (date, nullable)
+  division_created_by (character varying, nullable)
+  division_created_date (date, nullable)
+  division_created_time (time without time zone, nullable)
+  division_updated_by (character varying, nullable)
+  division_updated_date (date, nullable)
+  division_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master table of plantation divisions (afdeling/divisi) within each estate, with validity periods for historical tracking.
+  synonyms: ['division', 'divisi', 'afdeling', 'afd', 'DIVNR']
+  example_questions: ['How many divisions does estate X have?', 'What is the name of division code 03?', 'List all active divisions for estate Y.']
+
+TABLE: m_employee
+  employee_id (bigint, not null)
+  employee_estate_code (character varying, nullable)
+  employee_division_code (character varying, nullable)
+  employee_code (character varying, nullable)
+  employee_name (character varying, nullable)
+  employee_sex (character varying, nullable)
+  employee_job_code (character varying, nullable)
+  employee_is_internal_estate (smallint, nullable)
+  employee_valid_from (date, nullable)
+  employee_valid_to (date, nullable)
+  employee_created_by (character varying, nullable)
+  employee_created_date (date, nullable)
+  employee_created_time (time without time zone, nullable)
+  employee_updated_by (character varying, nullable)
+  employee_updated_date (date, nullable)
+  employee_updated_time (time without time zone, nullable)
+  employee_profile (character varying, nullable)
+  employee_job_type (character varying, nullable)
+  employee_status (character varying, nullable)
+  employee_work_permit_exp_date (character varying, nullable)
+  employee_company_code (character varying, nullable)
+  employee_stats (character varying, nullable)
+  employee_department (character varying, nullable)
+  employee_vendor (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master employee table containing all plantation workforce records including job role, division assignment, employment status, gender, and work permit expiry.
+  synonyms: ['employee', 'karyawan', 'pekerja', 'tenaga kerja', 'mandor', 'pemanen']
+  example_questions: ['How many harvesters are assigned to division 02?', "Which employees have job type 'harvester'?", 'List all employees whose work permits expire this month.']
+
+TABLE: m_employee_face_template
+  id (bigint, not null)
+  employee_id (bigint, not null)
+  register_count (integer, not null)
+  remarks (text, nullable)
+  created_date (timestamp without time zone, not null)
+  created_by (bigint, nullable)
+  updated_by (bigint, nullable)
+  updated_date (timestamp without time zone, nullable)
+  is_deleted (boolean, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Stores facial recognition template registration records for employees, tracking registration count, status, and linking to biometric attendance.
+  synonyms: ['face template', 'template wajah', 'biometric', 'face recognition', 'facial ID']
+  example_questions: ['How many employees have registered face templates?', 'Is employee X enrolled in face recognition?', 'List employees without a face template registered.']
+
+TABLE: m_employee_face_template_log
+  id (bigint, not null)
+  id_employee_face_template (bigint, not null)
+  registered_by (bigint, not null)
+  registered_date (timestamp without time zone, not null)
+  source_device (character varying, nullable)
+  employee_face_template (bytea, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Audit log of facial template registration events, capturing the device, registering user, and the binary face template data per registration.
+  synonyms: ['face template log', 'log registrasi wajah', 'biometric log', 'face registration log']
+  example_questions: ["When was employee X's face last registered?", "Which device was used to register employee Y's face?", 'Show all face registration events this month.']
+
+TABLE: m_estate
+  estate_id (bigint, not null)
+  estate_company_code (character varying, nullable)
+  estate_code (character varying, nullable)
+  estate_name (character varying, nullable)
+  estate_plant_code (character varying, nullable)
+  estate_created_by (character varying, nullable)
+  estate_created_date (date, nullable)
+  estate_created_time (time without time zone, nullable)
+  estate_updated_by (character varying, nullable)
+  estate_updated_date (date, nullable)
+  estate_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master estate table defining each kebun/estate as a core organisational unit, with its company code and SAP plant code linkage.
+  synonyms: ['estate', 'kebun', 'perkebunan', 'ESTNR', 'plantation', 'kebun sawit']
+  example_questions: ['List all estates in the system.', 'What is the plant code for estate KBN?', 'Which company does estate X belong to?']
+
+TABLE: m_field_staff_gang
+  field_staff_gang_id (bigint, not null)
+  field_staff_gang_code (character varying, nullable)
+  field_staff_employee_code (character varying, nullable)
+  field_staff_employee_name (character varying, nullable)
+  field_staff_gang_created_by (character varying, nullable)
+  field_staff_gang_created_date (date, nullable)
+  field_staff_gang_created_time (time without time zone, nullable)
+  field_staff_gang_updated_by (character varying, nullable)
+  field_staff_gang_updated_date (date, nullable)
+  field_staff_gang_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Maps field staff (kerani panen/pemanen) to their assigned gang code for organising harvesting groups on the plantation.
+  synonyms: ['field staff gang', 'gang', 'kelompok panen', 'regu panen', 'gang code']
+  example_questions: ['Which field staff belong to gang G01?', 'List all gang codes and their assigned staff.', 'How many harvesters are in gang X?']
+
+TABLE: m_field_staff_kemandoran
+  field_staff_kemandoran_id (bigint, not null)
+  field_staff_employee_code (character varying, nullable)
+  field_staff_employee_name (character varying, nullable)
+  mandor_employee_code (character varying, nullable)
+  mandor_employee_name (character varying, nullable)
+  field_staff_kemandoran_created_by (character varying, nullable)
+  field_staff_kemandoran_created_date (date, nullable)
+  field_staff_kemandoran_created_time (time without time zone, nullable)
+  field_staff_kemandoran_updated_by (character varying, nullable)
+  field_staff_kemandoran_updated_date (date, nullable)
+  field_staff_kemandoran_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Maps individual field staff (workers) to their supervising mandor for the kemandoran (supervisory) assignment structure.
+  synonyms: ['kemandoran', 'mandor assignment', 'field staff supervisor', 'penugasan mandor', 'regu mandor']
+  example_questions: ['Who is the mandor for field staff employee X?', 'List all workers under mandor Y.', 'How many field staff does mandor Z supervise?']
+
+TABLE: m_gang_employee
+  gang_employee_id (bigint, not null)
+  gang_employee_code (character varying, nullable)
+  gang_employee_name (character varying, nullable)
+  gang_code (character varying, nullable)
+  gang_employee_created_by (character varying, nullable)
+  gang_employee_created_date (date, nullable)
+  gang_employee_created_time (time without time zone, nullable)
+  gang_employee_updated_by (character varying, nullable)
+  gang_employee_updated_date (date, nullable)
+  gang_employee_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master table assigning workers to harvest gangs, enabling gang-level productivity and tonnage tracking per block.
+  synonyms: ['gang employee', 'anggota gang', 'regu karyawan', 'harvest gang member']
+  example_questions: ['Who are the members of gang G02?', 'Which gang is employee X assigned to?', 'List all gang assignments for estate Y.']
+
+TABLE: m_gigr_wbs
+  wbs_id (bigint, not null)
+  wbs_code (character varying, nullable)
+  wbs_code2 (character varying, nullable)
+  wbs_company_code (character varying, nullable)
+  wbs_gl_acc_code (character varying, nullable)
+  wbs_gl_acc_desc (character varying, nullable)
+  wbs_plant_code (character varying, nullable)
+  wbs_name (character varying, nullable)
+  wbs_created_by (character varying, nullable)
+  wbs_created_timestamp (timestamp without time zone, nullable)
+  wbs_updated_by (character varying, nullable)
+  wbs_updated_timestamp (timestamp without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master WBS element table specifically for GI (Goods Issue) and GR (Goods Receipt) transactions, linking SAP project elements to blocks and GL accounts.
+  synonyms: ['GI WBS', 'GR WBS', 'WBS GI/GR', 'work breakdown GI', 'WBS element']
+  example_questions: ['What WBS codes are available for GI transactions in block X?', 'Which GL account is linked to WBS element Y?', 'List all GI/GR WBS elements for estate Z.']
+
+TABLE: m_glacc
+  m_glacc_id (bigint, not null)
+  m_glacc_account_number (character varying, not null)
+  m_glacc_desc (character varying, nullable)
+  m_glacc_company_code (character varying, nullable)
+  m_glacc_created_by (character varying, nullable)
+  m_glacc_created_timestamp (timestamp without time zone, nullable)
+  m_glacc_updated_by (character varying, nullable)
+  m_glacc_updated_timestamp (timestamp without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master general ledger account table for financial posting of plantation transactions including goods issuance and receipts.
+  synonyms: ['GL account', 'akun GL', 'general ledger', 'SAKNR', 'ledger account']
+  example_questions: ['What GL accounts are available for company X?', 'What is the description for GL account Y?', 'List all GL accounts used in GI transactions.']
+
+TABLE: m_glacc_gi_order
+  m_glacc_id (bigint, not null)
+  m_glacc_account_number (character varying, not null)
+  m_glacc_desc (character varying, nullable)
+  m_glacc_company_code (character varying, nullable)
+  m_glacc_created_by (character varying, nullable)
+  m_glacc_created_timestamp (timestamp without time zone, nullable)
+  m_glacc_updated_by (character varying, nullable)
+  m_glacc_updated_timestamp (timestamp without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Subset of GL accounts specifically applicable to goods issuance order transactions, used to restrict and map valid accounts for GI order postings.
+  synonyms: ['GI order GL account', 'GL GI order', 'akun GI order', 'goods issuance GL']
+  example_questions: ['Which GL accounts are valid for GI order transactions?', 'List GL accounts available for order-based goods issuance.', 'What is the description for GI order GL account X?']
+
+TABLE: m_harvest_method
+  mhm_id (bigint, not null)
+  mhm_indicator (character varying, nullable)
+  mhm_abbreviation (character varying, nullable)
+  mhm_description (character varying, nullable)
+  mhm_created_by (character varying, nullable)
+  mhm_created_date (date, nullable)
+  mhm_created_time (time without time zone, nullable)
+  mhm_updated_by (character varying, nullable)
+  mhm_updated_date (date, nullable)
+  mhm_updated_time (time without time zone, nullable)
+  mhm_order_number_flag (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master table of FFB harvesting methods (e.g., manual, mechanised) with indicators defining whether a vehicle order number is mandatory.
+  synonyms: ['harvest method', 'metode panen', 'cara panen', 'harvesting technique', 'panen method']
+  example_questions: ['What harvesting methods are available?', 'Does harvest method X require a vehicle order number?', 'List all harvest method codes and their abbreviations.']
+
+TABLE: m_maintenance_order
+  mo_id (bigint, not null)
+  mo_order_number (character varying, nullable)
+  mo_sales_doc_type (character varying, nullable)
+  mo_order_desc (character varying, nullable)
+  mo_plant_code (character varying, nullable)
+  mo_company_code (character varying, nullable)
+  mo_business_area (character varying, nullable)
+  mo_created_by (character varying, nullable)
+  mo_created_timestamp (timestamp without time zone, nullable)
+  mo_updated_by (character varying, nullable)
+  mo_updated_timestamp (timestamp without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master maintenance/work order table for SAP PM (Plant Maintenance) integration, defining order numbers for vehicle and equipment maintenance activities.
+  synonyms: ['maintenance order', 'MO', 'work order', 'order perawatan', 'PM order', 'AUFNR']
+  example_questions: ['What maintenance orders are active for plant X?', 'Which order number covers the excavator service?', 'List all maintenance orders by business area.']
+
+TABLE: m_material
+  material_id (bigint, not null)
+  material_code (character varying, nullable)
+  material_name (character varying, nullable)
+  material_uom (character varying, nullable)
+  material_created_by (character varying, nullable)
+  material_created_date (date, nullable)
+  material_created_time (time without time zone, nullable)
+  material_updated_by (character varying, nullable)
+  material_updated_date (date, nullable)
+  material_updated_time (time without time zone, nullable)
+  material_plant_code (character varying, nullable)
+  material_sloc (character varying, nullable)
+  material_batch (character varying, nullable)
+  material_group (character varying, nullable)
+  material_type (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master table of materials used in plantation field operations (fertilisers, chemicals, tools), with their codes, names, UOM, plant, and SAP storage details.
+  synonyms: ['material', 'bahan', 'input kebun', 'pupuk', 'chemical', 'sarana produksi', 'MATNR']
+  example_questions: ['What materials are available at plant X?', 'What is the batch number for material Y?', 'List all fertiliser materials with their storage locations.']
+
+TABLE: m_meas_point
+  meas_point_id (bigint, not null)
+  meas_point_company_code (character varying, nullable)
+  meas_point_plant_code (character varying, nullable)
+  meas_point_vra_order_number (character varying, nullable)
+  meas_point_equipment_code (character varying, nullable)
+  meas_point_equipment_object_number (character varying, nullable)
+  meas_point_point (character varying, nullable)
+  meas_point_unit (character varying, nullable)
+  meas_point_description (character varying, nullable)
+  meas_point_created_by (character varying, nullable)
+  meas_point_created_date (date, nullable)
+  meas_point_created_time (time without time zone, nullable)
+  meas_point_updated_by (character varying, nullable)
+  meas_point_updated_date (date, nullable)
+  meas_point_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master measurement point table for vehicle and equipment maintenance, storing equipment identifiers and measurement descriptions used in VRA reporting.
+  synonyms: ['measurement point', 'titik ukur', 'meas point', 'equipment measurement', 'VRA point']
+  example_questions: ['What measurement points are configured for equipment X?', 'Which unit is used for measurement point Y?', 'List all measurement points for this plant.']
+
+TABLE: m_movement_type
+  mvt_type_id (bigint, not null)
+  mvt_type_code (character varying, not null)
+  mvt_type_doc_type (character varying, not null)
+  mvt_type_desc (character varying, not null)
+  mvt_type_created_by (character varying, nullable)
+  mvt_type_created_date (date, nullable)
+  mvt_type_created_time (time without time zone, nullable)
+  mvt_type_updated_by (character varying, nullable)
+  mvt_type_updated_date (date, nullable)
+  mvt_type_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master table of SAP inventory movement types defining the document type and description for stock transactions such as goods issuance and receipt.
+  synonyms: ['movement type', 'tipe pergerakan', 'MVT type', 'SAP movement', 'BWART']
+  example_questions: ['What movement type is used for goods issuance?', 'List all configured movement types and their document types.', 'What does movement type 261 represent?']
+
+TABLE: m_non_palm_material
+  non_palm_material_id (bigint, not null)
+  non_palm_material_code (character varying, nullable)
+  non_palm_material_desc (character varying, nullable)
+  non_palm_material_uom (character varying, nullable)
+  non_palm_material_plant_code (character varying, nullable)
+  non_palm_material_created_by (character varying, nullable)
+  non_palm_material_created_date (date, nullable)
+  non_palm_material_created_time (time without time zone, nullable)
+  non_palm_material_updated_by (character varying, nullable)
+  non_palm_material_updated_date (date, nullable)
+  non_palm_material_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master table of materials specific to non-palm crops (coconut, rubber, durian) used in field operations for those commodity divisions.
+  synonyms: ['non-palm material', 'bahan non-sawit', 'coconut material', 'rubber material', 'durian material']
+  example_questions: ['What materials are used for rubber operations?', 'List all non-palm materials for plant X.', 'What is the UOM for coconut harvest material Y?']
+
+TABLE: m_order_header
+  m_order_header_id (bigint, not null)
+  m_order_header_number (character varying, not null)
+  m_order_header_type (character varying, nullable)
+  m_order_header_status (character varying, nullable)
+  m_order_header_vendor (character varying, nullable)
+  m_order_header_plant_code (character varying, nullable)
+  m_order_header_sloc_code (character varying, nullable)
+  m_order_header_flag (smallint, nullable)
+  m_order_header_sap_created_date (date, nullable)
+  m_order_header_sap_created_by (character varying, nullable)
+  m_order_header_organization (character varying, nullable)
+  m_order_header_supplier_account_number (character varying, nullable)
+  m_order_header_supplier_name (character varying, nullable)
+  m_order_header_group (character varying, nullable)
+  m_order_header_is_deleted (boolean, not null)
+  m_order_detail_material_line_num (character varying, nullable)
+  m_order_detail_material_code (character varying, nullable)
+  m_order_detail_material_name (character varying, nullable)
+  m_order_detail_material_group (character varying, nullable)
+  m_order_detail_qty_order (double precision, nullable)
+  m_order_detail_uom (character varying, nullable)
+  m_order_detail_currency_key (character varying, nullable)
+  m_order_detail_net_price (double precision, nullable)
+  m_order_detail_unit_price (double precision, nullable)
+  m_order_detail_order_price_unit (character varying, nullable)
+  m_order_detail_net_value (double precision, nullable)
+  m_order_header_created_by (character varying, nullable)
+  m_order_header_created_timestamp (timestamp without time zone, nullable)
+  m_order_header_updated_by (character varying, nullable)
+  m_order_header_updated_timestamp (timestamp without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master general/maintenance order header and detail table used for non-PO procurement or work orders, including vendor, material, and pricing information.
+  synonyms: ['order header', 'kepala order', 'general order', 'MO header', 'work order header']
+  example_questions: ['List all open general orders for plant X.', 'What vendor is linked to order number Y?', 'Show materials and quantities in order Z.']
+
+TABLE: m_po_header
+  m_po_header_id (bigint, not null)
+  m_po_header_number (character varying, not null)
+  m_po_header_type (character varying, nullable)
+  m_po_header_status (character varying, nullable)
+  m_po_header_vendor (character varying, nullable)
+  m_po_header_plant_code (character varying, nullable)
+  m_po_header_sloc_code (character varying, nullable)
+  m_po_header_flag (smallint, nullable)
+  m_po_header_sap_created_date (date, nullable)
+  m_po_header_sap_created_by (character varying, nullable)
+  m_po_detail_material_line_num (character varying, nullable)
+  m_po_detail_material_code (character varying, nullable)
+  m_po_detail_material_name (character varying, nullable)
+  m_po_detail_material_group (character varying, nullable)
+  m_po_detail_qty_order (double precision, nullable)
+  m_po_detail_uom (character varying, nullable)
+  m_po_detail_currency_key (character varying, nullable)
+  m_po_detail_net_price (double precision, nullable)
+  m_po_detail_unit_price (double precision, nullable)
+  m_po_detail_order_price_unit (character varying, nullable)
+  m_po_detail_net_value (double precision, nullable)
+  m_po_header_organization (character varying, nullable)
+  m_po_header_supplier_account_number (character varying, nullable)
+  m_po_header_supplier_name (character varying, nullable)
+  m_po_header_po_group (character varying, nullable)
+  m_po_header_is_deleted (boolean, not null)
+  m_po_header_created_by (character varying, nullable)
+  m_po_header_created_timestamp (timestamp without time zone, nullable)
+  m_po_header_updated_by (character varying, nullable)
+  m_po_header_updated_timestamp (timestamp without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master purchase order header and line-item table replicated from SAP, used for goods receipt referencing with vendor, material, and pricing details.
+  synonyms: ['PO header', 'purchase order', 'kepala PO', 'surat pesanan', 'EBELN', 'PO detail']
+  example_questions: ['List all open POs for plant X.', 'What is the net value of PO number Y?', 'Which vendor supplied materials under PO Z?']
+
+TABLE: m_receiving_point
+  receiving_point_id (bigint, not null)
+  receiving_point_code (character varying, nullable)
+  receiving_point_created_by (character varying, nullable)
+  receiving_point_created_date (date, nullable)
+  receiving_point_created_time (time without time zone, nullable)
+  receiving_point_updated_by (character varying, nullable)
+  receiving_point_updated_date (date, nullable)
+  receiving_point_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master table of FFB and produce receiving points at mills or collection points, identifying valid drop-off locations for transport.
+  synonyms: ['receiving point', 'titik penerimaan', 'RAMP', 'ramp number', 'collection point']
+  example_questions: ['What receiving points are available at this mill?', 'Is receiving point X still active?', 'List all configured receiving point codes.']
+
+TABLE: m_report_oph
+  r_oph_id (bigint, not null)
+  r_oph_estate_code (character varying, nullable)
+  r_oph_period (character varying, nullable)
+  r_oph_division_code (character varying, nullable)
+  r_oph_block_code (character varying, nullable)
+  r_oph_brondolan_rate_1 (double precision, nullable)
+  r_oph_brondolan_rate_2 (double precision, nullable)
+  r_oph_basis (double precision, nullable)
+  r_oph_gandeng (double precision, nullable)
+  r_oph_premi_basis (double precision, nullable)
+  r_oph_premi_non_basis (double precision, nullable)
+  r_oph_hk_rate (double precision, nullable)
+  r_oph_created_by (character varying, nullable)
+  r_oph_created_date (date, nullable)
+  r_oph_created_time (time without time zone, nullable)
+  r_oph_updated_by (character varying, nullable)
+  r_oph_updated_date (date, nullable)
+  r_oph_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master configuration table for OPH (output per hectare) reporting parameters including brondolan rates, basis targets, premi rates, and HK rates per block and period.
+  synonyms: ['OPH report config', 'OPH parameter', 'BJR basis', 'brondolan rate', 'premi OPH', 'HK rate']
+  example_questions: ['What is the basis OPH target for block X in period Y?', 'What brondolan rate is configured for block A01?', 'Show premi rates for division 02 this month.']
+
+TABLE: m_sales_order
+  sales_order_id (bigint, not null)
+  sales_order_no (character varying, not null)
+  sales_order_fdn_id (character varying, nullable)
+  sales_order_plant (character varying, not null)
+  sales_order_item_no (character varying, nullable)
+  sales_order_customer_reference (character varying, nullable)
+  sales_order_customer_code (character varying, nullable)
+  sales_order_customer_description_1 (character varying, nullable)
+  sales_order_material_code (character varying, nullable)
+  sales_order_item_qty (character varying, nullable)
+  sales_order_item_uom (character varying, nullable)
+  sales_order_payment_term (character varying, nullable)
+  sales_order_inco_term_1 (character varying, nullable)
+  sales_order_created_by (character varying, nullable)
+  sales_order_created_date (date, nullable)
+  sales_order_created_time (time without time zone, nullable)
+  sales_order_updated_by (character varying, nullable)
+  sales_order_updated_date (date, nullable)
+  sales_order_updated_time (time without time zone, nullable)
+  sales_order_customer_description_2 (character varying, nullable)
+  sales_order_inco_term_2 (character varying, nullable)
+  sales_order_material_desc (character varying, nullable)
+  sales_order_reason_for_rejection (character varying, nullable)
+  sales_order_date (character varying, nullable)
+  sales_order_type (character varying, nullable)
+  sales_order_sap_created_date (character varying, nullable)
+  sales_order_sap_created_time (character varying, nullable)
+  sales_order_sap_created_by (character varying, nullable)
+  sales_order_sap_updated_date (character varying, nullable)
+  sales_order_sap_updated_time (character varying, nullable)
+  sales_order_sap_updated_by (character varying, nullable)
+  sales_order_item_description (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master sales order table linking customer orders to FFB or produce delivery transactions (FDN), including material, quantity, and SAP document details.
+  synonyms: ['sales order', 'SO', 'order penjualan', 'VBELN', 'customer SO', 'FDN sales order']
+  example_questions: ['What sales orders are linked to FDN X?', 'Which customer placed sales order Y?', 'List all open sales orders for plant Z.']
+
+TABLE: m_sloc
+  m_sloc_id (bigint, not null)
+  m_sloc_code (character varying, not null)
+  m_sloc_plant (character varying, nullable)
+  m_sloc_desc (character varying, nullable)
+  m_sloc_created_by (character varying, nullable)
+  m_sloc_created_timestamp (timestamp without time zone, nullable)
+  m_sloc_updated_by (character varying, nullable)
+  m_sloc_updated_timestamp (timestamp without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master storage location table for material stock management, mapping SLOC codes to plant and description for inventory segregation.
+  synonyms: ['SLOC', 'storage location', 'gudang', 'lokasi penyimpanan', 'LGORT']
+  example_questions: ['What storage locations are configured for plant X?', 'What is the description for SLOC code Y?', 'List all active storage locations.']
+
+TABLE: m_tph
+  tph_id (bigint, not null)
+  tph_company_code (character varying, nullable)
+  tph_estate_code (character varying, nullable)
+  tph_division_code (character varying, nullable)
+  tph_block_code (character varying, nullable)
+  tph_section_code (character varying, nullable)
+  tph_code (character varying, nullable)
+  tph_valid_from (date, nullable)
+  tph_valid_to (date, nullable)
+  tph_latitude (character varying, nullable)
+  tph_longitude (character varying, nullable)
+  tph_created_by (character varying, nullable)
+  tph_created_date (date, nullable)
+  tph_created_time (time without time zone, nullable)
+  tph_updated_by (character varying, nullable)
+  tph_updated_date (date, nullable)
+  tph_updated_time (time without time zone, nullable)
+  tph_palm_total (bigint, not null)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master table of TPH (Tempat Pengumpulan Hasil / field collection points) per block, storing GPS coordinates, section, and palm count for harvest logistics.
+  synonyms: ['TPH', 'Tempat Pengumpulan Hasil', 'collection point', 'titik panen', 'field collection', 'TPH code']
+  example_questions: ['How many TPHs are in block B04?', 'What is the GPS location of TPH code X?', 'List all TPHs in division 01 with their palm counts.']
+
+TABLE: m_uom
+  uom_id (bigint, not null)
+  uom_code (character varying, not null)
+  uom_desc (character varying, not null)
+  uom_created_by (character varying, nullable)
+  uom_created_date (date, nullable)
+  uom_created_time (time without time zone, nullable)
+  uom_updated_by (character varying, nullable)
+  uom_updated_date (date, nullable)
+  uom_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master unit of measure table defining all valid UOM codes and descriptions used across activities, materials, and transactions in EPMS.
+  synonyms: ['UOM', 'unit of measure', 'satuan', 'satuan ukur', 'MEINS']
+  example_questions: ["What does UOM code 'KG' stand for?", 'List all available units of measure.', "Which activities use the unit 'HK' (hari kerja)?"]
+
+TABLE: m_vendor
+  vendor_id (bigint, not null)
+  vendor_code (character varying, nullable)
+  vendor_name (character varying, nullable)
+  vendor_created_by (character varying, nullable)
+  vendor_created_date (date, nullable)
+  vendor_created_time (time without time zone, nullable)
+  vendor_updated_by (character varying, nullable)
+  vendor_updated_date (date, nullable)
+  vendor_updated_time (time without time zone, nullable)
+  vendor_plant_code (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master vendor/contractor table listing all registered suppliers and transporters with their codes and associated plant.
+  synonyms: ['vendor', 'supplier', 'kontraktor', 'transporter', 'LIFNR']
+  example_questions: ['Which vendors are registered for plant X?', 'What is the vendor code for contractor Y?', 'List all active vendors.']
+
+TABLE: m_vra
+  vra_id (bigint, not null)
+  vra_license_number (character varying, nullable)
+  vra_valid_from (date, nullable)
+  vra_valid_to (date, nullable)
+  vra_created_by (character varying, nullable)
+  vra_created_date (date, nullable)
+  vra_created_time (time without time zone, nullable)
+  vra_updated_by (character varying, nullable)
+  vra_updated_date (date, nullable)
+  vra_updated_time (time without time zone, nullable)
+  vra_order_number (character varying, nullable)
+  vra_equipment_code (character varying, not null)
+  vra_object_type (character varying, nullable)
+  vra_plant_code (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master vehicle and equipment table for VRA (Vehicle Running Activity), containing license numbers, order numbers, equipment codes, and validity periods.
+  synonyms: ['VRA', 'vehicle', 'kendaraan', 'alat berat', 'equipment', 'license plate', 'VRA master']
+  example_questions: ['What is the order number for vehicle with license plate X?', 'List all active vehicles for plant Y.', 'Which equipment codes are registered for VRA tracking?']
+
+TABLE: m_wbs
+  wbs_id (bigint, not null)
+  wbs_code (character varying, nullable)
+  wbs_name (character varying, nullable)
+  wbs_group_code (character varying, nullable)
+  wbs_group_name (character varying, nullable)
+  wbs_created_by (character varying, nullable)
+  wbs_created_date (date, nullable)
+  wbs_created_time (time without time zone, nullable)
+  wbs_updated_by (character varying, nullable)
+  wbs_updated_date (date, nullable)
+  wbs_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master WBS (Work Breakdown Structure) element table for field cost assignment, grouping project elements by code and group.
+  synonyms: ['WBS', 'work breakdown structure', 'elemen WBS', 'WBS code', 'project WBS']
+  example_questions: ['What WBS elements are in group X?', 'List all WBS codes available in the system.', 'What is the name of WBS code Y?']
+
+TABLE: m_work_center
+  work_center_id (bigint, not null)
+  work_center_company_code (character varying, nullable)
+  work_center_plant_code (character varying, nullable)
+  work_center_estate_code (character varying, nullable)
+  work_center_division_code (character varying, nullable)
+  work_center_code (character varying, nullable)
+  work_center_name (character varying, nullable)
+  work_center_created_by (character varying, nullable)
+  work_center_created_date (date, nullable)
+  work_center_created_time (time without time zone, nullable)
+  work_center_updated_by (character varying, nullable)
+  work_center_updated_date (date, nullable)
+  work_center_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master work center table per estate and division, used to classify operational areas or teams for cost and activity assignment.
+  synonyms: ['work center', 'pusat kerja', 'ARBPL', 'work centre', 'operational center']
+  example_questions: ['What work centers exist in division 02?', 'Which work center covers the nursery?', 'List all work centers for estate X.']
+
+TABLE: m_worktype
+  worktype_id (bigint, not null)
+  worktype_code (character varying, nullable)
+  worktype_name (character varying, nullable)
+  worktype_created_by (character varying, nullable)
+  worktype_created_date (date, nullable)
+  worktype_created_time (time without time zone, nullable)
+  worktype_updated_by (character varying, nullable)
+  worktype_updated_date (date, nullable)
+  worktype_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master work type table classifying the nature of field or maintenance work performed, used in GI/GR transactions for movement categorisation.
+  synonyms: ['work type', 'tipe pekerjaan', 'jenis kerja', 'worktype code']
+  example_questions: ['What work types are available in the system?', "What does work type code 'MO' mean?", 'List all work types and their names.']
+
+TABLE: mail_scheduler
+  mail_scheduler_id (bigint, not null)
+  mail_type (smallint, nullable)
+  mail_from (character varying, nullable)
+  mail_to (character varying, nullable)
+  mail_subject (character varying, nullable)
+  mail_content (character varying, nullable)
+  mail_is_sent (smallint, nullable)
+  created_by (character varying, nullable)
+  created_date (date, nullable)
+  created_time (time without time zone, nullable)
+  updated_by (character varying, nullable)
+  updated_date (date, nullable)
+  updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: System email scheduler table queuing outbound notification emails including type, recipients, subject, content, and send status.
+  synonyms: ['mail scheduler', 'email queue', 'antrian email', 'notifikasi email']
+  example_questions: ['How many emails are pending in the queue?', 'Were notification emails sent successfully today?', 'List all unsent emails in the scheduler.']
+
+TABLE: master_data_log
+  master_data_log_id (bigint, not null)
+  master_data_table_name (character varying, nullable)
+  master_data_last_refresh (timestamp without time zone, nullable)
+  master_data_last_updated (timestamp without time zone, nullable)
+  master_data_last_updated_by (smallint, nullable)
+  master_data_is_replaced (smallint, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Log tracking the last refresh and update timestamps for each master data table, indicating data freshness for SAP-to-EPMS synchronisation.
+  synonyms: ['master data log', 'log data master', 'refresh log', 'SAP sync log', 'data refresh']
+  example_questions: ['When was the employee master last refreshed from SAP?', 'Which master tables have not been updated in the last 7 days?', 'Show the last refresh timestamps for all master data tables.']
+
+TABLE: master_data_setting
+  master_data_setting_id (bigint, not null)
+  master_data_menu_name (character varying, nullable)
+  master_data_table_name (character varying, nullable)
+  master_data_sap_params (character varying, nullable)
+  master_data_zepms_table_name (character varying, nullable)
+  master_data_last_refresh (timestamp without time zone, nullable)
+  master_data_last_updated (timestamp without time zone, nullable)
+  master_data_last_updated_by (smallint, nullable)
+  master_data_is_replaced (smallint, nullable)
+  master_data_is_enabled (smallint, nullable)
+  master_data_refreshed_fields (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Configuration table controlling which master data tables are enabled for SAP synchronisation, including refresh schedules and SAP parameters.
+  synonyms: ['master data setting', 'pengaturan data master', 'SAP sync config', 'refresh setting']
+  example_questions: ['Which master data tables are enabled for SAP sync?', 'What SAP parameters are used to fetch the block master?', 'Is employee master sync currently enabled?']
+
+TABLE: material_stock
+  material_stock_id (bigint, not null)
+  material_code (character varying, nullable)
+  material_name (character varying, nullable)
+  material_qty (bigint, not null)
+  material_uom (character varying, nullable)
+  material_plant_code (character varying, nullable)
+  material_sloc_code (character varying, nullable)
+  material_type_code (character varying, nullable)
+  material_trans_date (date, nullable)
+  material_created_by (character varying, nullable)
+  material_created_date (date, nullable)
+  material_created_time (time without time zone, nullable)
+  material_updated_by (character varying, nullable)
+  material_updated_date (date, nullable)
+  material_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Tracks current stock levels of materials (fertilisers, chemicals, tools) per plant and storage location, updated with each goods issuance or receipt transaction.
+  synonyms: ['material stock', 'stok bahan', 'inventory', 'persediaan', 'stock level', 'gudang stok']
+  example_questions: ['What is the current stock of herbicide X at plant Y?', 'Which materials have zero stock at SLOC MAIN?', 'Show all material stock quantities for estate Z.']
+
+TABLE: material_type_group
+  mat_type_id (bigint, not null)
+  mat_type_code (character varying, not null)
+  mat_type_desc (character varying, nullable)
+  mat_code_list (text, nullable)
+  mat_type_created_by (character varying, nullable)
+  mat_type_created_date (date, nullable)
+  mat_type_created_time (time without time zone, nullable)
+  mat_type_updated_by (character varying, nullable)
+  mat_type_updated_date (date, nullable)
+  mat_type_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Groups materials into logical type categories (e.g., fertiliser, pesticide, tools) for reporting and issuance filtering purposes.
+  synonyms: ['material type group', 'kelompok jenis material', 'material category', 'material group', 'MATKL']
+  example_questions: ['Which materials belong to the fertiliser group?', 'List all material type groups and their member materials.', 'What is the description for material type code X?']
+
+TABLE: mc_fdn_card
+  fdn_card_id (character varying, not null)
+  fdn_card_division (character varying, not null)
+  fdn_card_created_by (character varying, nullable)
+  fdn_card_created_date (date, nullable)
+  fdn_card_created_time (time without time zone, nullable)
+  fdn_card_updated_by (character varying, nullable)
+  fdn_card_updated_date (date, nullable)
+  fdn_card_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master card table for FDN (Field Delivery Note) transactions per division, uniquely identifying each delivery card issued for FFB transport.
+  synonyms: ['FDN card', 'kartu FDN', 'delivery card', 'kartu pengiriman', 'FDN voucher']
+  example_questions: ['List all FDN cards for division X.', 'Is FDN card Y still active?', 'Who created FDN card Z?']
+
+TABLE: mc_oph_card
+  oph_card_id (character varying, not null)
+  oph_card_division (character varying, not null)
+  oph_card_created_by (character varying, nullable)
+  oph_card_created_date (date, nullable)
+  oph_card_created_time (time without time zone, nullable)
+  oph_card_updated_by (character varying, nullable)
+  oph_card_updated_date (date, nullable)
+  oph_card_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Master card table for OPH (Output Per Hectare) harvest recording transactions per division, identifying each harvest recording card.
+  synonyms: ['OPH card', 'kartu OPH', 'harvest card', 'kartu panen', 'OPH voucher']
+  example_questions: ['List all OPH cards for division X.', 'When was OPH card Y created?', 'How many OPH cards are assigned to division Z?']
+
+TABLE: res_data
+  res_id (bigint, not null)
+  res_text (character varying, not null)
+  res_timestamp (timestamp without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Temporary response data storage table used by the application to cache or queue large text responses from SAP or external API calls.
+  synonyms: ['response data', 'res data', 'API response cache', 'temp response']
+  example_questions: ['What is the latest cached response in res_data?', 'How many response records are stored?', 'When was the last res_data entry created?']
+
+TABLE: t_abw
+  abw_id (bigint, not null)
+  abw_company_code (character varying, nullable)
+  abw_estate_code (character varying, nullable)
+  abw_block_code (character varying, nullable)
+  abw_year (character varying, nullable)
+  abw_month (character varying, nullable)
+  abw_bunch_weight (double precision, nullable)
+  abw_created_by (character varying, nullable)
+  abw_created_date (date, nullable)
+  abw_created_time (time without time zone, nullable)
+  abw_updated_by (character varying, nullable)
+  abw_updated_date (date, nullable)
+  abw_updated_time (time without time zone, nullable)
+  abw_posting_date (date, nullable)
+  abw_sample_date (date, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Transactional ABW (Average Bunch Weight / BJR) data recording actual bunch weight samples per block and period, used to compute FFB tonnage estimates.
+  synonyms: ['ABW', 'BJR', 'berat janjang rata-rata', 'bunch weight', 'average bunch weight transaction']
+  example_questions: ['What is the recorded ABW for block X in month Y?', 'List all ABW samples taken this quarter.', 'Show bunch weight trends for block B01 over 6 months.']
+
+TABLE: t_adjustment
+  id_adjustment (bigint, not null)
+  adjustment_type (character varying, nullable)
+  note (text, nullable)
+  date (date, nullable)
+  time (time without time zone, nullable)
+  d_stts (bigint, nullable)
+  global_id (character varying, not null)
+  employee (character varying, nullable)
+  transaction_date (date, nullable)
+  ajust_by (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Records data adjustment transactions made to correct or revise previously submitted field data, including type, reason, and the adjusting employee.
+  synonyms: ['adjustment', 'penyesuaian', 'koreksi data', 'revisi', 'data correction']
+  example_questions: ['What adjustments were made to record X?', 'List all adjustments performed today.', 'How many adjustment transactions occurred this month?']
+
+TABLE: t_attendance
+  attendance_id (bigint, not null)
+  attendance_date (date, nullable)
+  attendance_mandor_employee_code (character varying, nullable)
+  attendance_mandor_employee_name (character varying, nullable)
+  attendance_employee_code (character varying, nullable)
+  attendance_employee_name (character varying, nullable)
+  attendance_code (character varying, nullable)
+  attendance_desc (character varying, nullable)
+  attendance_work_status (smallint, nullable)
+  attendance_is_closed (smallint, nullable)
+  attendance_created_by (character varying, nullable)
+  attendance_created_date (date, nullable)
+  attendance_created_time (time without time zone, nullable)
+  attendance_updated_by (character varying, nullable)
+  attendance_updated_date (date, nullable)
+  attendance_updated_time (time without time zone, nullable)
+  request_id (character varying, nullable)
+  integration_status (smallint, nullable)
+  REMARK (character varying, nullable)
+  attendance_closing_is_approved (smallint, not null)
+  attendance_closing_is_approved_by (character varying, nullable)
+  attendance_closing_approved_timestamp (timestamp without time zone, nullable)
+  attendance_gang_allotment_code (character varying, nullable)
+  adjustment_status (smallint, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Daily employee attendance transaction records capturing attendance code, mandor, employee, work status, closing approval, and SAP integration status.
+  synonyms: ['attendance', 'absensi', 'kehadiran karyawan', 'daftar hadir', 'absen harian']
+  example_questions: ['How many employees were absent in division 02 yesterday?', 'List attendance records for mandor X on date Y.', "Which employees had an 'S' (sick) attendance code today?"]
+
+TABLE: t_checkpoint
+  cp_id (character varying, not null)
+  cp_estate_code (character varying, nullable)
+  cp_division_code (character varying, nullable)
+  cp_seal_code (character varying, nullable)
+  cp_receiving_point_code (character varying, nullable)
+  cp_delivery_note (character varying, nullable)
+  cp_lat (character varying, not null)
+  cp_long (character varying, not null)
+  cp_photo (character varying, nullable)
+  cp_total_nuts (integer, nullable)
+  cp_total_hc (integer, nullable)
+  cp_bruto (double precision, nullable)
+  cp_tarra (double precision, nullable)
+  cp_estimate_tonnage (double precision, nullable)
+  cp_actual_tonnage (double precision, nullable)
+  cp_is_closed (smallint, not null)
+  cp_kerani_kirim_employee_code (character varying, nullable)
+  cp_kerani_kirim_employee_name (character varying, nullable)
+  cp_is_deleted (smallint, not null)
+  cp_closing_is_approved (smallint, not null)
+  cp_closing_is_approved_by (character varying, nullable)
+  cp_closing_approved_timestamp (timestamp without time zone, nullable)
+  cp_transporter (smallint, nullable)
+  cp_license_number (character varying, nullable)
+  cp_vendor_code (text, nullable)
+  cp_vendor_name (text, nullable)
+  cp_license_number_vendor (character varying, nullable)
+  cp_transporter2 (smallint, nullable)
+  cp_license_number2 (character varying, nullable)
+  cp_license_number_vendor2 (character varying, nullable)
+  adjustment_status (smallint, nullable)
+  cp_bin_number (integer, nullable)
+  cp_type (smallint, nullable)
+  cp_sailing_date (date, nullable)
+  cp_ship_flag (smallint, nullable)
+  cp_cable_way (smallint, nullable)
+  integration_status (smallint, nullable)
+  request_id (character varying, nullable)
+  REMARK (character varying, nullable)
+  cp_created_by (character varying, nullable)
+  cp_created_date (date, nullable)
+  cp_created_time (time without time zone, nullable)
+  cp_updated_by (character varying, nullable)
+  cp_updated_date (date, nullable)
+  cp_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Coconut harvesting checkpoint (CP) header transaction recording the vehicle, seal, tonnage, GPS location, and delivery details for coconut transport.
+  synonyms: ['checkpoint', 'CP kelapa', 'coconut CP', 'titik pemeriksaan kelapa', 'coconut transport']
+  example_questions: ['How many coconut CPs were closed today?', 'What is the actual tonnage for CP ID X?', 'List all open coconut checkpoints for division Y.']
+
+TABLE: t_checkpoint_detail
+  cp_detail_id (bigint, not null)
+  cp_id (character varying, not null)
+  cp_hc_id (character varying, not null)
+  cp_hc_block_code (character varying, not null)
+  cp_hc_tph_code (character varying, not null)
+  cp_hc_card_id (character varying, nullable)
+  cp_hc_nuts_delivered (integer, not null)
+  cp_detail_type (smallint, nullable)
+  REMARK (character varying, nullable)
+  integration_status (smallint, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Detail lines of coconut checkpoint transactions, linking individual harvest collection records (HC) to the CP header with block, TPH, and nut delivery quantities.
+  synonyms: ['checkpoint detail', 'CP detail kelapa', 'coconut CP line', 'hc delivery', 'nut delivery detail']
+  example_questions: ['How many nuts were delivered from block X in CP Y?', 'List all HC records included in checkpoint Z.', 'What TPH codes are referenced in CP detail for division A?']
+
+TABLE: t_checkpoint_loader
+  cp_loader_id (bigint, not null)
+  cp_id (character varying, not null)
+  cp_loader_employee_code (character varying, nullable)
+  cp_loader_employee_name (character varying, not null)
+  cp_loader_vendor (character varying, nullable)
+  cp_loader_transporter (smallint, nullable)
+  cp_loader_percentage (double precision, not null)
+  cp_loader_type (smallint, not null)
+  integration_status (smallint, nullable)
+  request_id (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Records loader/worker assignments for coconut checkpoint transport, including their percentage share and vendor linkage.
+  synonyms: ['checkpoint loader', 'loader kelapa', 'pengangkut CP', 'CP worker', 'coconut transporter']
+  example_questions: ['Who were the loaders for checkpoint X?', 'What percentage is allocated to each loader in CP Y?', 'List loaders supplied by vendor Z for this checkpoint.']
+
+TABLE: t_coconut_fdn
+  coconut_fdn_id (character varying, not null)
+  coconut_fdn_company_code (character varying, nullable)
+  coconut_fdn_estate_code (character varying, nullable)
+  coconut_fdn_division_code (character varying, nullable)
+  coconut_fdn_sales_order (character varying, nullable)
+  coconut_fdn_receiving_point_code (character varying, nullable)
+  coconut_fdn_license_number (character varying, nullable)
+  coconut_fdn_driver_name (character varying, nullable)
+  coconut_fdn_vehicle_vendor_code (character varying, nullable)
+  coconut_fdn_kerani_kirim_employee_code (character varying, nullable)
+  coconut_fdn_kerani_kirim_employee_name (character varying, nullable)
+  coconut_fdn_delivery_note (character varying, nullable)
+  coconut_fdn_lat (character varying, not null)
+  coconut_fdn_long (character varying, not null)
+  coconut_fdn_card_id (character varying, nullable)
+  coconut_fdn_photo (character varying, nullable)
+  coconut_fdn_total_oph (integer, nullable)
+  coconut_fdn_bruto (double precision, nullable)
+  coconut_fdn_tarra (double precision, nullable)
+  coconut_fdn_actual_tonnage (double precision, nullable)
+  coconut_fdn_is_closed (smallint, not null)
+  coconut_fdn_closing_is_approved (smallint, nullable)
+  coconut_fdn_closing_is_approved_by (character varying, nullable)
+  coconut_fdn_closing_approved_timestamp (timestamp without time zone, nullable)
+  coconut_fdn_created_by (character varying, nullable)
+  coconut_fdn_created_date (date, nullable)
+  coconut_fdn_created_time (time without time zone, nullable)
+  coconut_fdn_updated_by (character varying, nullable)
+  coconut_fdn_updated_date (date, nullable)
+  coconut_fdn_updated_time (time without time zone, nullable)
+  coconut_fdn_is_deleted (smallint, not null)
+  request_id (character varying, nullable)
+  integration_status (smallint, nullable)
+  REMARK (character varying, nullable)
+  adjustment_status (smallint, nullable)
+  coconut_fdn_total_customer_qty (double precision, nullable)
+  coconut_fdn_destination (character varying, nullable)
+  coconut_fdn_is_nursery (smallint, nullable)
+  coconut_fdn_sales_order_item_code (character varying, nullable)
+  coconut_fdn_is_stock (smallint, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Field Delivery Note (FDN) header transaction for coconut produce, recording vehicle, driver, tonnage (bruto/tarra), sales order, and delivery closing details.
+  synonyms: ['coconut FDN', 'FDN kelapa', 'surat jalan kelapa', 'coconut delivery note', 'FDN coconut']
+  example_questions: ['What is the actual tonnage for coconut FDN X?', 'List all open coconut FDNs for division Y.', 'Which sales order is linked to coconut FDN Z?']
+
+TABLE: t_coconut_fdn_detail
+  coconut_fdn_detail_id (bigint, not null)
+  coconut_fdn_id (character varying, not null)
+  coconut_fdn_oph_id (character varying, not null)
+  coconut_fdn_oph_card_id (character varying, nullable)
+  REMARK (character varying, nullable)
+  integration_status (smallint, nullable)
+  coconut_fdn_oph_total_customer_nut_qty (double precision, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Detail lines of coconut FDN, linking individual OPH harvest records to the delivery note with customer nut quantities.
+  synonyms: ['coconut FDN detail', 'FDN detail kelapa', 'coconut delivery detail', 'OPH FDN link']
+  example_questions: ['Which OPH records are included in coconut FDN X?', 'What is the customer nut quantity for FDN detail Y?', 'List all FDN detail lines for delivery note Z.']
+
+TABLE: t_coconut_harvesting_plan
+  coconut_harvesting_plan_id (bigint, not null)
+  coconut_harvesting_plan_date (date, nullable)
+  coconut_harvesting_plan_estate_code (character varying, nullable)
+  coconut_harvesting_plan_division_code (character varying, nullable)
+  coconut_harvesting_plan_block_code (character varying, nullable)
+  coconut_harvesting_plan_total_hk (integer, nullable)
+  coconut_harvesting_plan_quantity_target (integer, nullable)
+  coconut_harvesting_plan_ha (character varying, nullable)
+  coconut_harvesting_plan_assistant_employee_code (character varying, nullable)
+  coconut_harvesting_plan_assistant_employee_name (character varying, nullable)
+  coconut_harvesting_plan_approval_remark (character varying, nullable)
+  coconut_harvesting_plan_is_approved (smallint, nullable)
+  coconut_harvesting_plan_approved_by (character varying, nullable)
+  coconut_harvesting_plan_approved_by_name (character varying, nullable)
+  coconut_harvesting_plan_approved_date (date, nullable)
+  coconut_harvesting_plan_approved_time (time without time zone, nullable)
+  coconut_harvesting_plan_created_by (character varying, nullable)
+  coconut_harvesting_plan_created_date (date, nullable)
+  coconut_harvesting_plan_created_time (time without time zone, nullable)
+  coconut_harvesting_plan_updated_by (character varying, nullable)
+  coconut_harvesting_plan_updated_date (date, nullable)
+  coconut_harvesting_plan_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Coconut harvesting plan transaction recording planned harvest quantities, HK, hectares, and block assignments per division with approval workflow.
+  synonyms: ['coconut harvest plan', 'rencana panen kelapa', 'coconut plan', 'panen kelapa plan']
+  example_questions: ['What is the target quantity in the coconut harvest plan for block X?', 'How many HK are planned for coconut harvest in division Y?', 'List all approved coconut harvest plans this month.']
+
+TABLE: t_coconut_oph
+  coconut_oph_id (character varying, not null)
+  coconut_oph_company_code (character varying, not null)
+  coconut_oph_plant_code (character varying, not null)
+  coconut_oph_estate_code (character varying, not null)
+  coconut_oph_division_code (character varying, not null)
+  coconut_oph_block_code (character varying, not null)
+  coconut_oph_tph_code (character varying, not null)
+  coconut_oph_lat (character varying, nullable)
+  coconut_oph_long (character varying, nullable)
+  coconut_oph_photo (character varying, nullable)
+  coconut_oph_card_id (character varying, nullable)
+  coconut_oph_checker_employee_code (character varying, not null)
+  coconut_oph_checker_employee_name (character varying, nullable)
+  coconut_oph_notes (character varying, nullable)
+  coconut_oph_is_planned (smallint, not null)
+  coconut_oph_is_approved (smallint, nullable)
+  coconut_oph_approved_by (character varying, nullable)
+  coconut_oph_approved_by_name (character varying, nullable)
+  coconut_oph_approved_timestamp (timestamp without time zone, nullable)
+  coconut_oph_is_closed (smallint, nullable)
+  coconut_oph_closing_is_approved (smallint, nullable)
+  coconut_oph_closing_approved_by (character varying, nullable)
+  coconut_oph_closing_approved_by_name (character varying, nullable)
+  coconut_oph_closing_approved_timestamp (timestamp without time zone, nullable)
+  coconut_oph_created_by (character varying, not null)
+  coconut_oph_created_date (date, not null)
+  coconut_oph_created_time (time without time zone, not null)
+  coconut_oph_updated_by (character varying, nullable)
+  coconut_oph_updated_date (date, nullable)
+  coconut_oph_updated_time (time without time zone, nullable)
+  coconut_oph_is_deleted (smallint, not null)
+  integration_status (smallint, not null)
+  adjustment_status (smallint, not null)
+  REMARK (character varying, nullable)
+  request_id (character varying, nullable)
+  coconut_oph_gang_code (character varying, nullable)
+  coconut_oph_gang_name (character varying, nullable)
+  coconut_oph_nuts_total (integer, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: OPH (Output Per Harvest) transaction for coconut, recording harvest event details per TPH/block including gang, checker, nut totals, GPS, and approval status.
+  synonyms: ['coconut OPH', 'OPH kelapa', 'coconut harvest record', 'panen kelapa', 'HC kelapa']
+  example_questions: ['How many coconut OPHs were recorded for block X today?', 'List all open coconut OPHs for division Y.', 'What is the total nut count in coconut OPH Z?']
+
+TABLE: t_coconut_oph_detail
+  coconut_oph_detail_id (bigint, not null)
+  coconut_oph_id (character varying, nullable)
+  coconut_oph_detail_material_code (character varying, not null)
+  coconut_oph_detail_material_name (character varying, not null)
+  coconut_oph_detail_customer_nut_qty (double precision, not null)
+  coconut_oph_detail_harvesting_deduction_is_locked (smallint, nullable)
+  coconut_oph_detail_closing_is_approved (smallint, nullable)
+  coconut_oph_detail_closing_approved_by (character varying, nullable)
+  coconut_oph_detail_closing_approved_by_name (character varying, nullable)
+  coconut_oph_detail_closing_approved_timestamp (timestamp without time zone, nullable)
+  coconut_oph_detail_is_deleted (smallint, not null)
+  integration_status (smallint, not null)
+  adjustment_status (smallint, not null)
+  REMARK (character varying, nullable)
+  request_id (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Material-level detail of coconut OPH transactions, capturing customer nut quantities per material and closing approval status.
+  synonyms: ['coconut OPH detail', 'detail OPH kelapa', 'coconut harvest material', 'nut material detail']
+  example_questions: ['What materials are recorded in coconut OPH X?', 'What is the customer nut quantity for material Y in OPH Z?', 'List all OPH detail lines for this harvest session.']
+
+TABLE: t_coconut_oph_harvesting_deduction
+  coconut_oph_grading_id (bigint, not null)
+  coconut_oph_grading_date (date, not null)
+  coconut_oph_grading_oph_id (character varying, nullable)
+  coconut_oph_grading_material_code (character varying, not null)
+  coconut_oph_grading_material_description (character varying, nullable)
+  coconut_oph_grading_qty (double precision, nullable)
+  coconut_oph_grading_created_by (character varying, nullable)
+  coconut_oph_grading_created_date (date, nullable)
+  coconut_oph_grading_created_time (time without time zone, nullable)
+  coconut_oph_grading_updated_by (character varying, nullable)
+  coconut_oph_grading_updated_date (date, nullable)
+  coconut_oph_grading_updated_time (time without time zone, nullable)
+  integration_status (smallint, nullable)
+  request_id (character varying, nullable)
+  REMARK (character varying, nullable)
+  coconut_oph_grading_type (smallint, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Grading deduction records applied to coconut OPH transactions, capturing deduction type (estate or customer), material code, and quantity.
+  synonyms: ['coconut OPH deduction', 'grading kelapa', 'potongan panen kelapa', 'coconut grading', 'OPH deduction kelapa']
+  example_questions: ['What deductions were applied to coconut OPH X?', 'How much was deducted from the customer for OPH Y?', 'List all estate-level deductions recorded today.']
+
+TABLE: t_coconut_oph_persons
+  coconut_oph_person_id (bigint, not null)
+  coconut_oph_id (character varying, nullable)
+  coconut_oph_person_employee_code (character varying, nullable)
+  coconut_oph_person_employee_name (character varying, nullable)
+  integration_status (smallint, nullable)
+  REMARK (character varying, nullable)
+  coconut_oph_person_activity_type (character, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Worker assignment detail for coconut OPH, recording individual employees participating in each coconut harvest event with their activity type.
+  synonyms: ['coconut OPH persons', 'pemanen kelapa', 'coconut harvest worker', 'OPH worker kelapa']
+  example_questions: ['Which workers participated in coconut OPH X?', 'List all persons assigned to OPH Y.', 'How many cutters were in coconut harvest session Z?']
+
+TABLE: t_cp
+  cp_id (character varying, not null)
+  cp_estate_code (character varying, nullable)
+  cp_division_code (character varying, nullable)
+  cp_license_number (character varying, nullable)
+  cp_seal_code (character varying, nullable)
+  cp_receiving_point_code (character varying, nullable)
+  cp_delivery_note (character varying, nullable)
+  cp_lat (character varying, not null)
+  cp_long (character varying, not null)
+  cp_photo (character varying, nullable)
+  cp_total_bunches (integer, nullable)
+  cp_total_oph (integer, nullable)
+  cp_total_loose_fruit (double precision, nullable)
+  cp_estimate_tonnage (double precision, nullable)
+  cp_actual_tonnage (double precision, nullable)
+  cp_is_closed (smallint, not null)
+  cp_created_by (character varying, nullable)
+  cp_created_date (date, nullable)
+  cp_created_time (time without time zone, nullable)
+  cp_updated_by (character varying, nullable)
+  cp_updated_date (date, nullable)
+  cp_updated_time (time without time zone, nullable)
+  cp_kerani_kirim_employee_code (character varying, nullable)
+  cp_kerani_kirim_employee_name (character varying, nullable)
+  cp_is_deleted (smallint, not null)
+  cp_bunches_wet (integer, nullable)
+  cp_bunches_ripe (integer, nullable)
+  cp_bunches_overripe (integer, nullable)
+  cp_bunches_underripe (integer, nullable)
+  cp_bunches_unripe (integer, nullable)
+  cp_bunches_rotten (integer, nullable)
+  cp_bunches_long_stalk (integer, nullable)
+  cp_bunches_empty (integer, nullable)
+  cp_bunches_dirty (integer, nullable)
+  cp_bunches_unfresh (integer, nullable)
+  cp_bunches_old (integer, nullable)
+  cp_bunches_pest_damaged_old (integer, nullable)
+  cp_bunches_pest_damaged_new (integer, nullable)
+  cp_bunches_diseased (integer, nullable)
+  cp_bunches_total (integer, nullable)
+  integration_status (smallint, nullable)
+  request_id (character varying, nullable)
+  cp_bruto (double precision, nullable)
+  cp_tarra (double precision, nullable)
+  REMARK (character varying, nullable)
+  cp_closing_is_approved (smallint, not null)
+  cp_closing_is_approved_by (character varying, nullable)
+  cp_closing_approved_timestamp (timestamp without time zone, nullable)
+  cp_transporter (smallint, nullable)
+  cp_vendor_code (text, nullable)
+  cp_vendor_name (text, nullable)
+  cp_license_number_vendor (character varying, nullable)
+  adjustment_status (smallint, nullable)
+  cp_bin_number (integer, nullable)
+  cp_type (smallint, nullable)
+  cp_license_number_vendor2 (character varying, nullable)
+  cp_license_number2 (character varying, nullable)
+  cp_transporter2 (smallint, nullable)
+  cp_sailing_date (date, nullable)
+  cp_ship_flag (smallint, nullable)
+  cp_cable_way (smallint, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: FFB checkpoint (CP) header transaction recording the transport vehicle, seal, bunches by grading category, GPS, actual tonnage, and delivery note for palm FFB.
+  synonyms: ['CP', 'checkpoint', 'surat jalan FFB', 'FFB transport', 'checkpoint panen', 'tonnase FFB']
+  example_questions: ['What is the total actual tonnage for CP X?', 'How many bunches were graded as ripe in CP Y?', 'List all open FFB checkpoints for estate Z today.']
+
+TABLE: t_cp_detail
+  cp_detail_id (bigint, not null)
+  cp_id (character varying, not null)
+  cp_oph_id (character varying, not null)
+  cp_oph_bunches_delivered (integer, not null)
+  cp_oph_loose_fruit_delivered (double precision, not null)
+  cp_oph_block_code (character varying, not null)
+  cp_oph_tph_code (character varying, not null)
+  cp_oph_card_id (character varying, nullable)
+  REMARK (character varying, nullable)
+  integration_status (smallint, nullable)
+  cp_detail_type (smallint, nullable)
+  cp_oph_platform_no (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Detail lines of FFB checkpoint, linking individual OPH records to the CP with bunches delivered, loose fruit, block, and TPH data.
+  synonyms: ['CP detail', 'detail checkpoint', 'FFB CP line', 'OPH delivery link', 'tonase detail']
+  example_questions: ['How many bunches from OPH X were delivered in CP Y?', 'List all OPH entries in checkpoint Z.', 'What blocks contributed to CP delivery today?']
+
+TABLE: t_cp_loader
+  cp_loader_id (bigint, not null)
+  cp_id (character varying, not null)
+  cp_loader_employee_code (character varying, nullable)
+  cp_loader_employee_name (character varying, not null)
+  cp_loader_percentage (double precision, not null)
+  cp_loader_type (smallint, not null)
+  integration_status (smallint, nullable)
+  request_id (character varying, nullable)
+  cp_loader_vendor (character varying, nullable)
+  cp_loader_transporter (smallint, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Loader/worker assignment records for FFB checkpoint transport, capturing each loader's percentage contribution and vendor linkage.
+  synonyms: ['CP loader', 'loader FFB', 'pengangkut FFB', 'CP worker', 'transporter loader']
+  example_questions: ['Who were the loaders for checkpoint X?', 'What percentage is assigned to loader Y in CP Z?', 'List vendor loaders for all CPs this week.']
+
+TABLE: t_deleted_oph
+  oph_id (character varying, not null)
+  oph_card_id (character varying, nullable)
+  oph_harvesting_method (smallint, nullable)
+  oph_estate_code (character varying, nullable)
+  oph_plant_code (character varying, nullable)
+  oph_division_code (character varying, nullable)
+  oph_block_code (character varying, nullable)
+  oph_tph_code (character varying, nullable)
+  oph_notes (character varying, nullable)
+  oph_lat (character varying, nullable)
+  oph_long (character varying, nullable)
+  oph_photo (character varying, nullable)
+  mandor_employee_code (character varying, nullable)
+  mandor_employee_name (character varying, nullable)
+  kerani_panen_employee_code (character varying, nullable)
+  kerani_panen_employee_name (character varying, nullable)
+  bunches_wet (integer, nullable)
+  bunches_ripe (integer, nullable)
+  bunches_overripe (integer, nullable)
+  bunches_underripe (integer, nullable)
+  bunches_unripe (integer, nullable)
+  bunches_rotten (integer, nullable)
+  bunches_long_stalk (integer, nullable)
+  bunches_empty (integer, nullable)
+  bunches_dirty (integer, nullable)
+  bunches_unfresh (integer, nullable)
+  bunches_old (integer, nullable)
+  bunches_pest_damaged (integer, nullable)
+  bunches_small (integer, nullable)
+  bunches_diseased (integer, nullable)
+  bunches_dura (integer, nullable)
+  loose_fruits (double precision, nullable)
+  bunches_total (integer, nullable)
+  bunches_not_sent (integer, nullable)
+  is_planned (smallint, nullable)
+  is_approved (smallint, nullable)
+  is_restant_permanent (smallint, nullable)
+  oph_approved_by (character varying, nullable)
+  oph_approved_by_name (character varying, nullable)
+  oph_approved_date (date, nullable)
+  oph_approved_time (time without time zone, nullable)
+  oph_customer_code (character varying, nullable)
+  oph_is_closed (smallint, not null)
+  oph_created_by (character varying, nullable)
+  oph_created_date (date, nullable)
+  oph_created_time (time without time zone, nullable)
+  oph_updated_by (character varying, nullable)
+  oph_updated_date (date, nullable)
+  oph_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Archive table of soft-deleted OPH (palm harvest) records, preserving the full bunch count and harvest details for audit purposes before permanent removal.
+  synonyms: ['deleted OPH', 'OPH terhapus', 'deleted harvest', 'panen dihapus', 'OPH archive']
+  example_questions: ['What OPH records were deleted this month?', 'Show the bunch count of deleted OPH X.', 'Why was OPH Y deleted and by whom?']
+
+TABLE: t_deleted_oph_persons
+  deleted_oph_person_id (bigint, not null)
+  oph_id (character varying, not null)
+  oph_person_employee_code (character varying, not null)
+  oph_person_employee_name (character varying, nullable)
+  oph_person_percentage (double precision, nullable)
+  oph_person_total_bunches (double precision, nullable)
+  oph_person_estimate_tonnage (double precision, nullable)
+  oph_person_type (smallint, nullable)
+  oph_person_employee_type (smallint, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Archive of worker assignment records for deleted OPH transactions, preserving individual harvest contribution data for deleted harvest sessions.
+  synonyms: ['deleted OPH persons', 'pemanen OPH dihapus', 'deleted harvest worker', 'OPH worker archive']
+  example_questions: ['Which workers were in the deleted OPH X?', 'Show the bunch contribution of each worker in deleted OPH Y.', 'List all deleted OPH person records for this month.']
+
+TABLE: t_employee_face_attendance
+  id (bigint, not null)
+  employee_id (bigint, not null)
+  attendance_code (character varying, not null)
+  clock_in (timestamp without time zone, nullable)
+  clock_out (timestamp without time zone, nullable)
+  attendance_source (character varying, nullable)
+  attendance_device_id (character varying, nullable)
+  created_date (timestamp without time zone, not null)
+  created_by (bigint, nullable)
+  updated_by (bigint, nullable)
+  updated_date (timestamp without time zone, nullable)
+  is_deleted (boolean, nullable)
+  status (integer, not null)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Biometric facial recognition attendance transaction log recording employee clock-in and clock-out timestamps, source device, and attendance code for each working day.
+  synonyms: ['face attendance', 'absensi wajah', 'biometric attendance', 'clock in', 'clock out', 'facial attendance']
+  example_questions: ['What time did employee X clock in today?', 'List employees who clocked in late this morning.', 'How many face attendance records were captured yesterday?']
+
+TABLE: t_fdn
+  fdn_id (character varying, not null)
+  fdn_card_id (character varying, nullable)
+  fdn_estate_code (character varying, nullable)
+  fdn_division_code (character varying, nullable)
+  fdn_license_number (character varying, nullable)
+  fdn_seal_code (character varying, nullable)
+  fdn_deliver_to_code (character varying, nullable)
+  fdn_deliver_to_name (character varying, nullable)
+  fdn_delivery_note (character varying, nullable)
+  fdn_lat (character varying, not null)
+  fdn_long (character varying, not null)
+  fdn_photo (character varying, nullable)
+  fdn_total_bunches (integer, nullable)
+  fdn_total_oph (integer, nullable)
+  fdn_total_loose_fruit (double precision, nullable)
+  fdn_estimate_tonnage (double precision, nullable)
+  fdn_actual_tonnage (double precision, nullable)
+  fdn_is_closed (smallint, not null)
+  fdn_created_by (character varying, nullable)
+  fdn_created_date (date, nullable)
+  fdn_created_time (time without time zone, nullable)
+  fdn_updated_by (character varying, nullable)
+  fdn_updated_date (date, nullable)
+  fdn_updated_time (time without time zone, nullable)
+  fdn_kerani_kirim_employee_code (character varying, nullable)
+  fdn_kerani_kirim_employee_name (character varying, nullable)
+  fdn_is_deleted (smallint, not null)
+  fdn_receiving_point_code (character varying, nullable)
+  fdn_bunches_wet (integer, nullable)
+  fdn_bunches_ripe (integer, nullable)
+  fdn_bunches_overripe (integer, nullable)
+  fdn_bunches_underripe (integer, nullable)
+  fdn_bunches_unripe (integer, nullable)
+  fdn_bunches_rotten (integer, nullable)
+  fdn_bunches_long_stalk (integer, nullable)
+  fdn_bunches_empty (integer, nullable)
+  fdn_bunches_dirty (integer, nullable)
+  fdn_bunches_unfresh (integer, nullable)
+  fdn_bunches_old (integer, nullable)
+  fdn_bunches_pest_damaged_old (integer, nullable)
+  fdn_bunches_pest_damaged_new (integer, nullable)
+  fdn_bunches_diseased (integer, nullable)
+  fdn_bunches_total_old (integer, nullable)
+  fdn_transporter (smallint, nullable)
+  fdn_write_off_qty (double precision, nullable)
+  request_id (character varying, nullable)
+  integration_status (smallint, nullable)
+  fdn_bruto (double precision, nullable)
+  fdn_tarra (double precision, nullable)
+  REMARK (character varying, nullable)
+  fdn_write_off (smallint, nullable)
+  fdn_line_number (smallint, nullable)
+  fdn_closing_is_approved (smallint, nullable)
+  fdn_closing_is_approved_by (character varying, nullable)
+  fdn_closing_approved_timestamp (timestamp without time zone, nullable)
+  company_code (character varying, nullable)
+  fdn_license_number_vendor (character varying, nullable)
+  fdn_vendor_name (character varying, nullable)
+  adjustment_status (smallint, nullable)
+  fdn_license_number_vendor2 (character varying, nullable)
+  fdn_license_number2 (character varying, nullable)
+  fdn_transporter2 (smallint, nullable)
+  fdn_ship_flag (smallint, nullable)
+  fdn_cable_way (smallint, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: FFB Field Delivery Note (FDN/surat jalan) header transaction recording vehicle, driver, destination, tonnage (bruto/tarra), grading data, and delivery closing status.
+  synonyms: ['FDN', 'surat jalan', 'field delivery note', 'delivery note FFB', 'FDN panen', 'tonase FDN']
+  example_questions: ['What is the actual tonnage for FDN X?', 'List all open FDNs for estate Y today.', 'Which destination received FDN delivery Z?']
+
+TABLE: t_fdn_detail
+  fdn_detail_id (bigint, not null)
+  fdn_id (character varying, not null)
+  fdn_oph_id (character varying, not null)
+  fdn_oph_bunches_delivered (integer, not null)
+  fdn_oph_loose_fruit_delivered (double precision, not null)
+  fdn_oph_block_code (character varying, not null)
+  fdn_oph_tph_code (character varying, not null)
+  fdn_oph_card_id (character varying, nullable)
+  REMARK (character varying, nullable)
+  integration_status (smallint, nullable)
+  fdn_oph_platform_no (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Detail lines of FFB FDN, linking individual OPH records to the delivery note with bunches and loose fruit quantities per block and TPH.
+  synonyms: ['FDN detail', 'surat jalan detail', 'FDN line', 'OPH FDN link', 'FFB delivery line']
+  example_questions: ['Which OPH records are included in FDN X?', 'How many bunches from block Y were delivered in FDN Z?', "List all FDN detail lines for today's deliveries."]
+
+TABLE: t_fdn_loader
+  fdn_loader_id (bigint, not null)
+  fdn_id (character varying, not null)
+  fdn_loader_employee_code (character varying, nullable)
+  fdn_loader_employee_name (character varying, not null)
+  fdn_loader_percentage (double precision, not null)
+  fdn_loader_type (smallint, not null)
+  integration_status (smallint, nullable)
+  request_id (character varying, nullable)
+  fdn_loader_vendor (character varying, nullable)
+  fdn_loader_transporter (smallint, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Loader worker assignment records for FFB FDN transport, capturing loader employee, percentage share, type, and transporter vendor linkage.
+  synonyms: ['FDN loader', 'loader surat jalan', 'FFB loader', 'pengangkut FDN', 'transporter']
+  example_questions: ['Who were the loaders for FDN X?', 'What percentage is allocated to each loader in FDN Y?', 'List all loaders by vendor for deliveries today.']
+
+TABLE: t_general_worker_assignment
+  general_worker_assignment_id (character varying, not null)
+  general_worker_assignment_date (date, not null)
+  general_worker_assignment_estate_code (character varying, nullable)
+  general_worker_assignment_division_code (character varying, nullable)
+  general_worker_assignment_activity_code (character varying, nullable)
+  general_worker_assignment_activity_name (character varying, nullable)
+  general_worker_assignment_activity_uom (character varying, nullable)
+  general_worker_assignment_employee_code (character varying, nullable)
+  general_worker_assignment_employee_name (character varying, nullable)
+  general_worker_assignment_remark (character varying, nullable)
+  general_worker_assignment_block_code (character varying, nullable)
+  general_worker_assignment_order_number (character varying, nullable)
+  general_worker_assignment_auc_number (character varying, nullable)
+  general_worker_assignment_cost_center (character varying, nullable)
+  general_worker_assignment_created_by (character varying, nullable)
+  general_worker_assignment_created_date (date, nullable)
+  general_worker_assignment_created_time (time without time zone, nullable)
+  general_worker_assignment_updated_by (character varying, nullable)
+  general_worker_assignment_updated_date (date, nullable)
+  general_worker_assignment_updated_time (time without time zone, nullable)
+  general_worker_assignment_target_qty (double precision, nullable)
+  general_worker_block_status (smallint, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Work assignment records for general (non-harvesting) field workers, assigning activities per block with target quantities and cost objects.
+  synonyms: ['general worker assignment', 'penugasan pekerja umum', 'work assignment', 'kegiatan umum']
+  example_questions: ['What activities were assigned to general workers in division X today?', 'List all work assignments for mandor Y this week.', 'Which blocks have pending general worker assignments?']
+
+TABLE: t_harvester_assignment
+  harvester_assignment_id (bigint, not null)
+  harvester_assignment_date (date, nullable)
+  harvester_assignment_estate_code (character varying, nullable)
+  harvester_assignment_division_code (character varying, nullable)
+  harvester_assignment_block_code (character varying, nullable)
+  harvester_assignment_employee_code (character varying, nullable)
+  harvester_assignment_employee_name (character varying, nullable)
+  harvester_assignment_remark (character varying, nullable)
+  harvester_assignment_created_by (character varying, nullable)
+  harvester_assignment_created_date (date, nullable)
+  harvester_assignment_created_time (time without time zone, nullable)
+  harvester_assignment_updated_by (character varying, nullable)
+  harvester_assignment_updated_date (date, nullable)
+  harvester_assignment_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Block-level harvester (pemanen) assignment records mapping specific harvesters to their assigned blocks on a given date.
+  synonyms: ['harvester assignment', 'penugasan pemanen', 'pemanen blok', 'panen assignment', 'blok pemanen']
+  example_questions: ['Which harvester is assigned to block X today?', 'List all harvester assignments for division Y this week.', 'How many blocks does harvester Z cover?']
+
+TABLE: t_harvesting_deduction
+  harvesting_deduction_id (bigint, not null)
+  harvesting_deduction_date (date, not null)
+  harvesting_deduction_oph_id (character varying, nullable)
+  harvesting_deduction_code (character varying, not null)
+  harvesting_deduction_qty (double precision, nullable)
+  harvesting_deduction_created_by (character varying, nullable)
+  harvesting_deduction_is_closed (smallint, not null)
+  harvesting_deduction_created_date (date, nullable)
+  harvesting_deduction_created_time (time without time zone, nullable)
+  harvesting_deduction_updated_by (character varying, nullable)
+  harvesting_deduction_updated_date (date, nullable)
+  harvesting_deduction_updated_time (time without time zone, nullable)
+  integration_status (smallint, nullable)
+  request_id (character varying, nullable)
+  harvesting_deduction_description (character varying, nullable)
+  REMARK (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Grading deduction transaction records applied to individual OPH harvest sessions, capturing deduction code, quantity, and SAP integration status.
+  synonyms: ['harvesting deduction', 'potongan panen', 'grading deduction', 'FFB deduction', 'OPH grading', 'tonase potongan']
+  example_questions: ['What deductions were applied to OPH X?', 'How much was deducted for unripe bunches this month?', 'List all grading deductions pending SAP integration.']
+
+TABLE: t_harvesting_plan
+  harvesting_plan_id (bigint, not null)
+  harvesting_plan_date (date, nullable)
+  harvesting_plan_estate_code (character varying, nullable)
+  harvesting_plan_division_code (character varying, nullable)
+  harvesting_plan_block_code (character varying, nullable)
+  harvesting_plan_total_hk (integer, nullable)
+  harvesting_plan_ha (character varying, nullable)
+  harvesting_plan_assistant_employee_code (character varying, nullable)
+  harvesting_plan_assistant_employee_name (character varying, nullable)
+  harvesting_plan_approval_remark (character varying, nullable)
+  harvesting_plan_is_approved (smallint, nullable)
+  harvesting_plan_approved_by (character varying, nullable)
+  harvesting_plan_approved_by_name (character varying, nullable)
+  harvesting_plan_approved_date (date, nullable)
+  harvesting_plan_approved_time (time without time zone, nullable)
+  harvesting_plan_created_by (character varying, nullable)
+  harvesting_plan_created_date (date, nullable)
+  harvesting_plan_created_time (time without time zone, nullable)
+  harvesting_plan_updated_by (character varying, nullable)
+  harvesting_plan_updated_date (date, nullable)
+  harvesting_plan_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: FFB harvesting plan transaction for palm, recording planned HK, hectares, block, assistant manager, and approval workflow per estate and division.
+  synonyms: ['harvesting plan', 'rencana panen', 'panen plan', 'FFB plan', 'HK panen', 'rencana panen sawit']
+  example_questions: ['What is the planned HK for block X this month?', 'List all approved harvesting plans for division Y.', 'Which harvesting plans are pending approval?']
+
+TABLE: t_mill_grader_oph
+  oph_mill_grader_oph_id (bigint, not null)
+  oph_id (character varying, not null)
+  oph_card_id (character varying, nullable)
+  oph_harvesting_method (character varying, nullable)
+  oph_deduction_indicator (character varying, nullable)
+  oph_estate_code (character varying, nullable)
+  oph_plant_code (character varying, nullable)
+  oph_division_code (character varying, nullable)
+  oph_block_code (character varying, nullable)
+  oph_tph_code (character varying, nullable)
+  oph_notes (character varying, nullable)
+  oph_lat (character varying, nullable)
+  oph_long (character varying, nullable)
+  oph_photo (character varying, nullable)
+  mandor_employee_code (character varying, nullable)
+  mandor_employee_name (character varying, nullable)
+  kerani_panen_employee_code (character varying, nullable)
+  kerani_panen_employee_name (character varying, nullable)
+  bunches_wet (integer, nullable)
+  bunches_ripe (integer, nullable)
+  bunches_overripe (integer, nullable)
+  bunches_underripe (integer, nullable)
+  bunches_unripe (integer, nullable)
+  bunches_rotten (integer, nullable)
+  bunches_long_stalk (integer, nullable)
+  bunches_empty (integer, nullable)
+  bunches_dirty (integer, nullable)
+  bunches_unfresh (integer, nullable)
+  bunches_old (integer, nullable)
+  bunches_pest_damaged_old (integer, nullable)
+  bunches_pest_damaged_new (integer, nullable)
+  bunches_diseased (integer, nullable)
+  loose_fruits (integer, nullable)
+  bunches_total (integer, nullable)
+  oph_created_by (character varying, nullable)
+  oph_created_date (date, nullable)
+  oph_created_time (time without time zone, nullable)
+  oph_updated_by (character varying, nullable)
+  oph_updated_date (date, nullable)
+  oph_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Mill grader's OPH re-grading transaction capturing mill-side bunch count re-assessment by category, used for mill vs. field grading comparison.
+  synonyms: ['mill grader OPH', 'grading pabrik', 'mill grading', 'OPH grader pabrik', 'recount pabrik']
+  example_questions: ['How does mill grading compare to field grading for OPH X?', 'List all mill grader OPHs recorded today.', 'What is the total unripe bunch count from mill grading for division Y?']
+
+TABLE: t_oph
+  oph_id (character varying, not null)
+  oph_card_id (character varying, nullable)
+  oph_harvesting_method (character varying, nullable)
+  oph_estate_code (character varying, nullable)
+  oph_plant_code (character varying, nullable)
+  oph_division_code (character varying, nullable)
+  oph_block_code (character varying, nullable)
+  oph_tph_code (character varying, nullable)
+  oph_notes (character varying, nullable)
+  oph_lat (character varying, nullable)
+  oph_long (character varying, nullable)
+  oph_photo (character varying, nullable)
+  mandor_employee_code (character varying, nullable)
+  mandor_employee_name (character varying, nullable)
+  bunches_wet (integer, nullable)
+  bunches_ripe (integer, nullable)
+  bunches_overripe (integer, nullable)
+  bunches_underripe (integer, nullable)
+  bunches_unripe (integer, nullable)
+  bunches_rotten (integer, nullable)
+  bunches_long_stalk (integer, nullable)
+  bunches_empty (integer, nullable)
+  bunches_dirty (integer, nullable)
+  bunches_unfresh (integer, nullable)
+  bunches_old (integer, nullable)
+  bunches_pest_damaged_old (integer, nullable)
+  bunches_pest_damaged_new (integer, nullable)
+  bunches_diseased (integer, nullable)
+  loose_fruits (integer, nullable)
+  bunches_total (integer, nullable)
+  bunches_not_sent (integer, nullable)
+  is_planned (smallint, nullable)
+  is_approved (smallint, nullable)
+  is_restant_permanent (smallint, nullable)
+  oph_approved_by (character varying, nullable)
+  oph_approved_by_name (character varying, nullable)
+  oph_approved_date (date, nullable)
+  oph_approved_time (time without time zone, nullable)
+  oph_is_closed (smallint, not null)
+  oph_created_by (character varying, nullable)
+  oph_created_date (date, nullable)
+  oph_created_time (time without time zone, nullable)
+  oph_updated_by (character varying, nullable)
+  oph_updated_date (date, nullable)
+  oph_updated_time (time without time zone, nullable)
+  kerani_panen_employee_code (character varying, nullable)
+  kerani_panen_employee_name (character varying, nullable)
+  oph_is_deleted (smallint, not null)
+  oph_is_revised (smallint, nullable)
+  request_id (character varying, nullable)
+  integration_status (smallint, nullable)
+  oph_harvesting_deduction_is_locked (smallint, not null)
+  REMARK (character varying, nullable)
+  loose_fruits_is_in_bag (smallint, nullable)
+  loose_fruits_is_dirty (smallint, nullable)
+  oph_closing_is_approved (smallint, nullable)
+  oph_closing_is_approved_by (character varying, nullable)
+  oph_closing_approved_timestamp (timestamp without time zone, nullable)
+  oph_deduction_indicator (smallint, nullable)
+  adjustment_status (smallint, nullable)
+  vra_order_number (character varying, nullable)
+  oph_platform_no (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Core OPH (Output Per Harvest) transaction for palm FFB, capturing the full harvest event per TPH including bunch counts by grading category, loose fruit, mandor, kerani panen, GPS, and SAP integration status.
+  synonyms: ['OPH', 'panen', 'harvest record', 'output per harvest', 'panen sawit', 'janjang', 'FFB OPH', 'blok panen']
+  example_questions: ['How many total bunches were harvested in block X today?', 'List all OPHs pending SAP integration.', 'What is the loose fruit count for OPH Y?']
+
+TABLE: t_oph_mill_grader_persons
+  oph_mill_grader_person_id (bigint, not null)
+  oph_id (character varying, not null)
+  oph_person_employee_code (character varying, not null)
+  oph_person_employee_name (character varying, nullable)
+  oph_person_type (smallint, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Worker assignment records for mill grader OPH sessions, linking individual employees to the mill grading verification activity.
+  synonyms: ['mill grader persons', 'pekerja grader pabrik', 'mill grading worker', 'grader person']
+  example_questions: ['Who performed mill grading for OPH X?', 'List all mill grader persons assigned today.', 'Which employees are registered as mill graders?']
+
+TABLE: t_oph_persons
+  oph_person_id (bigint, not null)
+  oph_id (character varying, not null)
+  oph_person_employee_code (character varying, not null)
+  oph_person_employee_name (character varying, nullable)
+  oph_person_percentage (double precision, nullable)
+  oph_person_type (smallint, nullable)
+  oph_person_lf_percentage (integer, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Worker participation detail for each OPH palm harvest, recording individual harvesters/carriers with their percentage contribution and bunch share.
+  synonyms: ['OPH persons', 'pemanen OPH', 'harvest worker', 'OPH worker', 'panen persons', 'carrier', 'cutter']
+  example_questions: ['Which workers participated in OPH X?', 'What is the bundle share for cutter Y in OPH Z?', 'List all OPH persons for block B03 today.']
+
+TABLE: t_oph_supervise
+  oph_supervise_id (character varying, not null)
+  oph_id (character varying, not null)
+  oph_card_id (character varying, nullable)
+  bunches_wet (integer, nullable)
+  bunches_ripe (integer, nullable)
+  bunches_overripe (integer, nullable)
+  bunches_underripe (integer, nullable)
+  bunches_unripe (integer, nullable)
+  bunches_rotten (integer, nullable)
+  bunches_long_stalk (integer, nullable)
+  bunches_empty (integer, nullable)
+  bunches_dirty (integer, nullable)
+  bunches_unfresh (integer, nullable)
+  bunches_old (integer, nullable)
+  bunches_pest_damaged_old (integer, nullable)
+  bunches_pest_damaged_new (integer, nullable)
+  bunches_diseased (integer, nullable)
+  loose_fruits (integer, nullable)
+  bunches_total (integer, nullable)
+  bunches_not_sent (integer, nullable)
+  oph_supervise_created_by (character varying, nullable)
+  oph_supervise_created_date (date, nullable)
+  oph_supervise_created_time (time without time zone, nullable)
+  oph_supervise_updated_by (character varying, nullable)
+  oph_supervise_updated_date (date, nullable)
+  oph_supervise_updated_time (time without time zone, nullable)
+  oph_estimate_tonage (double precision, nullable)
+  oph_photo (character varying, nullable)
+  oph_is_revised (smallint, nullable)
+  loose_fruits_is_in_bag (smallint, nullable)
+  loose_fruits_is_dirty (smallint, nullable)
+  oph_platform_no (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Supervision verification transaction for OPH palm harvest, recording a supervisory bunch count re-check per OPH to validate field data accuracy.
+  synonyms: ['OPH supervise', 'supervisi panen', 'OPH supervision', 'verifikasi panen', 'kerani supervisi']
+  example_questions: ['Was OPH X verified by a supervisor?', 'List all supervised OPHs for division Y today.', 'What is the bunch count from supervision for OPH Z?']
+
+TABLE: t_overtime
+  overtime_id (bigint, not null)
+  overtime_date (date, not null)
+  overtime_activity_code (character varying, not null)
+  overtime_activity_name (character varying, not null)
+  overtime_employee_code (character varying, not null)
+  overtime_employee_name (character varying, not null)
+  overtime_start (time without time zone, nullable)
+  overtime_end (time without time zone, nullable)
+  overtime_duration (double precision, nullable)
+  overtime_description (character varying, nullable)
+  overtime_plant_code (character varying, nullable)
+  overtime_block_code (character varying, nullable)
+  overtime_order_number (character varying, nullable)
+  overtime_auc_number (character varying, nullable)
+  overtime_cost_center (character varying, nullable)
+  overtime_qty (double precision, nullable)
+  overtime_uom (character varying, nullable)
+  overtime_is_approved (smallint, nullable)
+  overtime_approved_by (character varying, nullable)
+  overtime_approved_by_name (character varying, nullable)
+  overtime_approved_date (date, nullable)
+  overtime_approved_time (time without time zone, nullable)
+  overtime_created_by (character varying, nullable)
+  overtime_created_date (date, nullable)
+  overtime_created_time (time without time zone, nullable)
+  overtime_updated_by (character varying, nullable)
+  overtime_updated_date (date, nullable)
+  overtime_updated_time (time without time zone, nullable)
+  overtime_is_closed (smallint, not null)
+  integration_status (smallint, nullable)
+  request_id (character varying, nullable)
+  overtime_division_code (character varying, nullable)
+  overtime_mandor_employee_code (character varying, nullable)
+  overtime_mandor_employee_name (character varying, nullable)
+  overtime_estate_code (character varying, nullable)
+  overtime_mandays (double precision, nullable)
+  REMARK (character varying, nullable)
+  overtime_closing_is_approved (smallint, not null)
+  overtime_closing_is_approved_by (character varying, nullable)
+  overtime_closing_approved_timestamp (timestamp without time zone, nullable)
+  adjustment_status (smallint, nullable)
+  overtime_block_status (smallint, nullable)
+  overtime_wbs_code (character varying, nullable)
+  overtime_wbs_name (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Overtime work transaction records for employees, capturing activity, duration, block, cost objects, mandor, and approval for SAP posting.
+  synonyms: ['overtime', 'lembur', 'kerja lebih', 'OT', 'jam lembur']
+  example_questions: ['How many overtime hours did employee X record this month?', 'List all overtime records pending approval in division Y.', 'What activities generated the most overtime this week?']
+
+TABLE: t_platform_checking
+  id (character varying, not null)
+  tph_id (bigint, nullable)
+  tph_code (character varying, not null)
+  tph_block_code (character varying, not null)
+  tph_division_code (character varying, not null)
+  created_date (timestamp without time zone, not null)
+  created_by (bigint, not null)
+  updated_date (timestamp without time zone, nullable)
+  updated_by (bigint, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Platform checking transaction recording inspections of TPH collection points, verifying the physical status of field platforms per block and division.
+  synonyms: ['platform checking', 'pemeriksaan TPH', 'platform inspection', 'TPH check']
+  example_questions: ['Was TPH X checked today?', 'List all platform inspections for division Y this week.', 'How many platforms were inspected this month?']
+
+TABLE: t_user_assignment
+  mandor_id (bigint, not null)
+  profile_name (character varying, nullable)
+  mandor_employee_code (character varying, nullable)
+  mandor_employee_name (character varying, nullable)
+  employee_code (character varying, nullable)
+  employee_name (character varying, nullable)
+  start_validity (date, nullable)
+  end_validity (date, nullable)
+  created_by (character varying, nullable)
+  created_date (date, nullable)
+  created_time (time without time zone, nullable)
+  updated_by (character varying, nullable)
+  updated_date (date, nullable)
+  updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Transactional mandor-to-worker assignment table defining which employees are under which mandor's supervision for a given validity period.
+  synonyms: ['user assignment', 'penugasan mandor', 'mandor assignment', 'kemandoran', 'mandor link']
+  example_questions: ['Which employees are currently assigned to mandor X?', "Show the validity period for employee Y's mandor assignment.", 'List all active mandor assignments for estate Z.']
+
+TABLE: t_vra
+  vra_id (character varying, not null)
+  vra_code (character varying, nullable)
+  vra_posting_date (date, not null)
+  vra_work_center (character varying, nullable)
+  vra_start_time (time without time zone, nullable)
+  vra_end_time (time without time zone, nullable)
+  vra_reason (character varying, nullable)
+  vra_measurement (character varying, nullable)
+  vra_confirm_text (character varying, nullable)
+  vra_confirm_text2 (character varying, nullable)
+  vra_actual (double precision, nullable)
+  vra_is_planned (smallint, nullable)
+  vra_is_approved (smallint, nullable)
+  vra_approved_by (character varying, nullable)
+  vra_approved_by_name (character varying, nullable)
+  vra_approved_date (date, nullable)
+  vra_approved_time (time without time zone, nullable)
+  vra_is_closed (smallint, not null)
+  vra_created_by (character varying, nullable)
+  vra_created_date (date, nullable)
+  vra_created_time (time without time zone, nullable)
+  vra_updated_by (character varying, nullable)
+  vra_updated_date (date, nullable)
+  vra_updated_time (time without time zone, nullable)
+  integration_status (smallint, nullable)
+  request_id (character varying, nullable)
+  REMARK (character varying, nullable)
+  vra_closing_is_approved (smallint, not null)
+  vra_closing_is_approved_by (character varying, nullable)
+  vra_closing_approved_timestamp (timestamp without time zone, nullable)
+  adjustment_status (smallint, nullable)
+  vra_is_deleted (smallint, nullable)
+  vra_object_type (character varying, not null)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Vehicle Running Activity (VRA) transaction recording daily vehicle/equipment usage including work center, run time, measurement, confirmation text, and approval.
+  synonyms: ['VRA', 'vehicle running activity', 'aktivitas kendaraan', 'alat berat log', 'vehicle log', 'equipment usage']
+  example_questions: ['How many VRA records were submitted for vehicle X today?', 'List all VRA transactions pending SAP integration.', 'What is the total running hours for equipment Y this month?']
+
+TABLE: t_work_assignment
+  work_assignment_id (character varying, not null)
+  work_assignment_date (date, not null)
+  work_assignment_estate_code (character varying, nullable)
+  work_assignment_plant_code (character varying, nullable)
+  work_assignment_division_code (character varying, nullable)
+  work_assignment_activity_code (character varying, nullable)
+  work_assignment_activity_name (character varying, nullable)
+  work_assignment_activity_uom (character varying, nullable)
+  work_assignment_qty (double precision, nullable)
+  work_assignment_remark (character varying, nullable)
+  work_assignment_mandor_employee_code (character varying, nullable)
+  work_assignment_mandor_employee_name (character varying, nullable)
+  work_assignment_employee_code (character varying, nullable)
+  work_assignment_employee_name (character varying, nullable)
+  work_assignment_block_code (character varying, nullable)
+  work_assignment_order_number (character varying, nullable)
+  work_assignment_auc_number (character varying, nullable)
+  work_assignment_cost_center (character varying, nullable)
+  work_assignment_flexrate (double precision, nullable)
+  work_assignment_start_time (time without time zone, nullable)
+  work_assignment_end_time (time without time zone, nullable)
+  work_assignment_duration (double precision, nullable)
+  work_assignment_description (character varying, nullable)
+  work_assignment_customer_code (character varying, nullable)
+  work_assignment_is_planned (smallint, nullable)
+  work_assignment_is_approved (smallint, nullable)
+  work_assignment_approved_by (character varying, nullable)
+  work_assignment_approved_by_name (character varying, nullable)
+  work_assignment_approved_date (date, nullable)
+  work_assignment_approved_time (time without time zone, nullable)
+  work_assignment_is_closed (smallint, not null)
+  work_assignment_created_by (character varying, nullable)
+  work_assignment_created_date (date, nullable)
+  work_assignment_created_time (time without time zone, nullable)
+  work_assignment_updated_by (character varying, nullable)
+  work_assignment_updated_date (date, nullable)
+  work_assignment_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Daily work assignment transaction for field workers, specifying the activity, block, cost objects, employee, mandor, and planned vs. actual quantities.
+  synonyms: ['work assignment', 'penugasan kerja', 'assignment harian', 'kerja harian', 'field work assignment']
+  example_questions: ['What work assignments were issued to mandor X today?', 'List all work assignments for block Y this week.', 'Which activities are most frequently assigned in division Z?']
+
+TABLE: t_workdone
+  workdone_id (character varying, not null)
+  workdone_date (date, not null)
+  workdone_estate_code (character varying, nullable)
+  workdone_plant_code (character varying, nullable)
+  workdone_division_code (character varying, nullable)
+  workdone_activity_code (character varying, nullable)
+  workdone_activity_name (character varying, nullable)
+  workdone_activity_uom (character varying, nullable)
+  workdone_mandays (double precision, nullable)
+  workdone_qty (double precision, nullable)
+  workdone_remark (character varying, nullable)
+  workdone_mandor_employee_code (character varying, nullable)
+  workdone_mandor_employee_name (character varying, nullable)
+  workdone_employee_code (character varying, nullable)
+  workdone_employee_name (character varying, nullable)
+  workdone_block_code (character varying, nullable)
+  workdone_order_number (character varying, nullable)
+  workdone_auc_number (character varying, nullable)
+  workdone_cost_center (character varying, nullable)
+  workdone_flexrate (double precision, nullable)
+  workdone_start_time (time without time zone, nullable)
+  workdone_end_time (time without time zone, nullable)
+  workdone_duration (double precision, nullable)
+  workdone_description (character varying, nullable)
+  workdone_customer_code (character varying, nullable)
+  workdone_is_planned (smallint, nullable)
+  workdone_is_approved (smallint, nullable)
+  workdone_approved_by (character varying, nullable)
+  workdone_approved_by_name (character varying, nullable)
+  workdone_approved_date (date, nullable)
+  workdone_approved_time (time without time zone, nullable)
+  workdone_is_closed (smallint, not null)
+  workdone_created_by (character varying, nullable)
+  workdone_created_date (date, nullable)
+  workdone_created_time (time without time zone, nullable)
+  workdone_updated_by (character varying, nullable)
+  workdone_updated_date (date, nullable)
+  workdone_updated_time (time without time zone, nullable)
+  workdone_manday_old (double precision, nullable)
+  workdone_target_qty (double precision, nullable)
+  integration_status (smallint, nullable)
+  request_id (character varying, nullable)
+  REMARK (character varying, nullable)
+  workdone_closing_is_approved (smallint, not null)
+  workdone_closing_is_approved_by (character varying, nullable)
+  workdone_closing_approved_timestamp (timestamp without time zone, nullable)
+  workdone_block_status (smallint, nullable)
+  adjustment_status (smallint, nullable)
+  workdone_wbs_code (character varying, nullable)
+  workdone_wbs_name (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Work completion (actual realisasi) transaction recording what field work was actually done by each worker per activity, block, and cost object with mandays and quantity.
+  synonyms: ['workdone', 'realisasi kerja', 'actual work', 'kerja selesai', 'work completion', 'realisasi kegiatan']
+  example_questions: ['What is the total workdone quantity for activity X in division Y this month?', 'List all workdone records pending SAP posting.', 'How many mandays were recorded for block Z today?']
+
+TABLE: t_workdone_material
+  workdone_material_id (bigint, not null)
+  workdone_id (character varying, not null)
+  workdone_material_code (character varying, nullable)
+  workdone_material_name (character varying, nullable)
+  workdone_material_uom (character varying, nullable)
+  workdone_material_qty (double precision, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Material consumption detail linked to work completion records, capturing the materials (inputs) used when carrying out each field activity.
+  synonyms: ['workdone material', 'material realisasi', 'input consumption', 'bahan kegiatan', 'material kerja']
+  example_questions: ['What materials were consumed in workdone X?', 'How much urea was used across all workdone records this month?', 'List all material consumption for activity Y in division Z.']
+
+TABLE: t_workplan
+  workplan_id (character varying, not null)
+  workplan_date (date, not null)
+  workplan_estate_code (character varying, nullable)
+  workplan_division_code (character varying, nullable)
+  workplan_activity_code (character varying, nullable)
+  workplan_activity_name (character varying, nullable)
+  workplan_activity_uom (character varying, nullable)
+  workplan_target (double precision, nullable)
+  workplan_total_hk (integer, nullable)
+  workplan_remark (character varying, nullable)
+  workplan_approval_remark (character varying, nullable)
+  workplan_assistant_employee_code (character varying, nullable)
+  workplan_assistant_employee_name (character varying, nullable)
+  workplan_block_code (character varying, nullable)
+  workplan_order_number (character varying, nullable)
+  workplan_auc_number (character varying, nullable)
+  workplan_cost_center (character varying, nullable)
+  workplan_is_approved (smallint, nullable)
+  workplan_approved_by (character varying, nullable)
+  workplan_approved_by_name (character varying, nullable)
+  workplan_approved_date (date, nullable)
+  workplan_approved_time (time without time zone, nullable)
+  workplan_created_by (character varying, nullable)
+  workplan_created_date (date, nullable)
+  workplan_created_time (time without time zone, nullable)
+  workplan_updated_by (character varying, nullable)
+  workplan_updated_date (date, nullable)
+  workplan_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Field work plan transaction (rencana kerja) capturing planned activities, target quantities, HK, block, cost objects, and approval per estate and division.
+  synonyms: ['workplan', 'rencana kerja', 'work plan', 'plan kegiatan', 'rencana harian']
+  example_questions: ['What work is planned for division X tomorrow?', 'List all approved workplans for activity Y this week.', 'Which workplans are pending approval?']
+
+TABLE: t_workplan_material
+  workplan_material_id (bigint, not null)
+  workplan_id (character varying, not null)
+  workplan_material_code (character varying, nullable)
+  workplan_material_name (character varying, nullable)
+  workplan_material_uom (character varying, nullable)
+  workplan_material_qty (double precision, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Planned material requirements linked to work plan transactions, specifying expected material codes, quantities, and UOM for each planned activity.
+  synonyms: ['workplan material', 'material rencana kerja', 'planned material', 'kebutuhan bahan', 'material plan']
+  example_questions: ['What materials are planned for workplan X?', 'How much fertiliser is planned for block Y this month?', 'List all planned material requirements for activity Z.']
+
+TABLE: tc_user
+  user_id (bigint, not null)
+  user_employee_code (character varying, nullable)
+  user_internal_employee_code (character varying, nullable)
+  user_name (character varying, nullable)
+  user_login (character varying, nullable)
+  user_password (character varying, nullable)
+  user_status (character varying, nullable)
+  user_email (character varying, nullable)
+  user_role (smallint, nullable)
+  user_token (character varying, nullable)
+  user_forget_password_token (character varying, nullable)
+  user_created_by (character varying, nullable)
+  user_created_date (date, nullable)
+  user_created_time (time without time zone, nullable)
+  user_updated_by (character varying, nullable)
+  user_updated_date (date, nullable)
+  user_updated_time (time without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: EPMS application user account table, storing login credentials, roles, employee linkage, and token for authentication and access control.
+  synonyms: ['user', 'pengguna', 'akun', 'login', 'user account', 'EPMS user']
+  example_questions: ['How many active users are registered in the system?', 'What role does user X have?', 'List all users linked to employee code Y.']
+
+TABLE: tr_gi_detail
+  tr_gi_detail_id (bigint, not null)
+  tr_gi_detail_header_id (bigint, nullable)
+  tr_gi_detail_material_code (character varying, nullable)
+  tr_gi_detail_material_name (character varying, nullable)
+  tr_gi_detail_batch (character varying, nullable)
+  tr_gi_detail_qty (double precision, nullable)
+  tr_gi_detail_uom (character varying, nullable)
+  tr_gi_detail_base_qty (double precision, nullable)
+  tr_gi_detail_base_uom (character varying, nullable)
+  tr_gi_detail_sloc (character varying, nullable)
+  tr_gi_detail_gr_receipient (character varying, nullable)
+  tr_gi_detail_qr_code_number (character varying, nullable)
+  tr_gi_detail_gr_detail_id (integer, nullable)
+  tr_gi_detail_is_cancelled (boolean, nullable)
+  tr_gi_detail_order_number (character varying, nullable)
+  tr_gi_detail_line_id (character varying, nullable)
+  tr_gi_detail_notes (character varying, nullable)
+  tr_gi_detail_mobile_qty (double precision, not null)
+  tr_gi_detail_mobile_uom (character varying, nullable)
+  tr_gi_detail_created_by (character varying, nullable)
+  tr_gi_detail_created_timestamp (timestamp without time zone, nullable)
+  tr_gi_detail_updated_by (character varying, nullable)
+  tr_gi_detail_updated_timestamp (timestamp without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Goods Issuance (GI) transaction detail line, recording each material issued with quantity, batch, UOM, storage location, order reference, and QR code.
+  synonyms: ['GI detail', 'detail pengeluaran barang', 'goods issuance line', 'material issued', 'GI line item']
+  example_questions: ['What materials were issued in GI transaction X?', 'How much fertiliser was issued in GI header Y?', 'List all GI detail lines for order number Z.']
+
+TABLE: tr_gi_header
+  tr_gi_header_id (bigint, not null)
+  tr_gi_header_number (character varying, nullable)
+  tr_gi_header_number_from_mobile (character varying, nullable)
+  tr_gi_header_plant_code (character varying, nullable)
+  tr_gi_header_division_code (character varying, nullable)
+  tr_gi_header_created_plant_code (character varying, nullable)
+  tr_gi_header_sap_doc (character varying, nullable)
+  tr_gi_header_pstg_date (character varying, nullable)
+  tr_gi_header_doc_date (character varying, nullable)
+  tr_gi_header_bol (character varying, nullable)
+  tr_gi_header_txt (character varying, nullable)
+  tr_gi_header_material_slip (character varying, nullable)
+  tr_gi_header_mvt_code (character varying, nullable)
+  tr_gi_header_sloc_code (character varying, nullable)
+  tr_gi_header_cost_center (character varying, nullable)
+  tr_gi_header_sap_year (character varying, nullable)
+  tr_gi_header_status (character varying, nullable)
+  tr_gi_header_error (character varying, nullable)
+  tr_gi_header_order_number (character varying, nullable)
+  tr_gi_header_order_type (character varying, nullable)
+  tr_gi_header_gl_account (character varying, nullable)
+  tr_gi_header_wbs_code (character varying, nullable)
+  tr_gi_header_block_code (character varying, nullable)
+  tr_gi_header_worktype_code (character varying, nullable)
+  tr_gi_header_recipient (character varying, nullable)
+  tr_gi_header_mvt_sap (character varying, nullable)
+  tr_gi_header_notes (character varying, nullable)
+  tr_gi_header_mobile_is_submit (boolean, nullable)
+  tr_gi_header_is_approved (smallint, nullable)
+  tr_gi_header_approved_by (character varying, nullable)
+  tr_gi_header_approved_timestamp (timestamp without time zone, nullable)
+  tr_gi_header_is_closed (smallint, not null)
+  tr_gi_header_closing_is_approved (smallint, not null)
+  tr_gi_header_closing_is_approved_by (character varying, nullable)
+  tr_gi_header_closing_approved_timestamp (timestamp without time zone, nullable)
+  integration_status (smallint, nullable)
+  request_id (character varying, nullable)
+  remark (character varying, nullable)
+  adjustment_status (smallint, nullable)
+  tr_gi_header_material_doc_sap (character varying, nullable)
+  tr_gi_header_material_doc_year_sap (character varying, nullable)
+  tr_gi_header_is_planned (smallint, not null)
+  tr_gi_header_is_deleted (smallint, not null)
+  tr_gi_header_created_by (character varying, nullable)
+  tr_gi_header_created_timestamp (timestamp without time zone, nullable)
+  tr_gi_header_updated_by (character varying, nullable)
+  tr_gi_header_updated_timestamp (timestamp without time zone, nullable)
+  tr_gi_header_is_cancelled (boolean, not null)
+  tr_gi_header_lc (character varying, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Goods Issuance (GI) transaction header capturing the document number, plant, division, movement type, cost object, block, approval, and SAP integration status.
+  synonyms: ['GI header', 'pengeluaran barang', 'goods issuance', 'GI document', 'material issuance', 'MIGO GI']
+  example_questions: ['List all GI transactions pending SAP posting.', 'Which GI documents were approved today?', 'What is the movement type for GI header X?']
+
+TABLE: tr_gi_plan
+  tr_gi_plan_id (bigint, not null)
+  tr_gi_plan_number (character varying, nullable)
+  tr_gi_plan_number_from_mobile (character varying, nullable)
+  tr_gi_plan_plant_code (character varying, nullable)
+  tr_gi_plan_division_code (character varying, nullable)
+  tr_gi_plan_created_plant_code (character varying, nullable)
+  tr_gi_plan_sap_doc (character varying, nullable)
+  tr_gi_plan_pstg_date (character varying, nullable)
+  tr_gi_plan_doc_date (character varying, nullable)
+  tr_gi_plan_bol (character varying, nullable)
+  tr_gi_plan_txt (character varying, nullable)
+  tr_gi_plan_material_slip (character varying, nullable)
+  tr_gi_plan_mvt_code (character varying, nullable)
+  tr_gi_plan_sloc_code (character varying, nullable)
+  tr_gi_plan_cost_center (character varying, nullable)
+  tr_gi_plan_sap_year (character varying, nullable)
+  tr_gi_plan_status (character varying, nullable)
+  tr_gi_plan_error (character varying, nullable)
+  tr_gi_plan_order_number (character varying, nullable)
+  tr_gi_plan_order_type (character varying, not null)
+  tr_gi_plan_gl_account (character varying, nullable)
+  tr_gi_plan_wbs_code (character varying, nullable)
+  tr_gi_plan_block_code (character varying, nullable)
+  tr_gi_plan_worktype_code (character varying, nullable)
+  tr_gi_plan_recipient (character varying, nullable)
+  tr_gi_plan_mvt_sap (character varying, nullable)
+  tr_gi_plan_notes (character varying, nullable)
+  tr_gi_plan_mobile_is_submit (boolean, nullable)
+  tr_gi_plan_is_approved (smallint, nullable)
+  tr_gi_plan_approved_by (character varying, nullable)
+  tr_gi_plan_approved_timestamp (timestamp without time zone, nullable)
+  tr_gi_plan_is_closed (smallint, not null)
+  tr_gi_plan_closing_is_approved (smallint, not null)
+  tr_gi_plan_closing_is_approved_by (character varying, nullable)
+  tr_gi_plan_closing_approved_timestamp (timestamp without time zone, nullable)
+  integration_status (smallint, nullable)
+  request_id (character varying, nullable)
+  remark (character varying, nullable)
+  adjustment_status (smallint, nullable)
+  tr_gi_plan_material_doc_sap (character varying, nullable)
+  tr_gi_plan_material_doc_year_sap (character varying, nullable)
+  tr_gi_plan_is_planned (smallint, not null)
+  tr_gi_plan_is_deleted (smallint, not null)
+  tr_gi_plan_created_by (character varying, nullable)
+  tr_gi_plan_created_timestamp (timestamp without time zone, nullable)
+  tr_gi_plan_updated_by (character varying, nullable)
+  tr_gi_plan_updated_timestamp (timestamp without time zone, nullable)
+  tr_gi_plan_is_cancelled (boolean, not null)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Goods Issuance Plan (GI Plan) transaction header, capturing planned material issuance requests with approval workflow before actual GI execution.
+  synonyms: ['GI plan', 'rencana pengeluaran barang', 'planned GI', 'GI request', 'material request plan']
+  example_questions: ['Which GI plans are awaiting approval?', 'List all GI plans submitted this week for block X.', 'What materials are requested in GI plan Y?']
+
+TABLE: tr_gi_plan_detail
+  tr_gi_plan_detail_id (bigint, not null)
+  tr_gi_plan_detail_header_id (bigint, nullable)
+  tr_gi_plan_detail_material_code (character varying, nullable)
+  tr_gi_plan_detail_material_name (character varying, nullable)
+  tr_gi_plan_detail_batch (character varying, nullable)
+  tr_gi_plan_detail_qty (double precision, nullable)
+  tr_gi_plan_detail_uom (character varying, nullable)
+  tr_gi_plan_detail_base_qty (double precision, nullable)
+  tr_gi_plan_detail_base_uom (character varying, nullable)
+  tr_gi_plan_detail_sloc (character varying, nullable)
+  tr_gi_plan_detail_gr_receipient (character varying, nullable)
+  tr_gi_plan_detail_qr_code_number (character varying, nullable)
+  tr_gi_plan_detail_gr_detail_id (integer, nullable)
+  tr_gi_plan_detail_is_cancelled (boolean, nullable)
+  tr_gi_plan_detail_order_number (character varying, nullable)
+  tr_gi_plan_detail_line_id (character varying, nullable)
+  tr_gi_plan_detail_notes (character varying, nullable)
+  tr_gi_plan_detail_mobile_qty (double precision, not null)
+  tr_gi_plan_detail_mobile_uom (character varying, nullable)
+  tr_gi_plan_detail_created_by (character varying, nullable)
+  tr_gi_plan_detail_created_timestamp (timestamp without time zone, nullable)
+  tr_gi_plan_detail_updated_by (character varying, nullable)
+  tr_gi_plan_detail_updated_timestamp (timestamp without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Detail line items of GI Plan transactions, specifying planned material codes, quantities, batch, UOM, and storage location per issuance plan.
+  synonyms: ['GI plan detail', 'detail rencana GI', 'planned material line', 'GI plan line item']
+  example_questions: ['What materials are planned in GI plan X?', 'How much herbicide is requested in GI plan Y?', 'List all GI plan detail lines for order Z.']
+
+TABLE: tr_gr_detail
+  tr_gr_detail_id (bigint, not null)
+  tr_gr_detail_header_id (bigint, nullable)
+  tr_gr_detail_material_code (character varying, nullable)
+  tr_gr_detail_material_name (character varying, nullable)
+  tr_gr_detail_batch (character varying, nullable)
+  tr_gr_detail_qty (double precision, nullable)
+  tr_gr_detail_uom (character varying, nullable)
+  tr_gr_detail_base_qty (double precision, nullable)
+  tr_gr_detail_base_uom (character varying, nullable)
+  tr_gr_detail_sloc (character varying, nullable)
+  tr_gr_detail_gr_receipient (character varying, nullable)
+  tr_gr_detail_qr_code_number (character varying, nullable)
+  tr_gr_detail_gr_detail_id (integer, nullable)
+  tr_gr_detail_is_cancelled (boolean, nullable)
+  tr_gr_detail_order_number (character varying, nullable)
+  tr_gr_detail_line_id (character varying, nullable)
+  tr_gr_detail_notes (character varying, nullable)
+  tr_gr_detail_mobile_qty (double precision, not null)
+  tr_gr_detail_mobile_uom (character varying, nullable)
+  tr_gr_detail_created_by (character varying, nullable)
+  tr_gr_detail_created_timestamp (timestamp without time zone, nullable)
+  tr_gr_detail_updated_by (character varying, nullable)
+  tr_gr_detail_updated_timestamp (timestamp without time zone, nullable)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Goods Receipt (GR) transaction detail line recording each material received with quantity, batch, UOM, storage location, and supplier reference.
+  synonyms: ['GR detail', 'penerimaan barang detail', 'goods receipt line', 'material received', 'GR line item']
+  example_questions: ['What materials were received in GR transaction X?', 'How much fertiliser was received in GR header Y?', 'List all GR detail lines for PO number Z.']
+
+TABLE: tr_gr_header
+  tr_gr_header_id (bigint, not null)
+  tr_gr_header_number (character varying, nullable)
+  tr_gr_header_number_from_mobile (character varying, nullable)
+  tr_gr_header_plant_code (character varying, nullable)
+  tr_gr_header_created_plant_code (character varying, nullable)
+  tr_gr_header_sap_doc (character varying, nullable)
+  tr_gr_header_pstg_date (character varying, nullable)
+  tr_gr_header_doc_date (character varying, nullable)
+  tr_gr_header_doc_note (character varying, nullable)
+  tr_gr_header_bill_of_lading (character varying, nullable)
+  tr_gr_header_supplier_name (character varying, nullable)
+  tr_gr_header_bol (character varying, nullable)
+  tr_gr_header_txt (character varying, nullable)
+  tr_gr_header_mvt_code (character varying, nullable)
+  tr_gr_header_sloc_code (character varying, nullable)
+  tr_gr_header_sap_year (character varying, nullable)
+  tr_gr_header_status (character varying, nullable)
+  tr_gr_header_error (character varying, nullable)
+  tr_gr_header_order_number (character varying, nullable)
+  tr_gr_header_gl_account (character varying, nullable)
+  tr_gr_header_recipient (character varying, nullable)
+  tr_gr_header_mvt_sap (character varying, nullable)
+  tr_gr_header_notes (character varying, nullable)
+  tr_gr_header_mobile_is_submit (boolean, nullable)
+  tr_gr_header_is_approved (smallint, nullable)
+  tr_gr_header_approved_by (character varying, nullable)
+  tr_gr_header_approved_timestamp (timestamp without time zone, nullable)
+  tr_gr_header_is_closed (smallint, not null)
+  tr_gr_header_closing_is_approved (smallint, not null)
+  tr_gr_header_closing_is_approved_by (character varying, nullable)
+  tr_gr_header_closing_approved_timestamp (timestamp without time zone, nullable)
+  integration_status (smallint, nullable)
+  request_id (character varying, nullable)
+  remark (character varying, nullable)
+  adjustment_status (smallint, nullable)
+  tr_gr_header_material_doc_sap (character varying, nullable)
+  tr_gr_header_material_doc_year_sap (character varying, nullable)
+  tr_gr_header_is_planned (smallint, not null)
+  tr_gr_header_is_deleted (smallint, not null)
+  tr_gr_header_created_by (character varying, nullable)
+  tr_gr_header_created_timestamp (timestamp without time zone, nullable)
+  tr_gr_header_updated_by (character varying, nullable)
+  tr_gr_header_updated_timestamp (timestamp without time zone, nullable)
+  tr_gr_header_is_cancelled (boolean, not null)
+  EXISTING METADATA (preserve description/synonyms/example_questions if good):
+  description: Goods Receipt (GR) transaction header capturing the receipt document number, plant, supplier, movement type, storage location, approval, and SAP integration status.
+  synonyms: ['GR header', 'penerimaan barang', 'goods receipt', 'GR document', 'material receipt', 'MIGO GR']
+  example_questions: ['List all GR transactions pending SAP posting.', 'Which GR documents were received today?', 'What is the supplier for GR header X?']

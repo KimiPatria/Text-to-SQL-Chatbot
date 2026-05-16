@@ -129,9 +129,19 @@ def build_interpretation_messages(
     question: str,
     rows: list[dict],
     columns: list[str],
+    stats: dict | None = None,
 ) -> list[dict]:
-    preview = rows[:20]
-    preview_json = json.dumps(preview, default=str, ensure_ascii=False)
+    if stats:
+        stats_json  = json.dumps(stats,      default=str, ensure_ascii=False)
+        sample_json = json.dumps(rows[:5],   default=str, ensure_ascii=False)
+        data_section = (
+            f"Summary stats (all {len(rows)} rows, computed deterministically):\n{stats_json}\n\n"
+            f"Sample rows (first 5 of {len(rows)}):\n{sample_json}"
+        )
+    else:
+        preview_json = json.dumps(rows[:20], default=str, ensure_ascii=False)
+        data_section = f"Rows (first 20): {preview_json}"
+
     return [
         {"role": "system", "content": INTERPRET_SYSTEM_PROMPT},
         {
@@ -139,7 +149,7 @@ def build_interpretation_messages(
             "content": (
                 f"Q: {question}\n"
                 f"Columns: {columns}\n"
-                f"Rows (first 20): {preview_json}\n"
+                f"{data_section}\n"
                 f"Total rows: {len(rows)}"
             ),
         },

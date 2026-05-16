@@ -237,6 +237,15 @@ def load_all_cards(schema: str = DB_SCHEMA) -> dict[str, TableCard]:
     metadata = _load_metadata_json()
     cols_by_table, pks_by_table, fks_by_table = _fetch_db_schema(schema)
 
+    # Exclude SAP temporary staging tables — non-semantic column names, not queryable by users
+    _excluded = [n for n in cols_by_table if n.upper().startswith("ZEPMS")]
+    if _excluded:
+        log.info("Excluding %d SAP staging tables (ZEPMS prefix): %s", len(_excluded), sorted(_excluded))
+    cols_by_table = {k: v for k, v in cols_by_table.items() if not k.upper().startswith("ZEPMS")}
+    pks_by_table  = {k: v for k, v in pks_by_table.items()  if not k.upper().startswith("ZEPMS")}
+    fks_by_table  = {k: v for k, v in fks_by_table.items()  if not k.upper().startswith("ZEPMS")}
+    metadata      = {k: v for k, v in metadata.items()      if not k.upper().startswith("ZEPMS")}
+
     db_tables   = set(cols_by_table.keys())
     meta_tables = set(metadata.keys())
 

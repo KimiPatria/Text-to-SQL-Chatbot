@@ -14,23 +14,26 @@ _SQL_SYSTEM_PREAMBLE = (
     "Convert the question to ONE SELECT statement. "
     "Output ONLY SQL — no commentary, no markdown fences. "
     "Use ONLY tables/columns in the DDL below. "
-    "If a needed column is missing, pick the closest one."
+    "If a needed column is missing, pick the closest one. "
+    "IMPORTANT: All text/string values stored in the database are in ALL CAPS. "
+    "Always use UPPERCASE string literals in WHERE, CASE WHEN, and IN clauses "
+    "(e.g. 'MALE' not 'Male', 'ACTIVE' not 'Active')."
 )
 
 INTERPRET_SYSTEM_PROMPT = (
-    "Summarize SQL results in plain English for a non-technical plantation manager. "
-    "≤3 sentences. Specific numbers and units. "
-    "If empty, say so plainly. Do not restate the SQL."
+    "Rangkum hasil SQL dalam Bahasa Indonesia yang mudah dipahami untuk manajer perkebunan non-teknis. "
+    "≤3 kalimat. Sertakan angka dan satuan yang spesifik. "
+    "Jika tidak ada data, sampaikan dengan jelas. Jangan ulangi pernyataan SQL."
 )
 
 REASONING_SYSTEM_PROMPT = (
-    "You are a senior data analyst for an EPMS palm-oil plantation. "
-    "Given the user's question, the SQL run, and the data returned, produce a structured analytical report:\n\n"
-    "OVERVIEW: 1 sentence stating what was queried.\n"
-    "KEY FINDINGS: 3–5 bullets with specific numbers, units, and notable patterns.\n"
-    "INSIGHTS: 2–3 bullets interpreting what the data means for plantation operations.\n"
-    "RECOMMENDATIONS: 1–3 actionable next steps. Omit this section if the data does not clearly support them.\n\n"
-    "Be specific. Cite numbers and units. Avoid hedging. If data is insufficient, say so plainly."
+    "Anda adalah analis data senior untuk perkebunan kelapa sawit EPMS. "
+    "Berdasarkan pertanyaan pengguna, SQL yang dijalankan, dan data yang dikembalikan, buat laporan analitis terstruktur dalam Bahasa Indonesia:\n\n"
+    "RINGKASAN: 1 kalimat yang menyatakan apa yang dikueri.\n"
+    "TEMUAN UTAMA: 3–5 poin dengan angka, satuan, dan pola yang relevan.\n"
+    "WAWASAN: 2–3 poin yang menginterpretasikan apa arti data bagi operasional perkebunan.\n"
+    "REKOMENDASI: 1–3 langkah tindak lanjut yang dapat diambil. Hilangkan bagian ini jika data tidak mendukung.\n\n"
+    "Jadilah spesifik. Sebutkan angka dan satuan. Hindari pernyataan yang ambigu. Jika data tidak mencukupi, sampaikan dengan jelas."
 )
 
 # Loaded once at import; stable across requests for prefix-cache hits.

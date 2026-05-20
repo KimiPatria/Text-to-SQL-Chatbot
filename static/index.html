@@ -658,10 +658,12 @@ function renderResultsTable(columns, rows) {
 function formatAnswer(text) {
   if (!text) return "";
   const escaped = escapeHtml(text);
-  return escaped.replace(
-    /^(OVERVIEW|KEY FINDINGS|INSIGHTS|RECOMMENDATIONS)(:?)/gm,
-    '<span class="section-head">$1$2</span>'
-  );
+  return escaped
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(
+      /^(OVERVIEW|KEY FINDINGS|INSIGHTS|RECOMMENDATIONS)(:?)/gm,
+      '<span class="section-head">$1$2</span>'
+    );
 }
 
 function renderBotMessage(data) {

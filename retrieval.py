@@ -27,9 +27,26 @@ _bm25_table_names:  list[str] = []
 
 # ── tokenizer ──────────────────────────────────────────────────────────────
 
+# Table prefix letters and common noise tokens present in nearly every document
+_STOPWORDS = {"t", "m", "tr", "mc", "id", "by", "the", "a", "of", "is", "in", "and", "or"}
+
 def _tokenize(text: str) -> list[str]:
-    text = re.sub(r"[^\w\s]", " ", text.lower())
-    return [t for t in text.split() if t]
+    """Split on whitespace, underscores, hyphens, dots, and camelCase boundaries."""
+    text = re.sub(r'([a-z])([A-Z])', r'\1 \2', text)
+    text = re.sub(r'[_\-\.]', ' ', text)
+    tokens = text.lower().split()
+    return [tok for tok in tokens if tok not in _STOPWORDS and len(tok) > 1]
+
+
+# ── audit/log table penalty ─────────────────────────────────────────────────
+
+_AUDIT_PREFIXES = ("log_", "audit_", "login_")
+
+def _apply_audit_penalty(scores, table_names: list[str]) -> None:
+    """Suppress audit/log tables so they don't crowd out domain tables."""
+    for i, name in enumerate(table_names):
+        if name.lower().startswith(_AUDIT_PREFIXES):
+            scores[i] *= 0.3
 
 
 # ── embedding ──────────────────────────────────────────────────────────────
@@ -208,6 +225,7 @@ def retrieve_tables(question: str, k: int = 5) -> list[TableCard]:
 
     # BM25
     scores      = _bm25_index.get_scores(_tokenize(question))
+    _apply_audit_penalty(scores, _bm25_table_names)
     bm25_ranked = sorted(range(n), key=lambda i: scores[i], reverse=True)[:20]
     bm25_ids    = [_bm25_table_names[i] for i in bm25_ranked]
 
@@ -250,6 +268,7 @@ def _bm25_fallback(question: str, k: int, cards: dict[str, TableCard]) -> list[T
     if not _bm25_index:
         return []
     scores  = _bm25_index.get_scores(_tokenize(question))
+    _apply_audit_penalty(scores, _bm25_table_names)
     ranked  = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[:k]
     return [cards[_bm25_table_names[i]] for i in ranked if _bm25_table_names[i] in cards]
 
